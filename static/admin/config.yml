@@ -21,7 +21,7 @@ media_libraries:
   cloudinary:
     config:
       cloud_name: dgoqzxprh
-      api_key: "CHANGE-ME"            # Cloudinary 控制台 → API Key（公开值，可放前端）
+      api_key: "575487189727376"     # Cloudinary 控制台 → API Key（公开值，可放前端）
     # 直接返回完整 https 链接，方便 Hugo 渲染
     output_filename_only: false
 
