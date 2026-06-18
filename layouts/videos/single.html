@@ -1,0 +1,28 @@
+{{ define "main" }}
+<article class="post-single">
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <h1 class="post-title entry-hint-parent">{{ .Title }}</h1>
+    {{ if .Description }}<div class="post-description">{{ .Description }}</div>{{ end }}
+    {{ partial "post_meta.html" . }}
+  </header>
+
+  {{ with .Params.video }}
+  <div class="video-wrapper" style="margin: 1rem 0;">
+    <video controls preload="metadata" playsinline style="width:100%; border-radius:8px; background:#000;"
+      {{ with $.Params.poster }}poster="{{ . }}"{{ end }}>
+      <source src="{{ . }}">
+      你的浏览器不支持 video 标签。
+    </video>
+  </div>
+  {{ end }}
+
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+
+  <footer class="post-footer">
+    {{ partial "post_nav_links.html" . }}
+  </footer>
+</article>
+{{ end }}

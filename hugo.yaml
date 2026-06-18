@@ -1,0 +1,85 @@
+baseURL: "https://sungerauto-commits.github.io/my-web/"
+locale: "zh-cn"
+title: "SungerClub"
+theme: "PaperMod"
+
+# GitHub Pages serves this site under /my-web/, so keep relative URLs working.
+canonifyURLs: false
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+# Pagination (Hugo 0.128+)
+pagination:
+  pagerSize: 10
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+params:
+  env: production
+  author: "SungerClub"
+  description: "SungerClub —— 我的文字、照片和视频"
+  defaultTheme: auto      # 自动跟随系统深色/浅色
+  ShowReadingTime: true
+  ShowShareButtons: false
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowToc: true
+  TocOpen: false
+  ShowWordCount: true
+
+  homeInfoParams:
+    Title: "你好，欢迎来到 SungerClub 👋"
+    Content: "这里随手记录我写的东西、拍的照片和视频。"
+
+  socialIcons: []
+
+  # 列表页封面图设置（Cloudinary 外链也能正常显示）
+  cover:
+    linkFullImages: true
+    responsiveImages: false
+
+# 顶部导航栏
+menu:
+  main:
+    - identifier: posts
+      name: 文章
+      url: /posts/
+      weight: 10
+    - identifier: photos
+      name: 照片
+      url: /photos/
+      weight: 20
+    - identifier: videos
+      name: 视频
+      url: /videos/
+      weight: 30
+    - identifier: search
+      name: 搜索
+      url: /search/
+      weight: 40
+    - identifier: archives
+      name: 归档
+      url: /archives/
+      weight: 50
+
+# 代码高亮与 TOC
+markup:
+  highlight:
+    noClasses: false
+    codeFences: true
+    guessSyntax: true
+  goldmark:
+    renderer:
+      unsafe: true   # 允许内容里的原始 HTML（嵌入视频/iframe 需要）
+
+# 搜索功能需要输出 JSON 索引
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
