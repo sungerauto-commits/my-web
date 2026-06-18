@@ -5,8 +5,8 @@ backend:
   name: github
   repo: sungerauto-commits/my-web      # 你的 GitHub 仓库
   branch: main
-  # ↓ 上线后填你的 Cloudflare Worker OAuth 代理地址（见交付清单第 3 步）
-  base_url: https://CHANGE-ME.workers.dev
+  # Cloudflare Worker OAuth 代理
+  base_url: https://sveltia-cms-auth.sungerauto.workers.dev
 
 # 本地开发：在站点根目录跑 `npx @sveltia/cms-server` 后，
 # 用浏览器打开 /admin/ 选「Work with Local Repository」即可免代理直接编辑。
