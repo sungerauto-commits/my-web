@@ -7,7 +7,7 @@ cover:
   image: /my-web/images/uploads/Gemini_Generated_Image_lbwpzolbwpzolbwp.png
   alt: 示例封面
 gallery:
-  - https://res.cloudinary.com/demo/image/upload/sample.jpg
+  - /my-web/images/uploads/Gemini_Generated_Image_lbwpzolbwpzolbwp.png
   - https://res.cloudinary.com/demo/image/upload/w_600/sample.jpg
 ---
 
