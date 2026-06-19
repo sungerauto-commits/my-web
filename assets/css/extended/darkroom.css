@@ -1,0 +1,402 @@
+/* ============================================================
+   SungerClub · Darkroom 印样
+   摄影暗房 / 晒蓝(cyanotype)美学 + 显影动效
+   ============================================================ */
+
+:root {
+  /* 调色板 */
+  --dk-ink:   #0A1826;  /* 晒蓝深底 */
+  --dk-ink2:  #0E2236;  /* 卡片面板 */
+  --dk-ink3:  #13314c;  /* 边框/悬停 */
+  --dk-blue:  #1E5A8A;  /* 晒蓝中调 */
+  --dk-line:  #2C6FA6;  /* 亮青线 */
+  --dk-paper: #ECE6D6;  /* 相纸暖白 */
+  --dk-mist:  #8FA3BA;  /* 雾蓝次要文字 */
+  --dk-amber: #E7A13A;  /* 曝光琥珀(主强调) */
+  --dk-safe:  #DE5235;  /* 安全灯红(点缀) */
+
+  /* 字体 */
+  --font-display: "Fraunces", "Songti SC", "STSong", Georgia, serif;
+  --font-mono: "Space Mono", ui-monospace, "Cascadia Mono", monospace;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+               "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+
+  /* 映射 PaperMod 变量，让全站统一 */
+  --theme: var(--dk-ink);
+  --entry: var(--dk-ink2);
+  --primary: var(--dk-paper);
+  --secondary: var(--dk-mist);
+  --tertiary: var(--dk-ink3);
+  --content: var(--dk-paper);
+  --border: var(--dk-ink3);
+  --code-bg: #0c2034;
+  --code-block-bg: #0c2034;
+  --hljs-bg: #0c2034;
+  --main-width: 1120px;
+  --radius: 3px;
+}
+
+html { background: var(--dk-ink); }
+
+body {
+  background: var(--dk-ink);
+  color: var(--dk-paper);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 胶片颗粒：固定全屏叠加 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: .05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* 顶部安全灯光晕 */
+body::after {
+  content: "";
+  position: fixed;
+  top: -30vh; left: 50%;
+  width: 120vw; height: 60vh;
+  transform: translateX(-50%);
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(50% 60% at 50% 40%, rgba(231,161,58,.10), transparent 70%);
+}
+
+::selection { background: var(--dk-amber); color: var(--dk-ink); }
+
+a { color: var(--dk-paper); text-decoration-color: var(--dk-line); text-underline-offset: 3px; }
+a:hover { color: var(--dk-amber); }
+
+/* ---------- 顶栏 ---------- */
+.nav { max-width: var(--main-width); }
+.logo a {
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: .01em;
+  color: var(--dk-paper);
+  white-space: nowrap;
+}
+.logo a::after {
+  content: "·印样";
+  font-family: var(--font-mono);
+  font-size: .5em;
+  color: var(--dk-amber);
+  margin-left: .5ch;
+  vertical-align: super;
+  letter-spacing: 0;
+}
+#menu a {
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  letter-spacing: .04em;
+  color: var(--dk-mist);
+}
+#menu a:hover { color: var(--dk-paper); background: transparent; }
+#menu .active { color: var(--dk-paper); }
+#menu .active::after {
+  content: "";
+  display: block;
+  height: 2px;
+  background: var(--dk-amber);
+  margin-top: 2px;
+}
+
+/* ============================================================
+   首页 HERO
+   ============================================================ */
+.dk-hero {
+  position: relative;
+  z-index: 1;
+  padding: clamp(2rem, 8vw, 5.5rem) 0 1.5rem;
+  text-align: left;
+}
+.dk-eyebrow {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--dk-amber);
+  margin: 0 0 1.1rem;
+}
+.dk-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(3.4rem, 13vw, 8.5rem);
+  line-height: .92;
+  letter-spacing: -.02em;
+  margin: 0;
+  color: var(--dk-paper);
+}
+.dk-title .it {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--dk-amber);
+}
+.dk-sub {
+  max-width: 34ch;
+  margin: 1.4rem 0 0;
+  font-size: 1.12rem;
+  line-height: 1.6;
+  color: var(--dk-mist);
+}
+.dk-meta {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  letter-spacing: .06em;
+  color: var(--dk-mist);
+  margin-top: 1.6rem;
+  word-break: keep-all;
+}
+.dk-meta b { color: var(--dk-paper); font-weight: 700; }
+
+/* 胶片齿孔分隔条 */
+.filmstrip {
+  position: relative;
+  z-index: 1;
+  height: 26px;
+  margin: 2.5rem 0 2.8rem;
+  background: var(--dk-ink2);
+  border-top: 1px solid var(--dk-ink3);
+  border-bottom: 1px solid var(--dk-ink3);
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent 0, transparent 14px,
+    rgba(236,230,214,.18) 14px, rgba(236,230,214,.18) 26px,
+    transparent 26px, transparent 40px
+  );
+  background-size: 40px 100%;
+  background-position: center;
+}
+
+/* ============================================================
+   印样网格（首页作品）
+   ============================================================ */
+.sheet {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.6rem;
+  margin-bottom: 4rem;
+}
+.frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--dk-ink2);
+  border: 1px solid var(--dk-ink3);
+  border-radius: var(--radius);
+  padding: 12px 12px 16px;
+  transition: transform .45s cubic-bezier(.2,.7,.2,1), border-color .45s, box-shadow .45s;
+}
+.frame:hover {
+  transform: translateY(-5px);
+  border-color: var(--dk-line);
+  box-shadow: 0 18px 40px -20px rgba(0,0,0,.8);
+}
+/* 帧顶部标注栏 */
+.frame-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .05em;
+  color: var(--dk-mist);
+  margin-bottom: 10px;
+}
+.frame-no { color: var(--dk-amber); }
+/* 缩略图：晒蓝 → 显影 */
+.frame-shot {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--dk-blue);
+}
+.frame-shot img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(100%) brightness(.85) contrast(1.05);
+  transition: filter 1s ease, transform 1.2s ease;
+}
+.frame-shot::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(150deg, #0f4c80, #1E5A8A 60%, #0a2e4d);
+  mix-blend-mode: color;
+  opacity: .85;
+  transition: opacity 1s ease;
+}
+.frame:hover .frame-shot img { filter: none; transform: scale(1.04); }
+.frame:hover .frame-shot::after { opacity: 0; }
+/* 类型印章（文 / 像 / 影） */
+.frame-stamp {
+  position: absolute;
+  top: 8px; right: 8px;
+  z-index: 2;
+  width: 30px; height: 30px;
+  display: grid; place-items: center;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--dk-ink);
+  background: var(--dk-amber);
+  border-radius: 50%;
+}
+/* 无图的"空白曝光"帧 */
+.frame-blank {
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+  border-radius: 2px;
+  background:
+    repeating-linear-gradient(45deg, rgba(44,111,166,.08) 0 10px, transparent 10px 20px),
+    var(--dk-ink);
+  border: 1px dashed var(--dk-ink3);
+}
+.frame-blank span {
+  font-family: var(--font-display);
+  font-size: 3.4rem;
+  color: var(--dk-line);
+  opacity: .55;
+}
+.frame-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.18rem;
+  line-height: 1.25;
+  margin: 14px 2px 0;
+  color: var(--dk-paper);
+}
+.frame:hover .frame-title { color: var(--dk-amber); }
+.frame a.frame-link::after { content: ""; position: absolute; inset: 0; }
+
+/* 区段标题 */
+.dk-rollhead {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin: 0 0 1.4rem;
+}
+.dk-rollhead h2 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.7rem;
+  margin: 0;
+}
+.dk-rollhead .count {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  color: var(--dk-mist);
+}
+
+/* ============================================================
+   列表 / 文章页（沿用 PaperMod 结构，重新着色）
+   ============================================================ */
+.post-title, .entry-header h2, .page-header .title {
+  font-family: var(--font-display);
+  letter-spacing: -.01em;
+}
+.post-meta, .entry-footer, .archive-month-date, .breadcrumbs {
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  letter-spacing: .03em;
+  color: var(--dk-mist);
+}
+.post-entry, .post-content { color: var(--dk-paper); }
+.post-content a { color: var(--dk-amber); }
+.first-entry .entry-header h1 { font-family: var(--font-display); }
+
+.post-content blockquote {
+  border-inline-start-color: var(--dk-amber);
+  color: var(--dk-mist);
+}
+.post-content h1, .post-content h2, .post-content h3, .post-content h4 {
+  font-family: var(--font-display);
+}
+
+/* 列表卡片 */
+.post-entry {
+  background: var(--dk-ink2);
+  border: 1px solid var(--dk-ink3);
+  transition: transform .4s, border-color .4s;
+}
+.post-entry:hover { transform: translateY(-3px); border-color: var(--dk-line); }
+
+/* 视频 / 相册页样式 */
+.video-wrapper video { border: 1px solid var(--dk-ink3); }
+.photo-gallery a img {
+  filter: grayscale(100%) brightness(.85) contrast(1.05);
+  transition: filter .9s ease;
+}
+.photo-gallery a:hover img { filter: none; }
+
+/* 按钮 / 分页 */
+.page-link, .top-link, .button {
+  font-family: var(--font-mono);
+  border-color: var(--dk-ink3);
+}
+
+/* 页脚 */
+.footer {
+  font-family: var(--font-mono);
+  font-size: .76rem;
+  color: var(--dk-mist);
+  letter-spacing: .04em;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-track { background: var(--dk-ink); }
+::-webkit-scrollbar-thumb { background: var(--dk-ink3); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: var(--dk-blue); }
+
+/* ============================================================
+   动效：曝光显现 + 滚动渐显
+   ============================================================ */
+.dk-hero > * {
+  animation: expose .9s both;
+}
+.dk-hero .dk-eyebrow { animation-delay: .05s; }
+.dk-hero .dk-title   { animation-delay: .14s; }
+.dk-hero .dk-sub     { animation-delay: .30s; }
+.dk-hero .dk-meta    { animation-delay: .42s; }
+
+@keyframes expose {
+  from { opacity: 0; filter: blur(10px) brightness(2.2); transform: translateY(10px); }
+  to   { opacity: 1; filter: blur(0) brightness(1); transform: none; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  filter: blur(8px);
+  transition: opacity .9s ease, transform .9s ease, filter .9s ease;
+}
+.reveal.in { opacity: 1; transform: none; filter: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dk-hero > *, .reveal { animation: none !important; opacity: 1 !important; filter: none !important; transform: none !important; transition: none !important; }
+  .frame-shot img, .photo-gallery a img { filter: none !important; }
+  .frame-shot::after { opacity: 0 !important; }
+}
+
+/* 响应式 */
+@media (max-width: 640px) {
+  .sheet { grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .frame { padding: 8px 8px 12px; }
+  .frame-title { font-size: 1rem; }
+  .dk-sub { font-size: 1rem; }
+  .logo a { font-size: 1.4rem; }
+}
+@media (max-width: 380px) {
+  .sheet { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,37 @@
+{{ define "main" }}
+{{ $entries := where site.RegularPages "Section" "in" (slice "posts" "photos" "videos") }}
+
+<section class="dk-hero">
+  <p class="dk-eyebrow">Contact Sheet — {{ now.Year }}</p>
+  <h1 class="dk-title">Sunger<span class="it">Club</span></h1>
+  <p class="dk-sub">{{ site.Params.description | default "我的文字、照片和视频。" }}</p>
+  <p class="dk-meta"><b>{{ len $entries }}</b> FRAMES&nbsp;&nbsp;/&nbsp;&nbsp;文 文章&nbsp;&nbsp;像 照片&nbsp;&nbsp;影 视频</p>
+</section>
+
+<div class="filmstrip" aria-hidden="true"></div>
+
+<section class="sheet">
+  {{ range $i, $e := first 12 $entries }}
+    {{- $glyph := index (dict "posts" "文" "photos" "像" "videos" "影") $e.Section -}}
+    {{- $thumb := "" -}}
+    {{- with $e.Params.cover }}{{ with .image }}{{ $thumb = . }}{{ end }}{{ end -}}
+    {{- if not $thumb }}{{ with $e.Params.gallery }}{{ if gt (len .) 0 }}{{ $thumb = index . 0 }}{{ end }}{{ end }}{{ end -}}
+    {{- if not $thumb }}{{ with $e.Params.poster }}{{ $thumb = . }}{{ end }}{{ end -}}
+    <article class="frame reveal">
+      <div class="frame-bar">
+        <span class="frame-no">#{{ printf "%03d" (add $i 1) }}</span>
+        <span>{{ $e.Date.Format "2006.01.02" }}</span>
+      </div>
+      {{ if $thumb }}
+      <div class="frame-shot">
+        <span class="frame-stamp" title="{{ $e.Section }}">{{ $glyph }}</span>
+        <img src="{{ $thumb }}" alt="{{ $e.Title }}" loading="lazy">
+      </div>
+      {{ else }}
+      <div class="frame-blank"><span>{{ $glyph }}</span></div>
+      {{ end }}
+      <h3 class="frame-title"><a class="frame-link" href="{{ $e.RelPermalink }}">{{ $e.Title }}</a></h3>
+    </article>
+  {{ end }}
+</section>
+{{ end }}
