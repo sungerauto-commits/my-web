@@ -1,18 +1,42 @@
 {{ define "main" }}
 {{ $entries := where site.RegularPages "Section" "in" (slice "posts" "photos" "videos") }}
+{{ $homeVideo := site.Params.homeVideo | default dict }}
+{{ $videoSrc := "" }}
+{{ $poster := "" }}
+{{ with $homeVideo.src }}{{ $videoSrc = . }}{{ end }}
+{{ with $homeVideo.poster }}{{ $poster = . }}{{ end }}
+{{ if $videoSrc }}
+  {{ if not (or (hasPrefix $videoSrc "http://") (hasPrefix $videoSrc "https://")) }}
+    {{ $videoSrc = $videoSrc | relURL }}
+  {{ end }}
+{{ end }}
+{{ if $poster }}
+  {{ if not (or (hasPrefix $poster "http://") (hasPrefix $poster "https://")) }}
+    {{ $poster = $poster | relURL }}
+  {{ end }}
+{{ end }}
 
-<section class="dk-hero">
-  <p class="dk-eyebrow">Contact Sheet — {{ now.Year }}</p>
-  <h1 class="dk-title">Sunger<span class="it">Club</span></h1>
-  <p class="dk-sub">{{ site.Params.description | default "我的文字、照片和视频。" }}</p>
-  <p class="dk-meta"><b>{{ len $entries }}</b> FRAMES&nbsp;&nbsp;/&nbsp;&nbsp;文 文章&nbsp;&nbsp;像 照片&nbsp;&nbsp;影 视频</p>
+<section class="{{ cond (ne $videoSrc "") "dk-hero dk-hero--video" "dk-hero" }}">
+  {{ if $videoSrc }}
+  <div class="dk-video-bg" aria-hidden="true" {{ with $poster }}style="background-image: url('{{ . }}');"{{ end }}>
+    <video data-hero-video autoplay muted loop playsinline preload="metadata" {{ with $poster }}poster="{{ . }}"{{ end }}>
+      <source src="{{ $videoSrc }}">
+    </video>
+  </div>
+  {{ end }}
+  <div class="dk-hero-inner">
+    <p class="dk-eyebrow">Contact Sheet · {{ now.Year }}</p>
+    <h1 class="dk-title">Sunger<span class="it">Club</span></h1>
+    <p class="dk-sub">{{ site.Params.description | default "我的文字、照片和视频。" }}</p>
+    <p class="dk-meta"><b>{{ len $entries }}</b> FRAMES&nbsp;&nbsp;/&nbsp;&nbsp;文 文章&nbsp;&nbsp;像 照片&nbsp;&nbsp;影 视频</p>
+  </div>
 </section>
 
 <div class="filmstrip" aria-hidden="true"></div>
 
 <section class="sheet">
   {{ range $i, $e := first 12 $entries }}
-    {{- $glyph := index (dict "posts" "文" "photos" "像" "videos" "影") $e.Section -}}
+    {{- $glyph := index (dict "posts" "文" "photos" "像" "videos" "影") $e.Section | default "帧" -}}
     {{- $thumb := "" -}}
     {{- with $e.Params.cover }}{{ with .image }}{{ $thumb = . }}{{ end }}{{ end -}}
     {{- if not $thumb }}{{ with $e.Params.gallery }}{{ if gt (len .) 0 }}{{ $thumb = index . 0 }}{{ end }}{{ end }}{{ end -}}

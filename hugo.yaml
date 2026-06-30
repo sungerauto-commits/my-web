@@ -33,6 +33,10 @@ params:
   TocOpen: false
   ShowWordCount: true
 
+  homeVideo:
+    src: "media/hero-2026-06-30.mp4"
+    poster: "media/hero-2026-06-30.jpg"
+
   homeInfoParams:
     Title: "你好，欢迎来到 SungerClub 👋"
     Content: "这里随手记录我写的东西、拍的照片和视频。"

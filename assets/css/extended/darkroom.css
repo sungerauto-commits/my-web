@@ -117,6 +117,75 @@ a:hover { color: var(--dk-amber); }
   padding: clamp(2rem, 8vw, 5.5rem) 0 1.5rem;
   text-align: left;
 }
+.dk-hero-inner {
+  position: relative;
+  z-index: 2;
+}
+.dk-hero--video {
+  min-height: min(760px, calc(100dvh - 96px));
+  display: flex;
+  align-items: end;
+  overflow: hidden;
+  padding: clamp(5rem, 14vw, 8rem) clamp(1rem, 4vw, 3.2rem) clamp(2rem, 8vw, 4rem);
+  margin: 0 calc(50% - 50vw) 0;
+  border-bottom: 1px solid rgba(231, 161, 58, .24);
+  background:
+    linear-gradient(120deg, rgba(10, 24, 38, .92), rgba(10, 24, 38, .46) 46%, rgba(10, 24, 38, .86)),
+    var(--dk-ink);
+}
+.dk-hero--video .dk-hero-inner {
+  width: min(var(--main-width), calc(100vw - 2rem));
+  margin: 0 auto;
+}
+.dk-video-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--dk-ink);
+  background-size: cover;
+  background-position: center;
+}
+.dk-video-bg video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(.28) saturate(.78) contrast(1.08) brightness(.72);
+  transform: scale(1.03);
+  animation: videoDevelop 1.8s ease both;
+}
+.dk-video-bg::before,
+.dk-video-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.dk-video-bg::before {
+  background:
+    radial-gradient(circle at 78% 18%, rgba(231, 161, 58, .34), transparent 34%),
+    radial-gradient(circle at 12% 75%, rgba(30, 90, 138, .46), transparent 44%),
+    linear-gradient(90deg, rgba(10, 24, 38, .96) 0%, rgba(10, 24, 38, .56) 43%, rgba(10, 24, 38, .88) 100%);
+  mix-blend-mode: multiply;
+}
+.dk-video-bg::after {
+  background:
+    linear-gradient(to top, rgba(10, 24, 38, 1) 0%, rgba(10, 24, 38, .98) 16%, rgba(10, 24, 38, .78) 30%, transparent 58%),
+    repeating-linear-gradient(to bottom, rgba(236,230,214,.08) 0 1px, transparent 1px 5px);
+  opacity: .78;
+}
+.dk-hero--video .dk-eyebrow,
+.dk-hero--video .dk-sub,
+.dk-hero--video .dk-meta {
+  text-shadow: 0 2px 18px rgba(0,0,0,.72);
+}
+.dk-hero--video .dk-title {
+  max-width: 9ch;
+  text-shadow:
+    0 2px 24px rgba(0,0,0,.72),
+    0 0 42px rgba(231,161,58,.16);
+}
 .dk-eyebrow {
   font-family: var(--font-mono);
   font-size: .8rem;
@@ -362,17 +431,22 @@ a:hover { color: var(--dk-amber); }
 /* ============================================================
    动效：曝光显现 + 滚动渐显
    ============================================================ */
-.dk-hero > * {
+.dk-hero-inner > * {
   animation: expose .9s both;
 }
-.dk-hero .dk-eyebrow { animation-delay: .05s; }
-.dk-hero .dk-title   { animation-delay: .14s; }
-.dk-hero .dk-sub     { animation-delay: .30s; }
-.dk-hero .dk-meta    { animation-delay: .42s; }
+.dk-hero-inner .dk-eyebrow { animation-delay: .05s; }
+.dk-hero-inner .dk-title   { animation-delay: .14s; }
+.dk-hero-inner .dk-sub     { animation-delay: .30s; }
+.dk-hero-inner .dk-meta    { animation-delay: .42s; }
 
 @keyframes expose {
   from { opacity: 0; filter: blur(10px) brightness(2.2); transform: translateY(10px); }
   to   { opacity: 1; filter: blur(0) brightness(1); transform: none; }
+}
+
+@keyframes videoDevelop {
+  from { opacity: 0; filter: grayscale(1) saturate(.45) contrast(1.18) brightness(.44); }
+  to { opacity: 1; filter: grayscale(.28) saturate(.78) contrast(1.08) brightness(.72); }
 }
 
 .reveal {
@@ -384,13 +458,25 @@ a:hover { color: var(--dk-amber); }
 .reveal.in { opacity: 1; transform: none; filter: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .dk-hero > *, .reveal { animation: none !important; opacity: 1 !important; filter: none !important; transform: none !important; transition: none !important; }
+  .dk-hero-inner > *, .reveal { animation: none !important; opacity: 1 !important; filter: none !important; transform: none !important; transition: none !important; }
   .frame-shot img, .photo-gallery a img { filter: none !important; }
   .frame-shot::after { opacity: 0 !important; }
+  .dk-video-bg video { display: none; }
 }
 
 /* 响应式 */
 @media (max-width: 640px) {
+  .dk-hero--video {
+    min-height: 72dvh;
+    padding-inline: 1rem;
+  }
+  .dk-hero--video .dk-video-bg::after {
+    background:
+      linear-gradient(to top, rgba(10, 24, 38, 1) 0%, rgba(10, 24, 38, .98) 22%, rgba(10, 24, 38, .84) 42%, transparent 66%),
+      repeating-linear-gradient(to bottom, rgba(236,230,214,.08) 0 1px, transparent 1px 5px);
+    opacity: .88;
+  }
+  .dk-hero--video .dk-title { max-width: 8ch; }
   .sheet { grid-template-columns: 1fr 1fr; gap: 1rem; }
   .frame { padding: 8px 8px 12px; }
   .frame-title { font-size: 1rem; }

@@ -2,6 +2,18 @@
 <script>
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var heroVideo = document.querySelector('[data-hero-video]');
+  if (heroVideo) {
+    if (reduce) {
+      heroVideo.pause();
+      heroVideo.removeAttribute('src');
+      heroVideo.querySelectorAll('source').forEach(function (source) { source.removeAttribute('src'); });
+      heroVideo.load();
+    } else {
+      var play = heroVideo.play();
+      if (play && typeof play.catch === 'function') { play.catch(function () {}); }
+    }
+  }
   var els = document.querySelectorAll('.reveal');
   if (reduce || !('IntersectionObserver' in window)) {
     els.forEach(function (el) { el.classList.add('in'); });
