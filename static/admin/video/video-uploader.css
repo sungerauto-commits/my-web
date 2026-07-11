@@ -1,0 +1,233 @@
+:root {
+  color-scheme: dark;
+  --ink: #111416;
+  --panel: #182126;
+  --border: #3d4b52;
+  --paper: #ece8de;
+  --mist: #a9b0b3;
+  --amber: #d8a654;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+body {
+  font-family: system-ui, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.upload-nav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 68px;
+  padding: 0 clamp(18px, 4vw, 56px);
+  border-bottom: 1px solid var(--border);
+  background: rgb(17 20 22 / 92%);
+}
+
+.upload-nav a,
+.upload-nav span {
+  color: var(--paper);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-decoration: none;
+}
+
+.upload-nav span {
+  color: var(--mist);
+  font-weight: 500;
+}
+
+.upload-main {
+  position: relative;
+  min-height: calc(100dvh - 68px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(360px, .85fr);
+  overflow: hidden;
+}
+
+.upload-image {
+  position: absolute;
+  inset: 0;
+}
+
+.upload-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(.45) saturate(.7) brightness(.48) contrast(1.08);
+}
+
+.upload-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(17 20 22 / 42%), rgb(17 20 22 / 76%) 52%, rgb(17 20 22 / 98%) 72%);
+}
+
+.upload-workspace {
+  position: relative;
+  z-index: 1;
+  grid-column: 2;
+  align-self: center;
+  width: min(560px, 100%);
+  padding: clamp(36px, 7vw, 88px) clamp(24px, 5vw, 72px);
+}
+
+.upload-kicker,
+.upload-status,
+.upload-result label {
+  font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: 0;
+}
+
+.upload-kicker {
+  margin: 0 0 18px;
+  color: var(--amber);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 0;
+  font-family: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  font-size: 76px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.upload-limit {
+  max-width: 30ch;
+  margin: 22px 0 0;
+  color: var(--mist);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.upload-action,
+.upload-result button {
+  min-height: 46px;
+  border: 1px solid var(--amber);
+  border-radius: 2px;
+  background: var(--amber);
+  color: var(--ink);
+  font: 700 15px/1 system-ui, "PingFang SC", "Microsoft YaHei", sans-serif;
+  cursor: pointer;
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.upload-action {
+  min-width: 164px;
+  margin-top: 34px;
+  padding: 0 22px;
+}
+
+.upload-action:hover,
+.upload-result button:hover {
+  background: var(--paper);
+}
+
+.upload-action:disabled {
+  cursor: wait;
+  opacity: .72;
+}
+
+.upload-action:active,
+.upload-result button:active {
+  transform: translateY(1px);
+}
+
+.upload-action:focus-visible,
+.upload-result button:focus-visible,
+.upload-result input:focus-visible,
+.upload-nav a:focus-visible {
+  outline: 3px solid var(--paper);
+  outline-offset: 3px;
+}
+
+.upload-status {
+  min-height: 1.5em;
+  margin: 16px 0 0;
+  color: var(--mist);
+  font-size: 13px;
+}
+
+.upload-status.is-success {
+  color: var(--amber);
+}
+
+.upload-result {
+  margin-top: 30px;
+}
+
+.upload-result label {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--mist);
+  font-size: 12px;
+}
+
+.upload-result-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px;
+  gap: 8px;
+}
+
+.upload-result input {
+  min-width: 0;
+  min-height: 46px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--panel);
+  color: var(--paper);
+  font: 13px/1.4 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+@media (max-width: 760px) {
+  .upload-main {
+    display: block;
+  }
+
+  .upload-image::after {
+    background: linear-gradient(to bottom, rgb(17 20 22 / 48%), rgb(17 20 22 / 96%) 62%);
+  }
+
+  .upload-workspace {
+    width: 100%;
+    min-height: calc(100dvh - 68px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 38px 20px 46px;
+  }
+
+  h1 {
+    font-size: 64px;
+  }
+}
+
+@media (max-width: 390px) {
+  h1 {
+    font-size: 52px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .upload-action,
+  .upload-result button {
+    transition: none;
+  }
+}

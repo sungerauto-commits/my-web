@@ -1,29 +1,51 @@
-{{- /* Darkroom：滚动渐显（显影）*/ -}}
+{{- /* Darkroom reveal and bandwidth-aware hero video loading. */ -}}
 <script>
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  var saveData = Boolean(connection && connection.saveData);
   var heroVideo = document.querySelector('[data-hero-video]');
+
   if (heroVideo) {
-    if (reduce) {
+    if (reduce || saveData) {
       heroVideo.pause();
       heroVideo.removeAttribute('src');
-      heroVideo.querySelectorAll('source').forEach(function (source) { source.removeAttribute('src'); });
+      heroVideo.querySelectorAll('source').forEach(function (source) {
+        source.removeAttribute('src');
+      });
       heroVideo.load();
     } else {
+      var showVideo = function () { heroVideo.classList.add('is-ready'); };
+
+      if (heroVideo.readyState >= 2) {
+        showVideo();
+      } else {
+        heroVideo.addEventListener('loadeddata', showVideo, { once: true });
+      }
+
       var play = heroVideo.play();
-      if (play && typeof play.catch === 'function') { play.catch(function () {}); }
+      if (play && typeof play.catch === 'function') {
+        play.catch(function () {});
+      }
     }
   }
-  var els = document.querySelectorAll('.reveal');
+
+  var elements = document.querySelectorAll('.reveal');
+
   if (reduce || !('IntersectionObserver' in window)) {
-    els.forEach(function (el) { el.classList.add('in'); });
+    elements.forEach(function (element) { element.classList.add('in'); });
     return;
   }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
+      }
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-  els.forEach(function (el) { io.observe(el); });
+
+  elements.forEach(function (element) { observer.observe(element); });
 })();
 </script>

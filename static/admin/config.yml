@@ -82,7 +82,16 @@ collections:
       - { label: 日期, name: date, widget: datetime, format: "YYYY-MM-DDTHH:mm:ssZ", date_format: "YYYY-MM-DD", time_format: "HH:mm" }
       - { label: 草稿, name: draft, widget: boolean, default: false }
       - { label: 简介, name: description, widget: text, required: false }
-      # 视频文件：上传到 Cloudinary，存完整直链
-      - { label: 视频文件, name: video, widget: file, media_library: cloudinary }
-      - { label: 封面图(可选), name: poster, widget: image, media_library: cloudinary, required: false }
+      # Sveltia 的普通 file 字段会把 MP4 作为 raw 资源上传。专用入口按 video 类型上传，
+      # Cloudinary 免费方案的单文件上限可由 10 MB 提升到 100 MB。
+      - label: 视频地址
+        name: video
+        widget: string
+        hint: "先点击后台右下角的「上传视频」。上传完成后地址会自动填入；未填入时可直接粘贴。"
+      - label: 封面图(建议上传)
+        name: poster
+        widget: image
+        media_library: cloudinary
+        required: false
+        hint: "大视频建议同时上传一张封面图。"
       - { label: 备注, name: body, widget: markdown, required: false }

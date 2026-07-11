@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#111416" />
+    <title>上传视频 | SungerClub</title>
+    <link rel="stylesheet" href="./video-uploader.css" />
+  </head>
+  <body>
+    <header class="upload-nav">
+      <a href="../">SungerClub 后台</a>
+      <span>Cloudinary 视频</span>
+    </header>
+
+    <main class="upload-main">
+      <div class="upload-image" aria-hidden="true">
+        <img src="../../media/hero-2026-06-30.jpg" alt="" />
+      </div>
+
+      <section class="upload-workspace" aria-labelledby="upload-title">
+        <p class="upload-kicker">VIDEO INGEST / 100 MB</p>
+        <h1 id="upload-title">上传视频</h1>
+        <p class="upload-limit">MP4、MOV、WebM，免费账户单个文件最大 100 MB。</p>
+
+        <button class="upload-action" id="open-library" type="button" disabled>加载视频库</button>
+        <p class="upload-status" id="upload-status" role="status">准备就绪</p>
+
+        <div class="upload-result" id="upload-result" hidden>
+          <label for="video-url">视频地址</label>
+          <div class="upload-result-row">
+            <input id="video-url" type="url" readonly />
+            <button id="copy-url" type="button">复制</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://media-library.cloudinary.com/global/all.js"></script>
+    <script src="./video-uploader.js"></script>
+  </body>
+</html>
