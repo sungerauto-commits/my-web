@@ -19,7 +19,7 @@
   {{ end }}
 {{ end }}
 
-<section class="{{ cond (ne $videoSrc "") "dk-hero dk-hero--video" "dk-hero" }}">
+<section class="{{ cond (ne $videoSrc "") "dk-hero dk-hero--video" "dk-hero" }}" data-parallax-hero>
   {{ if $videoSrc }}
   <div class="dk-video-bg" aria-hidden="true" {{ with $poster }}style="background-image: url('{{ . }}');"{{ end }}>
     <video data-hero-video autoplay muted loop playsinline preload="metadata" {{ with $poster }}poster="{{ . }}"{{ end }}>
@@ -63,7 +63,7 @@
       {{- if not $thumb }}{{ with $e.Params.gallery }}{{ if gt (len .) 0 }}{{ $thumb = index . 0 }}{{ end }}{{ end }}{{ end -}}
       {{- if not $thumb }}{{ with $e.Params.poster }}{{ $thumb = . }}{{ end }}{{ end -}}
 
-      <article class="frame frame--{{ $e.Section }} reveal">
+      <article class="frame frame--{{ $e.Section }} reveal" data-tilt-card>
         <div class="frame-bar">
           <span class="frame-type">{{ $label }}</span>
           <time datetime="{{ $e.Date.Format "2006-01-02" }}">{{ $e.Date.Format "2006.01.02" }}</time>

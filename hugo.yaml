@@ -22,7 +22,7 @@ params:
   env: production
   author: "SungerClub"
   description: "我写的东西、拍的照片、录的影像。"
-  defaultTheme: dark      # Darkroom 暗房：固定深色
+  defaultTheme: light     # Bright archive: fixed light theme
   disableThemeToggle: true
   ShowReadingTime: true
   ShowShareButtons: false

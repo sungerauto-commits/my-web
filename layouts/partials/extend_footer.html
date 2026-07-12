@@ -1,4 +1,4 @@
-{{- /* Darkroom reveal and bandwidth-aware hero video loading. */ -}}
+{{- /* Bright archive reveal, media loading, and pointer interactions. */ -}}
 <script>
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -15,7 +15,9 @@
       });
       heroVideo.load();
     } else {
-      var showVideo = function () { heroVideo.classList.add('is-ready'); };
+      var showVideo = function () {
+        heroVideo.classList.add('is-ready');
+      };
 
       if (heroVideo.readyState >= 2) {
         showVideo();
@@ -32,20 +34,79 @@
 
   var elements = document.querySelectorAll('.reveal');
 
+  elements.forEach(function (element, index) {
+    element.style.setProperty('--reveal-delay', (index % 4) * 70 + 'ms');
+  });
+
   if (reduce || !('IntersectionObserver' in window)) {
-    elements.forEach(function (element) { element.classList.add('in'); });
+    elements.forEach(function (element) {
+      element.classList.add('in');
+    });
+  } else {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    elements.forEach(function (element) {
+      observer.observe(element);
+    });
+  }
+
+  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  if (reduce || !finePointer) {
     return;
   }
 
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  var hero = document.querySelector('[data-parallax-hero]');
 
-  elements.forEach(function (element) { observer.observe(element); });
+  if (hero) {
+    var heroFrame = 0;
+
+    hero.addEventListener('pointermove', function (event) {
+      var rect = hero.getBoundingClientRect();
+      var x = (event.clientX - rect.left) / rect.width - 0.5;
+      var y = (event.clientY - rect.top) / rect.height - 0.5;
+
+      window.cancelAnimationFrame(heroFrame);
+      heroFrame = window.requestAnimationFrame(function () {
+        hero.style.setProperty('--hero-shift-x', (x * -10).toFixed(2) + 'px');
+        hero.style.setProperty('--hero-shift-y', (y * -6).toFixed(2) + 'px');
+      });
+    }, { passive: true });
+
+    hero.addEventListener('pointerleave', function () {
+      window.cancelAnimationFrame(heroFrame);
+      hero.style.setProperty('--hero-shift-x', '0px');
+      hero.style.setProperty('--hero-shift-y', '0px');
+    });
+  }
+
+  document.querySelectorAll('[data-tilt-card]').forEach(function (card) {
+    var cardFrame = 0;
+
+    card.addEventListener('pointermove', function (event) {
+      var rect = card.getBoundingClientRect();
+      var x = (event.clientX - rect.left) / rect.width - 0.5;
+      var y = (event.clientY - rect.top) / rect.height - 0.5;
+
+      window.cancelAnimationFrame(cardFrame);
+      cardFrame = window.requestAnimationFrame(function () {
+        card.style.setProperty('--card-rotate-x', (y * -6).toFixed(2) + 'deg');
+        card.style.setProperty('--card-rotate-y', (x * 6).toFixed(2) + 'deg');
+      });
+    }, { passive: true });
+
+    card.addEventListener('pointerleave', function () {
+      window.cancelAnimationFrame(cardFrame);
+      card.style.setProperty('--card-rotate-x', '0deg');
+      card.style.setProperty('--card-rotate-y', '0deg');
+    });
+  });
 })();
 </script>
