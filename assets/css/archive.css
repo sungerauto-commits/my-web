@@ -10,8 +10,10 @@
   --accent-deep: #b93524;
   --accent-soft: #f2dcd7;
   --shadow: rgb(23 24 23 / 12%);
-  --display: "Aptos Display", "Arial Narrow", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --display: "Unbounded", "Aptos Display", "Arial Narrow", "PingFang SC", "Microsoft YaHei", sans-serif;
   --body: "Aptos", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --serif: "Noto Serif SC", "Songti SC", STSong, SimSun, serif;
+  --script: "Ma Shan Zheng", STKaiti, KaiTi, cursive;
   --mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   --page-width: 1280px;
   --radius: 2px;
@@ -95,16 +97,31 @@ input:focus-visible {
 
 .site-wordmark {
   flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
   color: var(--ink);
   font-family: var(--display);
-  font-size: 1.25rem;
-  font-weight: 800;
+  font-size: 1rem;
+  font-weight: 700;
   letter-spacing: 0;
   text-decoration: none;
 }
 
 .site-wordmark:hover {
   color: var(--accent);
+}
+
+.wordmark-mark {
+  color: var(--accent);
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: transform 260ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.site-wordmark:hover .wordmark-mark {
+  transform: rotate(90deg) scale(1.12);
 }
 
 .site-navigation {
@@ -221,12 +238,73 @@ input:focus-visible {
   padding: 80px 0 72px;
 }
 
+.hero-ornament {
+  position: absolute;
+  z-index: 2;
+  top: 48px;
+  right: max(5%, calc((100% - var(--page-width)) / 2));
+  width: 166px;
+  height: 166px;
+  padding: 18px;
+  display: grid;
+  align-content: space-between;
+  justify-items: start;
+  overflow: hidden;
+  border: 1px solid rgb(217 72 50 / 72%);
+  background-color: rgb(243 244 246 / 60%);
+  background-image: radial-gradient(rgb(217 72 50 / 52%) 1px, transparent 1.2px);
+  background-size: 8px 8px;
+  color: var(--accent);
+  transform: rotate(6deg);
+  transition: transform 520ms cubic-bezier(.2, .8, .2, 1), background-color 240ms ease;
+  pointer-events: none;
+}
+
+.hero-ornament::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgb(217 72 50 / 48%);
+}
+
+.hero-ornament-script,
+.hero-ornament-symbol,
+.hero-ornament-copy {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-ornament-script {
+  font-family: var(--script);
+  font-size: 3.3rem;
+  line-height: .9;
+}
+
+.hero-ornament-symbol {
+  margin-left: auto;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.hero-ornament-copy {
+  font-family: var(--display);
+  font-size: .62rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.home-hero:hover .hero-ornament {
+  background-color: rgb(243 244 246 / 78%);
+  transform: rotate(0deg) translateY(-5px);
+}
+
 .hero-label,
 .page-kicker {
   margin: 0 0 18px;
   color: var(--accent);
-  font-family: var(--mono);
-  font-size: .78rem;
+  font-family: var(--serif);
+  font-size: .95rem;
   font-weight: 700;
   letter-spacing: 0;
 }
@@ -236,8 +314,8 @@ input:focus-visible {
   margin: 0;
   color: var(--ink);
   font-family: var(--display);
-  font-size: 7.2rem;
-  font-weight: 850;
+  font-size: 6.25rem;
+  font-weight: 700;
   letter-spacing: 0;
   line-height: .9;
 }
@@ -349,9 +427,9 @@ input:focus-visible {
 .not-found h1 {
   margin: 0;
   color: var(--ink);
-  font-family: var(--display);
-  font-size: 4.4rem;
-  font-weight: 850;
+  font-family: var(--serif);
+  font-size: 4.2rem;
+  font-weight: 800;
   letter-spacing: 0;
   line-height: .98;
 }
@@ -360,6 +438,16 @@ input:focus-visible {
   max-width: 34ch;
   margin: 16px 0 0;
   color: var(--muted);
+}
+
+.section-heading::before {
+  content: "✶";
+  display: block;
+  margin-bottom: 10px;
+  color: var(--accent);
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  line-height: 1;
 }
 
 .record-grid,
@@ -477,7 +565,7 @@ input:focus-visible {
 .record-tile h3 {
   margin: 9px 0 0;
   color: var(--ink);
-  font-family: var(--display);
+  font-family: var(--serif);
   font-size: 1.8rem;
   font-weight: 780;
   letter-spacing: 0;
@@ -563,7 +651,7 @@ input:focus-visible {
 .story-content h3,
 .story-content h4 {
   margin: 2.4em 0 .8em;
-  font-family: var(--display);
+  font-family: var(--serif);
   font-weight: 780;
   letter-spacing: 0;
   line-height: 1.2;
@@ -761,7 +849,7 @@ input:focus-visible {
 }
 
 .archive-row strong {
-  font-family: var(--display);
+  font-family: var(--serif);
   font-size: 1.65rem;
   font-weight: 760;
   line-height: 1.2;
@@ -842,7 +930,7 @@ input:focus-visible {
 .search-result strong {
   display: block;
   margin-top: 7px;
-  font-family: var(--display);
+  font-family: var(--serif);
   font-size: 1.6rem;
   font-weight: 760;
   line-height: 1.2;
@@ -911,7 +999,7 @@ input:focus-visible {
 
 @media (max-width: 1100px) {
   .hero-title {
-    font-size: 6rem;
+    font-size: 5.3rem;
   }
 
   .section-heading h2,
@@ -938,6 +1026,15 @@ input:focus-visible {
   .site-header,
   .site-header-inner {
     min-height: 64px;
+  }
+
+  .site-wordmark {
+    gap: 7px;
+    font-size: .84rem;
+  }
+
+  .wordmark-mark {
+    font-size: 1.1rem;
   }
 
   .nav-toggle {
@@ -998,8 +1095,32 @@ input:focus-visible {
     padding: 56px 0 48px;
   }
 
+  .hero-ornament {
+    top: 26px;
+    right: 16px;
+    width: 108px;
+    height: 108px;
+    padding: 13px;
+  }
+
+  .hero-ornament::after {
+    inset: 6px;
+  }
+
+  .hero-ornament-script {
+    font-size: 2.3rem;
+  }
+
+  .hero-ornament-symbol {
+    font-size: 1.1rem;
+  }
+
+  .hero-ornament-copy {
+    font-size: .48rem;
+  }
+
   .hero-title {
-    font-size: 4.8rem;
+    font-size: 4rem;
   }
 
   .hero-summary {
@@ -1127,7 +1248,7 @@ input:focus-visible {
 
 @media (max-width: 390px) {
   .hero-title {
-    font-size: 3.7rem;
+    font-size: 3.3rem;
   }
 
   .content-index a {
