@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="{{ site.Language.Lang | default "zh-CN" }}">
+  <head>
+    {{ $pageTitle := site.Title }}
+    {{ if not .IsHome }}{{ $pageTitle = printf "%s | %s" .Title site.Title }}{{ end }}
+    {{ $description := .Description | default site.Params.description }}
+    {{ $style := resources.Get "css/archive.css" | minify | fingerprint }}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f3f4f6">
+    <meta name="description" content="{{ $description }}">
+    <title>{{ $pageTitle }}</title>
+    <link rel="canonical" href="{{ .Permalink }}">
+    <link rel="icon" href="{{ "favicon.ico" | relURL }}">
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
+    {{ template "_internal/opengraph.html" . }}
+    {{ template "_internal/twitter_cards.html" . }}
+  </head>
+  <body class="{{ if .IsHome }}is-home{{ end }} page-kind-{{ .Kind }}">
+    {{ partial "site-header.html" . }}
+    <main id="content">
+      {{ block "main" . }}{{ end }}
+    </main>
+    {{ partial "site-footer.html" . }}
+    {{ $script := resources.Get "js/archive.js" | minify | fingerprint }}
+    <script defer src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}"></script>
+  </body>
+</html>

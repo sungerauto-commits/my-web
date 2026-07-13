@@ -1,30 +1,22 @@
 {{ define "main" }}
-<article class="post-single media-page media-page--photos">
-  <header class="post-header">
-    {{ partial "breadcrumbs.html" . }}
-    <h1 class="post-title entry-hint-parent">{{ .Title }}</h1>
-    {{ with .Params.caption }}<div class="post-description">{{ . }}</div>{{ end }}
-    {{ partial "post_meta.html" . }}
+{{ $description := .Params.caption | default .Description }}
+<article class="media-story site-shell">
+  <header class="story-header" data-reveal>
+    <p class="story-meta"><a href="{{ "photos/" | relURL }}">照片</a><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time></p>
+    <h1>{{ .Title }}</h1>
+    {{ with $description }}<p class="story-description">{{ . }}</p>{{ end }}
   </header>
 
   {{ with .Params.gallery }}
-  <div class="photo-gallery">
-    {{ range $index, $image := . }}
-    <a class="photo-item" href="{{ $image }}" target="_blank" rel="noopener"
-      aria-label="查看照片 {{ add $index 1 }}">
-      <img src="{{ $image }}" alt="{{ $.Title }}，照片 {{ add $index 1 }}"
-        loading="{{ cond (eq $index 0) "eager" "lazy" }}">
-    </a>
-    {{ end }}
-  </div>
+    <div class="photo-gallery">
+      {{ range $index, $image := . }}
+        <a class="gallery-image" href="{{ $image }}" target="_blank" rel="noopener" data-reveal aria-label="查看照片 {{ add $index 1 }}">
+          <img src="{{ $image }}" alt="{{ $.Title }}，照片 {{ add $index 1 }}" loading="{{ cond (eq $index 0) "eager" "lazy" }}">
+        </a>
+      {{ end }}
+    </div>
   {{ end }}
 
-  <div class="post-content">
-    {{ .Content }}
-  </div>
-
-  <footer class="post-footer">
-    {{ partial "post_nav_links.html" . }}
-  </footer>
+  {{ with .Content }}<div class="story-content" data-reveal>{{ . }}</div>{{ end }}
 </article>
 {{ end }}

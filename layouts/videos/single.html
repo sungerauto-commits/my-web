@@ -1,29 +1,22 @@
 {{ define "main" }}
 {{ $videoURL := .Params.video | default "" }}
 {{ $posterURL := .Params.poster | default "" }}
-<article class="post-single media-page media-page--video">
-  <header class="post-header">
-    {{ partial "breadcrumbs.html" . }}
-    <h1 class="post-title entry-hint-parent">{{ .Title }}</h1>
-    {{ if .Description }}<div class="post-description">{{ .Description }}</div>{{ end }}
-    {{ partial "post_meta.html" . }}
+<article class="media-story site-shell">
+  <header class="story-header" data-reveal>
+    <p class="story-meta"><a href="{{ "videos/" | relURL }}">视频</a><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time></p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="story-description">{{ . }}</p>{{ end }}
   </header>
 
   {{ with $videoURL }}
-  <div class="video-wrapper">
-    <video controls preload="metadata" playsinline {{ with $posterURL }}poster="{{ . }}"{{ end }}>
-      <source src="{{ . }}">
-      您的浏览器不支持视频播放。
-    </video>
-  </div>
+    <div class="video-stage" data-reveal>
+      <video controls preload="metadata" playsinline{{ with $posterURL }} poster="{{ . }}"{{ end }}>
+        <source src="{{ . }}">
+        您的浏览器不支持视频播放。
+      </video>
+    </div>
   {{ end }}
 
-  <div class="post-content">
-    {{ .Content }}
-  </div>
-
-  <footer class="post-footer">
-    {{ partial "post_nav_links.html" . }}
-  </footer>
+  {{ with .Content }}<div class="story-content" data-reveal>{{ . }}</div>{{ end }}
 </article>
 {{ end }}

@@ -1,0 +1,21 @@
+{{ define "main" }}
+{{ $entries := (where site.RegularPages "Section" "in" (slice "posts" "photos" "videos")).ByDate.Reverse }}
+<section class="archive-page site-shell">
+  <header class="collection-intro" data-reveal>
+    <p class="page-kicker">所有记录</p>
+    <h1>归档</h1>
+  </header>
+  <div class="archive-list">
+    {{ range $entry := $entries }}
+      {{ $kind := index (dict "posts" "文章" "photos" "照片" "videos" "视频") $entry.Section | default "记录" }}
+      <a class="archive-row" href="{{ $entry.RelPermalink }}" data-reveal>
+        <time datetime="{{ $entry.Date.Format "2006-01-02" }}">{{ $entry.Date.Format "2006.01.02" }}</time>
+        <span>{{ $kind }}</span>
+        <strong>{{ $entry.Title }}</strong>
+      </a>
+    {{ else }}
+      <p class="empty-copy">这里还没有公开内容。</p>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

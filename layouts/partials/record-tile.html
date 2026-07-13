@@ -1,0 +1,30 @@
+{{ $page := .page }}
+{{ $index := .index }}
+{{ $kind := index (dict "posts" "文章" "photos" "照片" "videos" "视频") $page.Section | default "记录" }}
+{{ $thumb := "" }}
+{{ with $page.Params.cover }}{{ with .image }}{{ $thumb = . }}{{ end }}{{ end }}
+{{ if not $thumb }}{{ with $page.Params.gallery }}{{ if gt (len .) 0 }}{{ $thumb = index . 0 }}{{ end }}{{ end }}{{ end }}
+{{ if not $thumb }}{{ with $page.Params.poster }}{{ $thumb = . }}{{ end }}{{ end }}
+{{ $excerpt := $page.Description | default $page.Params.caption | default ($page.Summary | plainify) }}
+<article class="record-tile record-tile--{{ $page.Section }} record-tile--{{ mod $index 5 }}" data-reveal>
+  <a class="record-link" href="{{ $page.RelPermalink }}">
+    {{ if $thumb }}
+      <div class="record-media">
+        <img src="{{ $thumb }}" alt="{{ $page.Title }}" loading="{{ cond (lt $index 2) "eager" "lazy" }}">
+      </div>
+    {{ else if $page.Params.video }}
+      <div class="record-media record-media--video">
+        <video muted playsinline preload="metadata" data-preview-video>
+          <source src="{{ $page.Params.video }}">
+        </video>
+      </div>
+    {{ else }}
+      <div class="record-essay" aria-hidden="true">{{ $kind }}</div>
+    {{ end }}
+    <div class="record-details">
+      <p class="record-meta"><span>{{ $kind }}</span><time datetime="{{ $page.Date.Format "2006-01-02" }}">{{ $page.Date.Format "2006.01.02" }}</time></p>
+      <h3>{{ $page.Title }}</h3>
+      {{ with $excerpt }}<p class="record-excerpt">{{ . }}</p>{{ end }}
+    </div>
+  </a>
+</article>

@@ -1,0 +1,14 @@
+{{ define "main" }}
+<section class="search-page site-shell" data-search data-index-url="{{ "index.json" | relURL }}">
+  <header class="collection-intro" data-reveal>
+    <p class="page-kicker">查找内容</p>
+    <h1>搜索</h1>
+  </header>
+  <form class="search-form" role="search" data-reveal>
+    <label for="archive-search">搜索标题和正文</label>
+    <input id="archive-search" type="search" autocomplete="off" placeholder="{{ .Params.placeholder | default "输入关键词" }}" data-search-input>
+  </form>
+  <p class="search-status" data-search-status>输入关键词开始搜索。</p>
+  <div class="search-results" data-search-results aria-live="polite"></div>
+</section>
+{{ end }}

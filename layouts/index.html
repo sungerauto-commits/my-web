@@ -8,81 +8,45 @@
 {{ $poster := "" }}
 {{ with $homeVideo.src }}{{ $videoSrc = . }}{{ end }}
 {{ with $homeVideo.poster }}{{ $poster = . }}{{ end }}
-{{ if $videoSrc }}
-  {{ if not (or (hasPrefix $videoSrc "http://") (hasPrefix $videoSrc "https://")) }}
-    {{ $videoSrc = $videoSrc | relURL }}
-  {{ end }}
-{{ end }}
-{{ if $poster }}
-  {{ if not (or (hasPrefix $poster "http://") (hasPrefix $poster "https://")) }}
-    {{ $poster = $poster | relURL }}
-  {{ end }}
-{{ end }}
+{{ if $videoSrc }}{{ if not (or (hasPrefix $videoSrc "http://") (hasPrefix $videoSrc "https://")) }}{{ $videoSrc = $videoSrc | relURL }}{{ end }}{{ end }}
+{{ if $poster }}{{ if not (or (hasPrefix $poster "http://") (hasPrefix $poster "https://")) }}{{ $poster = $poster | relURL }}{{ end }}{{ end }}
 
-<section class="{{ cond (ne $videoSrc "") "dk-hero dk-hero--video" "dk-hero" }}" data-parallax-hero>
-  {{ if $videoSrc }}
-  <div class="dk-video-bg" aria-hidden="true" {{ with $poster }}style="background-image: url('{{ . }}');"{{ end }}>
-    <video data-hero-video autoplay muted loop playsinline preload="metadata" {{ with $poster }}poster="{{ . }}"{{ end }}>
-      <source src="{{ $videoSrc }}" type="video/mp4">
-    </video>
+<section class="home-hero" data-hero>
+  <div class="hero-media" aria-hidden="true">
+    {{ if $videoSrc }}
+      <video data-hero-video autoplay muted loop playsinline preload="metadata"{{ with $poster }} poster="{{ . }}"{{ end }}>
+        <source src="{{ $videoSrc }}" type="video/mp4">
+      </video>
+    {{ else if $poster }}
+      <img src="{{ $poster }}" alt="">
+    {{ end }}
   </div>
-  {{ end }}
-
-  <div class="dk-hero-inner">
-    <p class="dk-eyebrow">PERSONAL ARCHIVE / {{ now.Year }}</p>
-    <h1 class="dk-title">Sunger<span class="it">Club</span></h1>
-    <p class="dk-sub">{{ site.Params.description | default "我的文字、照片和视频。" }}</p>
-    <p class="dk-meta"><b>{{ len $entries }}</b> 条记录 <span>文字 / 照片 / 影像</span></p>
+  <div class="hero-content">
+    <p class="hero-label">个人档案</p>
+    <h1 class="hero-title"><span>Sunger</span><span>Club</span></h1>
+    <p class="hero-summary">{{ site.Params.description | default "文字、照片和影像。" }}</p>
+    <a class="hero-link" href="#archive">查看记录</a>
   </div>
 </section>
 
-<nav class="archive-index" aria-label="内容分类">
-  <div class="archive-index-inner">
-    <a href="{{ "posts/" | relURL }}"><span>文章</span><b>{{ len $postEntries }}</b></a>
-    <a href="{{ "photos/" | relURL }}"><span>照片</span><b>{{ len $photoEntries }}</b></a>
-    <a href="{{ "videos/" | relURL }}"><span>视频</span><b>{{ len $videoEntries }}</b></a>
+<nav class="content-index" aria-label="内容分类">
+  <div class="content-index-inner site-shell">
+    <a href="{{ "posts/" | relURL }}"><span>文章</span><strong>{{ len $postEntries }}</strong></a>
+    <a href="{{ "photos/" | relURL }}"><span>照片</span><strong>{{ len $photoEntries }}</strong></a>
+    <a href="{{ "videos/" | relURL }}"><span>视频</span><strong>{{ len $videoEntries }}</strong></a>
   </div>
 </nav>
 
-<section class="contact-sheet" aria-labelledby="recent-work">
-  <header class="sheet-head">
-    <h2 id="recent-work">最近记录</h2>
-    <p>文字、照片和影像，按发布时间排列。</p>
+<section class="archive-latest site-shell" id="archive">
+  <header class="section-heading" data-reveal>
+    <h2>最新内容</h2>
+    <p>最近发布的文字、照片和影像。</p>
   </header>
-
-  <div class="sheet">
-    {{ range $i, $e := first 12 $entries }}
-      {{- $label := index (dict "posts" "文章" "photos" "照片" "videos" "视频") $e.Section | default "记录" -}}
-      {{- $glyph := index (dict "posts" "文" "photos" "像" "videos" "影") $e.Section | default "录" -}}
-      {{- $thumb := "" -}}
-      {{- $alt := $e.Title -}}
-      {{- with $e.Params.cover -}}
-        {{- with .image }}{{ $thumb = . }}{{ end -}}
-        {{- with .alt }}{{ $alt = . }}{{ end -}}
-      {{- end -}}
-      {{- if not $thumb }}{{ with $e.Params.gallery }}{{ if gt (len .) 0 }}{{ $thumb = index . 0 }}{{ end }}{{ end }}{{ end -}}
-      {{- if not $thumb }}{{ with $e.Params.poster }}{{ $thumb = . }}{{ end }}{{ end -}}
-
-      <article class="frame frame--{{ $e.Section }} reveal" data-tilt-card>
-        <div class="frame-bar">
-          <span class="frame-type">{{ $label }}</span>
-          <time datetime="{{ $e.Date.Format "2006-01-02" }}">{{ $e.Date.Format "2006.01.02" }}</time>
-        </div>
-
-        {{ if $thumb }}
-        <div class="frame-shot">
-          <img src="{{ $thumb }}" alt="{{ $alt }}" loading="{{ cond (eq $i 0) "eager" "lazy" }}">
-        </div>
-        {{ else }}
-        <div class="frame-blank" aria-hidden="true"><span>{{ $glyph }}</span></div>
-        {{ end }}
-
-        <h3 class="frame-title"><a class="frame-link" href="{{ $e.RelPermalink }}">{{ $e.Title }}</a></h3>
-      </article>
+  <div class="record-grid">
+    {{ range $index, $entry := first 9 $entries }}
+      {{ partial "record-tile.html" (dict "page" $entry "index" $index) }}
     {{ else }}
-      <div class="sheet-empty">
-        <p>这里还没有公开的记录。</p>
-      </div>
+      <p class="empty-copy">这里还没有公开内容。</p>
     {{ end }}
   </div>
 </section>
