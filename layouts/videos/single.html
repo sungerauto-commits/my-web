@@ -1,7 +1,7 @@
 {{ define "main" }}
 {{ $videoURL := .Params.video | default "" }}
 {{ $posterURL := .Params.poster | default "" }}
-<article class="media-story site-shell">
+<article class="media-story media-story--videos site-shell">
   <header class="story-header" data-reveal>
     <p class="story-meta"><a href="{{ "videos/" | relURL }}">视频</a><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time></p>
     <h1>{{ .Title }}</h1>

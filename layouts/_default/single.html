@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{ $kind := index (dict "posts" "文章" "photos" "照片" "videos" "视频") .Section | default "记录" }}
-<article class="story site-shell">
+<article class="story story--posts site-shell">
   <header class="story-header" data-reveal>
     <p class="story-meta"><a href="{{ .Section | relURL }}">{{ $kind }}</a><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time></p>
     <h1>{{ .Title }}</h1>

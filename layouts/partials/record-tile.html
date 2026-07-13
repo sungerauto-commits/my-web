@@ -8,6 +8,7 @@
 {{ $excerpt := $page.Description | default $page.Params.caption | default ($page.Summary | plainify) }}
 <article class="record-tile record-tile--{{ $page.Section }} record-tile--{{ mod $index 5 }}" data-reveal>
   <a class="record-link" href="{{ $page.RelPermalink }}">
+    <span class="record-tool" aria-hidden="true"></span>
     {{ if $thumb }}
       <div class="record-media">
         <img src="{{ $thumb }}" alt="{{ $page.Title }}" loading="{{ cond (lt $index 2) "eager" "lazy" }}">

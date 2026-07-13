@@ -21,38 +21,56 @@
       <img src="{{ $poster }}" alt="">
     {{ end }}
   </div>
-  <aside class="hero-ornament" aria-hidden="true">
-    <span class="hero-ornament-script">留痕</span>
-    <span class="hero-ornament-symbol">✶</span>
-    <span class="hero-ornament-copy">S / C</span>
+  <div class="hero-watercolor-layer" aria-hidden="true"></div>
+  <aside class="hero-ink-mark" aria-hidden="true">
+    <span class="hero-ink-mark-initials">SC</span>
+    <span class="hero-ink-mark-copy">水色 · 墨痕</span>
   </aside>
   <div class="hero-content">
-    <p class="hero-label">个人档案</p>
+    <p class="hero-label">个人档案 · 2026</p>
     <h1 class="hero-title"><span>Sunger</span><span>Club</span></h1>
     <p class="hero-summary">{{ site.Params.description | default "文字、照片和影像。" }}</p>
-    <a class="hero-link" href="#archive">查看记录</a>
+    <a class="hero-link" href="#archive">翻开档案</a>
+  </div>
+  <div class="hero-subtitle-mask" aria-hidden="true">
+    <span>水色 · 墨痕 · 手稿</span>
+    <em>personal archive</em>
   </div>
 </section>
 
 <nav class="content-index" aria-label="内容分类">
   <div class="content-index-inner site-shell">
-    <a href="{{ "posts/" | relURL }}"><span>文章</span><strong>{{ len $postEntries }}</strong></a>
-    <a href="{{ "photos/" | relURL }}"><span>照片</span><strong>{{ len $photoEntries }}</strong></a>
-    <a href="{{ "videos/" | relURL }}"><span>视频</span><strong>{{ len $videoEntries }}</strong></a>
+    <a class="archive-channel archive-channel--posts" href="{{ "posts/" | relURL }}">
+      <span class="archive-channel-art" aria-hidden="true"></span>
+      <span class="archive-channel-copy"><strong>文章</strong><small>钢笔手记</small></span>
+      <b aria-label="{{ len $postEntries }} 篇文章">{{ len $postEntries }}</b>
+    </a>
+    <a class="archive-channel archive-channel--photos" href="{{ "photos/" | relURL }}">
+      <span class="archive-channel-art" aria-hidden="true"></span>
+      <span class="archive-channel-copy"><strong>照片</strong><small>镜头显影</small></span>
+      <b aria-label="{{ len $photoEntries }} 组照片">{{ len $photoEntries }}</b>
+    </a>
+    <a class="archive-channel archive-channel--videos" href="{{ "videos/" | relURL }}">
+      <span class="archive-channel-art" aria-hidden="true"></span>
+      <span class="archive-channel-copy"><strong>视频</strong><small>胶片放映</small></span>
+      <b aria-label="{{ len $videoEntries }} 段视频">{{ len $videoEntries }}</b>
+    </a>
   </div>
 </nav>
 
-<section class="archive-latest site-shell" id="archive">
-  <header class="section-heading" data-reveal>
-    <h2>最新内容</h2>
-    <p>最近发布的文字、照片和影像。</p>
-  </header>
-  <div class="record-grid">
-    {{ range $index, $entry := first 9 $entries }}
-      {{ partial "record-tile.html" (dict "page" $entry "index" $index) }}
-    {{ else }}
-      <p class="empty-copy">这里还没有公开内容。</p>
-    {{ end }}
+<section class="archive-stage" id="archive">
+  <div class="archive-latest site-shell">
+    <header class="section-heading" data-reveal>
+      <h2>近来入册</h2>
+      <p>最近留下的文字、照片和影像。</p>
+    </header>
+    <div class="record-grid">
+      {{ range $index, $entry := first 9 $entries }}
+        {{ partial "record-tile.html" (dict "page" $entry "index" $index) }}
+      {{ else }}
+        <p class="empty-copy">这里还没有公开内容。</p>
+      {{ end }}
+    </div>
   </div>
 </section>
 {{ end }}

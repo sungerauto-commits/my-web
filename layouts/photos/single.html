@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{ $description := .Params.caption | default .Description }}
-<article class="media-story site-shell">
+<article class="media-story media-story--photos site-shell">
   <header class="story-header" data-reveal>
     <p class="story-meta"><a href="{{ "photos/" | relURL }}">照片</a><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time></p>
     <h1>{{ .Title }}</h1>
