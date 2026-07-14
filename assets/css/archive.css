@@ -2383,3 +2383,65 @@ body:not(.is-home) #content,
     color: var(--paper-ink);
   }
 }
+
+
+/* One-shot watercolor diffusion. */
+.paper-bloom-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block !important;
+  pointer-events: none;
+}
+
+.paper-bloom-canvas--hero {
+  z-index: -1;
+  opacity: .82;
+}
+
+.paper-bloom-canvas--archive {
+  z-index: 0;
+  opacity: .58;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .record-tile--photos .record-media::before,
+  .gallery-image::before {
+    background-color: #d6d8d1;
+    opacity: .22;
+  }
+
+  .record-tile--photos .record-media::after,
+  .gallery-image::after {
+    background-color: #e4e5dc;
+    opacity: .16;
+  }
+
+  .record-tile--photos .record-media img,
+  .gallery-image img {
+    filter: grayscale(1) contrast(.86) brightness(1.06);
+    transition: filter 860ms cubic-bezier(.16, 1, .3, 1), transform 860ms cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .record-tile--photos .record-link:is(:hover, :focus-visible) .record-media img,
+  .gallery-image:is(:hover, :focus-visible) img {
+    filter: grayscale(0) saturate(1.08) contrast(1.02) brightness(1);
+  }
+}
+
+@media (max-width: 800px) {
+  .paper-bloom-canvas--hero {
+    opacity: .58;
+  }
+
+  .paper-bloom-canvas--archive {
+    opacity: .42;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-bloom-canvas {
+    display: none !important;
+  }
+}

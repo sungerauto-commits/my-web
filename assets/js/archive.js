@@ -87,6 +87,179 @@
   }
 
 
+  const bloomCanvases = document.querySelectorAll("[data-watercolor-bloom]");
+
+  if (!reduce && !saveData && bloomCanvases.length) {
+    const bloomPalette = [
+      "#0f4e60", "#19788a", "#2aa0a0", "#3365ae", "#5f4d9d", "#975faa",
+      "#c15c92", "#d76278", "#e47650", "#ec9d3b", "#efc74c", "#afa746",
+      "#779e57", "#3d8d68", "#1c8b82", "#1a6275", "#064562", "#3a2c52",
+      "#803b57", "#ad4e43", "#c68238", "#d7cf62", "#91bda0", "#91c4d0"
+    ];
+
+    const seeded = (value, salt) => {
+      const result = Math.sin((value + 1) * 127.1 + salt * 311.7) * 43758.5453123;
+      return result - Math.floor(result);
+    };
+    const easeOut = (value) => 1 - Math.pow(1 - value, 3);
+    const maskSource = bloomCanvases[0].dataset.maskSrc;
+
+    if (maskSource) {
+      const mask = new Image();
+      mask.decoding = "async";
+
+      const createTint = (color) => {
+        const tint = document.createElement("canvas");
+        const tintContext = tint.getContext("2d", { alpha: true });
+        const size = 320;
+
+        tint.width = size;
+        tint.height = size;
+        tintContext.drawImage(mask, 0, 0, size, size);
+        tintContext.globalCompositeOperation = "source-in";
+        tintContext.fillStyle = color;
+        tintContext.fillRect(0, 0, size, size);
+        tintContext.globalCompositeOperation = "source-over";
+        return tint;
+      };
+
+      const initialize = () => {
+        const tintPool = bloomPalette.map(createTint);
+
+        bloomCanvases.forEach((canvas, canvasIndex) => {
+          const context = canvas.getContext("2d", { alpha: true });
+
+          if (!context) {
+            return;
+          }
+
+          const hero = canvas.dataset.bloomVariant === "hero";
+          const count = hero ? 6 : 10;
+          const xInset = hero ? .38 : .06;
+          const xRange = hero ? .54 : .88;
+          const blooms = Array.from({ length: count }, (_, index) => {
+            const seedIndex = index + canvasIndex * 17;
+            return {
+              x: xInset + seeded(seedIndex, 1) * xRange,
+              y: .1 + seeded(seedIndex, 2) * .8,
+              size: (hero ? 230 : 150) + seeded(seedIndex, 3) * (hero ? 130 : 110),
+              rotation: (seeded(seedIndex, 4) - .5) * Math.PI,
+              delay: seeded(seedIndex, 5) * .34,
+              colorIndex: (index * 5 + canvasIndex * 7) % tintPool.length,
+              opacity: (hero ? .15 : .11) + seeded(seedIndex, 6) * .09
+            };
+          });
+
+          let cssWidth = 1;
+          let cssHeight = 1;
+          let pixelRatio = 1;
+          let inView = false;
+          let started = false;
+          let progress = 0;
+          let startTime = 0;
+          let lastPaint = 0;
+
+          const resize = () => {
+            const bounds = canvas.getBoundingClientRect();
+            cssWidth = Math.max(1, bounds.width);
+            cssHeight = Math.max(1, bounds.height);
+            pixelRatio = Math.min(window.devicePixelRatio || 1, 1.25);
+            canvas.width = Math.round(cssWidth * pixelRatio);
+            canvas.height = Math.round(cssHeight * pixelRatio);
+            if (started) {
+              paint(progress);
+            }
+          };
+
+          const drawBloom = (bloom, value) => {
+            const local = Math.max(0, Math.min(1, (value - bloom.delay) / (1 - bloom.delay)));
+
+            if (!local) {
+              return;
+            }
+
+            const spread = .14 + .86 * easeOut(local);
+            const diameter = bloom.size * spread;
+            const alpha = bloom.opacity * (.18 + .82 * easeOut(local));
+            const tint = tintPool[bloom.colorIndex];
+            const drawLayer = (scale, opacity, rotation) => {
+              const size = diameter * scale;
+              context.save();
+              context.globalAlpha = alpha * opacity;
+              context.translate(bloom.x * cssWidth, bloom.y * cssHeight);
+              context.rotate(bloom.rotation + rotation);
+              context.drawImage(tint, -size / 2, -size / 2, size, size);
+              context.restore();
+            };
+
+            drawLayer(1.18, .26, -.24);
+            drawLayer(1, .92, 0);
+            drawLayer(.62, .34, .31);
+          };
+
+          const paint = (value) => {
+            context.setTransform(1, 0, 0, 1, 0, 0);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+            blooms.forEach((bloom) => drawBloom(bloom, value));
+          };
+
+          const animate = (timestamp) => {
+            if (!startTime) {
+              startTime = timestamp;
+            }
+
+            const next = Math.min(1, (timestamp - startTime) / 1900);
+            if (timestamp - lastPaint >= 42 || next === 1) {
+              progress = next;
+              lastPaint = timestamp;
+              paint(progress);
+            }
+
+            if (next < 1) {
+              window.requestAnimationFrame(animate);
+            }
+          };
+
+          const start = () => {
+            if (started || !inView || document.hidden) {
+              return;
+            }
+
+            started = true;
+            window.requestAnimationFrame(animate);
+          };
+
+          resize();
+          window.addEventListener("resize", resize, { passive: true });
+          document.addEventListener("visibilitychange", start);
+
+          if ("IntersectionObserver" in window) {
+            const observer = new IntersectionObserver((entries) => {
+              inView = entries.some((entry) => entry.isIntersecting);
+              if (inView) {
+                start();
+                observer.disconnect();
+              }
+            }, { threshold: .12 });
+            observer.observe(canvas);
+          } else {
+            inView = true;
+            start();
+          }
+        });
+      };
+
+      if (mask.complete && mask.naturalWidth) {
+        initialize();
+      } else {
+        mask.addEventListener("load", initialize, { once: true });
+      }
+      mask.src = maskSource;
+    }
+  }
+
+
   const searchRoot = document.querySelector("[data-search]");
 
   if (!searchRoot) {

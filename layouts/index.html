@@ -21,6 +21,13 @@
       <img src="{{ $poster }}" alt="">
     {{ end }}
   </div>
+  <canvas
+    class="paper-bloom-canvas paper-bloom-canvas--hero"
+    data-watercolor-bloom
+    data-bloom-variant="hero"
+    data-mask-src="{{ "images/art/watercolor-bloom-mask.png" | relURL }}"
+    aria-hidden="true"
+  ></canvas>
   <aside class="hero-ink-mark" aria-hidden="true">
     <span class="hero-ink-mark-initials">SC</span>
     <span class="hero-ink-mark-copy">水色 · 墨痕</span>
@@ -58,6 +65,13 @@
 </nav>
 
 <section class="archive-stage" id="archive">
+  <canvas
+    class="paper-bloom-canvas paper-bloom-canvas--archive"
+    data-watercolor-bloom
+    data-bloom-variant="archive"
+    data-mask-src="{{ "images/art/watercolor-bloom-mask.png" | relURL }}"
+    aria-hidden="true"
+  ></canvas>
   <div class="archive-latest site-shell">
     <header class="section-heading" data-reveal>
       <h2>近来入册</h2>
