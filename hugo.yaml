@@ -35,7 +35,6 @@ params:
 
   homeVideo:
     src: "media/hero-2026-06-30.mp4"
-    poster: "media/hero-2026-06-30.jpg"
 
   homeInfoParams:
     Title: "你好，欢迎来到 SungerClub 👋"
