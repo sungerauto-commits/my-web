@@ -2101,3 +2101,285 @@ body.nav-open .nav-toggle::before {
     transform: none;
   }
 }
+
+
+/* Cotton paper continuum and low-cost interactions. */
+:root {
+  color-scheme: light;
+  --paper: #dfe9e5;
+  --paper-soft: #edf3ef;
+  --paper-edge: #bdd1ca;
+  --paper-ink: #173d46;
+  --paper-muted: #4f6c70;
+}
+
+html {
+  background: var(--paper);
+}
+
+body {
+  background-color: var(--paper);
+  background-image: url("/my-web/images/art/watercolor-ink-atlas.png");
+  background-position: center top;
+  background-size: 1500px auto;
+  background-repeat: repeat-y;
+  background-attachment: scroll;
+  background-blend-mode: soft-light;
+  color: var(--paper-ink);
+}
+
+body:not(.is-home) #content,
+.site-header,
+.content-index,
+.archive-stage,
+.site-footer {
+  background-image: none;
+  background-blend-mode: normal;
+}
+
+body:not(.is-home) #content,
+.content-index,
+.archive-stage {
+  background-color: transparent;
+  color: var(--paper-ink);
+}
+
+.site-header {
+  border-color: var(--paper-edge);
+  background-color: rgb(223 233 229 / 96%);
+  color: var(--paper-ink);
+}
+
+.site-navigation a,
+.site-wordmark,
+.site-wordmark > span:last-child,
+.nav-toggle::before {
+  color: var(--paper-ink);
+}
+
+.site-footer {
+  border-color: var(--paper-edge);
+  background-color: rgb(223 233 229 / 94%);
+  color: var(--paper-ink);
+}
+
+.site-footer a,
+.site-footer p:first-of-type,
+.site-footer p:last-child {
+  color: var(--paper-ink);
+}
+
+.home-hero {
+  background-color: #58767a;
+  border-color: var(--paper-edge);
+}
+
+.hero-media {
+  transform: none;
+  transition: none;
+}
+
+.hero-media::after {
+  background: #294c51;
+  opacity: .34;
+  mix-blend-mode: normal;
+}
+
+.hero-media video,
+.hero-media img,
+.hero-media video.is-ready {
+  filter: none;
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.hero-watercolor-layer,
+.paper-bloom-canvas {
+  display: none !important;
+}
+
+.hero-ink-mark {
+  border-color: rgb(23 61 70 / 46%);
+  background-color: rgb(223 233 229 / 88%);
+  background-image: none;
+  background-blend-mode: normal;
+  color: var(--paper-ink);
+  animation: none !important;
+}
+
+.hero-subtitle-mask {
+  border-top: 1px solid var(--paper-edge);
+  background-color: var(--paper);
+  background-image: none;
+  background-blend-mode: normal;
+  color: var(--paper-ink);
+}
+
+.hero-subtitle-mask em {
+  color: #a65b31;
+}
+
+.content-index {
+  border-color: var(--paper-edge);
+}
+
+.content-index::before {
+  display: none;
+}
+
+.archive-channel {
+  border-color: var(--paper-edge);
+  background-color: transparent;
+  background-image: none;
+  background-blend-mode: normal;
+}
+
+.archive-channel:hover {
+  background-color: rgb(237 244 240 / 68%);
+}
+
+.archive-stage {
+  overflow: visible;
+}
+
+.record-tile {
+  content-visibility: auto;
+  contain-intrinsic-size: 400px 480px;
+}
+
+.record-link {
+  background-color: rgb(237 244 240 / 70%);
+  background-image: none;
+  background-blend-mode: normal;
+  box-shadow: none;
+  transition: transform 180ms cubic-bezier(.2, .8, .2, 1), outline-color 180ms ease;
+}
+
+.record-link:hover {
+  transform: translateY(-2px);
+}
+
+.record-media::after {
+  background-color: var(--tile-rinse);
+  mix-blend-mode: normal;
+  opacity: .12;
+}
+
+.record-essay {
+  background-color: var(--tile-rinse);
+  background-image: none;
+  background-blend-mode: normal;
+}
+
+.photo-gallery {
+  border-color: var(--paper-edge);
+  background-color: rgb(222 234 230 / 64%);
+  background-image: none;
+  background-blend-mode: normal;
+}
+
+.gallery-image {
+  position: relative;
+  border-color: rgb(23 61 70 / 40%);
+  background-color: var(--paper-soft);
+  background-image: none;
+  background-blend-mode: normal;
+  box-shadow: 2px 3px 0 rgb(23 61 70 / 20%);
+}
+
+.video-stage {
+  background-color: #203f46;
+  background-image: none;
+  background-blend-mode: normal;
+}
+
+.hero-content,
+.hero-ink-mark,
+.archive-channel-art,
+[data-reveal],
+[data-reveal].is-visible {
+  animation: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .record-tile--photos .record-media,
+  .gallery-image {
+    isolation: isolate;
+  }
+
+  .record-tile--photos .record-media::before,
+  .gallery-image::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    background-color: #68604f;
+    opacity: .5;
+    pointer-events: none;
+    transition: opacity 720ms cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .record-tile--photos .record-media::before {
+    inset: 0;
+  }
+
+  .gallery-image::before {
+    inset: 11px 11px 32px;
+  }
+
+  .record-tile--photos .record-media::after {
+    z-index: 2;
+    background-color: #c7baa1;
+    opacity: .3;
+    transition: opacity 720ms cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .gallery-image::after {
+    content: "";
+    position: absolute;
+    inset: 11px 11px 32px;
+    z-index: 2;
+    border: 1px solid rgb(243 237 218 / 56%);
+    box-shadow: inset 0 0 22px rgb(31 42 37 / 24%);
+    opacity: .56;
+    pointer-events: none;
+    transition: opacity 720ms cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .record-tile--photos .record-media img,
+  .gallery-image img {
+    transition: transform 720ms cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .record-tile--photos .record-link:is(:hover, :focus-visible) .record-media::before,
+  .gallery-image:is(:hover, :focus-visible)::before {
+    opacity: 0;
+  }
+
+  .record-tile--photos .record-link:is(:hover, :focus-visible) .record-media::after,
+  .gallery-image:is(:hover, :focus-visible)::after {
+    opacity: .08;
+  }
+
+  .record-tile--photos .record-link:is(:hover, :focus-visible) .record-media img,
+  .gallery-image:is(:hover, :focus-visible) img {
+    transform: scale(1.018);
+  }
+}
+
+@media (max-width: 800px) {
+  .site-navigation {
+    border-color: var(--paper-edge);
+    background-color: var(--paper);
+    background-image: none;
+    background-blend-mode: normal;
+    color: var(--paper-ink);
+  }
+
+  .site-navigation a,
+  .site-navigation a:hover,
+  .site-navigation a[aria-current="page"] {
+    border-color: rgb(23 61 70 / 20%);
+    color: var(--paper-ink);
+  }
+}
