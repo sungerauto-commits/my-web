@@ -8,6 +8,25 @@
 {{ if $videoSrc }}{{ if not (or (hasPrefix $videoSrc "http://") (hasPrefix $videoSrc "https://")) }}{{ $videoSrc = $videoSrc | relURL }}{{ end }}{{ end }}
 {{ if $poster }}{{ if not (or (hasPrefix $poster "http://") (hasPrefix $poster "https://")) }}{{ $poster = $poster | relURL }}{{ end }}{{ end }}
 
+<div
+  class="opening-wash"
+  data-opening-wash
+  data-mask-src="{{ "images/art/watercolor-bloom-mask.png" | relURL }}"
+  aria-hidden="true"
+>
+  <canvas class="opening-wash-canvas" data-opening-wash-canvas></canvas>
+</div>
+<noscript>
+  <style>
+    .opening-wash { display: none !important; }
+    body.is-home.opening-pending .hero-media,
+    body.is-home.opening-pending .hero-content,
+    body.is-home.opening-pending .hero-ink-mark,
+    body.is-home.opening-pending .hero-title span,
+    body.is-home.opening-pending .hero-summary,
+    body.is-home.opening-pending .hero-link { opacity: 1 !important; transform: none !important; }
+  </style>
+</noscript>
 <section class="home-hero" data-hero>
   <div class="hero-media" aria-hidden="true">
     {{ if $videoSrc }}

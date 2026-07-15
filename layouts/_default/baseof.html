@@ -17,10 +17,22 @@
     <link rel="preconnect" href="https://fontsapi.zeoseven.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@500;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
+    {{ if .IsHome }}
+    <style>
+      .opening-wash { position: fixed; inset: 0; z-index: 80; overflow: hidden; background: #e8efea; }
+      .opening-wash-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+      body.is-home.opening-pending .hero-media,
+      body.is-home.opening-pending .hero-content,
+      body.is-home.opening-pending .hero-ink-mark,
+      body.is-home.opening-pending .hero-title span,
+      body.is-home.opening-pending .hero-summary,
+      body.is-home.opening-pending .hero-link { opacity: 0; }
+    </style>
+    {{ end }}
     {{ template "_internal/opengraph.html" . }}
     {{ template "_internal/twitter_cards.html" . }}
   </head>
-  <body class="{{ if .IsHome }}is-home{{ end }} page-kind-{{ .Kind }}">
+  <body class="{{ if .IsHome }}is-home opening-pending{{ end }} page-kind-{{ .Kind }}">
     {{ partial "site-header.html" . }}
     <main id="content">
       {{ block "main" . }}{{ end }}

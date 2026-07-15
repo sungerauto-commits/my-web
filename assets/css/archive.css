@@ -2490,3 +2490,131 @@ body:not(.is-home) #content,
     box-shadow: 2px 3px 0 rgb(13 50 57 / 46%);
   }
 }
+
+/* Cotton-paper prologue for the home archive. */
+.opening-wash {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  overflow: hidden;
+  background-color: var(--paper);
+  background-image: url("/my-web/images/art/watercolor-ink-atlas.png");
+  background-position: center;
+  background-size: 1540px auto;
+  background-repeat: repeat;
+  background-blend-mode: soft-light;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 960ms cubic-bezier(.16, 1, .3, 1), visibility 0s linear 960ms;
+}
+
+.opening-wash::before,
+.opening-wash::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.opening-wash::before {
+  inset: clamp(12px, 2.1vw, 34px);
+  z-index: 2;
+  border: 1px solid rgb(100 66 35 / 42%);
+}
+
+.opening-wash::after {
+  inset: clamp(19px, 2.7vw, 47px);
+  z-index: 2;
+  border: 1px solid rgb(240 211 138 / 62%);
+}
+
+.opening-wash-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.opening-wash.is-revealing {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+body.is-home.opening-pending .hero-media {
+  opacity: 0;
+  transform: scale(1.07);
+  transition: opacity 900ms cubic-bezier(.16, 1, .3, 1), transform 1100ms cubic-bezier(.16, 1, .3, 1);
+}
+
+body.is-home.opening-pending .hero-content,
+body.is-home.opening-pending .hero-ink-mark {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+body.is-home.opening-pending .hero-title span,
+body.is-home.opening-pending .hero-summary,
+body.is-home.opening-pending .hero-link {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+body.is-home.opening-reveal .hero-media {
+  opacity: 1;
+  transform: none;
+}
+
+body.is-home.opening-reveal .hero-content,
+body.is-home.opening-reveal .hero-ink-mark {
+  opacity: 1;
+  transform: none;
+  transition: opacity 780ms cubic-bezier(.16, 1, .3, 1), transform 900ms cubic-bezier(.16, 1, .3, 1);
+}
+
+body.is-home.opening-reveal .hero-title span,
+body.is-home.opening-reveal .hero-summary,
+body.is-home.opening-reveal .hero-link {
+  opacity: 1;
+  transform: none;
+  transition: opacity 760ms cubic-bezier(.16, 1, .3, 1), transform 860ms cubic-bezier(.16, 1, .3, 1);
+}
+
+body.is-home.opening-reveal .hero-title span:last-child {
+  transition-delay: 110ms;
+}
+
+body.is-home.opening-reveal .hero-summary {
+  transition-delay: 210ms;
+}
+
+body.is-home.opening-reveal .hero-link,
+body.is-home.opening-reveal .hero-ink-mark {
+  transition-delay: 320ms;
+}
+
+@media (max-width: 800px) {
+  .opening-wash::before {
+    inset: 12px;
+  }
+
+  .opening-wash::after {
+    inset: 19px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opening-wash {
+    display: none !important;
+  }
+
+  body.is-home.opening-pending .hero-media,
+  body.is-home.opening-pending .hero-content,
+  body.is-home.opening-pending .hero-ink-mark,
+  body.is-home.opening-pending .hero-title span,
+  body.is-home.opening-pending .hero-summary,
+  body.is-home.opening-pending .hero-link {
+    opacity: 1;
+    transform: none;
+  }
+}

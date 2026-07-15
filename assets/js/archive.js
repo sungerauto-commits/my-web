@@ -45,6 +45,145 @@
     }
   }
 
+  const openingWash = document.querySelector("[data-opening-wash]");
+
+  if (openingWash) {
+    const finishOpening = (immediate = false) => {
+      if (openingWash.dataset.finished === "true") return;
+
+      openingWash.dataset.finished = "true";
+      document.body.classList.remove("opening-pending");
+
+      if (immediate) {
+        openingWash.hidden = true;
+        document.body.classList.add("opening-complete");
+        return;
+      }
+
+      document.body.classList.add("opening-reveal");
+      openingWash.classList.add("is-revealing");
+
+      window.setTimeout(() => {
+        openingWash.hidden = true;
+        document.body.classList.remove("opening-reveal");
+        document.body.classList.add("opening-complete");
+      }, 960);
+    };
+
+    if (reduce || saveData) {
+      finishOpening(true);
+    } else {
+      const canvas = openingWash.querySelector("[data-opening-wash-canvas]");
+      const maskSource = openingWash.dataset.maskSrc;
+
+      if (!canvas || !maskSource) {
+        finishOpening(true);
+      } else {
+        const mask = new Image();
+        const palette = [
+          "#123d48", "#1d6670", "#478d85", "#83b39b",
+          "#dce4ad", "#e4c666", "#ce8c35", "#a95435",
+          "#7d3030", "#873d63", "#645592", "#7eacd0",
+          "#e6a69a", "#d67186", "#afa0d2", "#d7e6d4"
+        ];
+        const openingLayout = [
+          [.04, .10, 470, 0, .02], [.16, .62, 520, 5, .10], [.29, .20, 430, 9, .18],
+          [.42, .78, 560, 12, .05], [.53, .10, 450, 3, .22], [.66, .50, 540, 7, .13],
+          [.79, .16, 470, 10, .27], [.93, .68, 510, 14, .07], [.10, .91, 440, 1, .25],
+          [.31, .47, 380, 6, .33], [.57, .87, 490, 11, .16], [.88, .40, 410, 4, .30]
+        ];
+        const tintPool = [];
+        let width = 0;
+        let height = 0;
+        let scale = 1;
+        let lastPaint = 0;
+        let startTime = 0;
+        let lastProgress = 0;
+
+        const easeOut = (value) => 1 - Math.pow(1 - value, 3);
+
+        const makeTints = () => {
+          const tintSize = 340;
+          palette.forEach((color) => {
+            const tint = document.createElement("canvas");
+            const tintContext = tint.getContext("2d");
+            tint.width = tintSize;
+            tint.height = tintSize;
+            tintContext.drawImage(mask, 0, 0, tintSize, tintSize);
+            tintContext.globalCompositeOperation = "source-in";
+            tintContext.fillStyle = color;
+            tintContext.fillRect(0, 0, tintSize, tintSize);
+            tintContext.globalCompositeOperation = "source-over";
+            tintPool.push(tint);
+          });
+        };
+
+        const paint = (progress) => {
+          const context = canvas.getContext("2d");
+          context.clearRect(0, 0, width, height);
+
+          openingLayout.forEach((bloom, index) => {
+            const local = Math.max(0, Math.min(1, (progress - bloom[4]) / .58));
+            if (local <= 0) return;
+
+            const eased = easeOut(local);
+            const radius = bloom[2] * scale * (.20 + .84 * eased);
+            const alpha = (.16 + .08 * (bloom[3] % 3)) * (.18 + .82 * eased);
+            const tint = tintPool[index % tintPool.length];
+
+            context.globalAlpha = alpha;
+            context.drawImage(tint, width * bloom[0] - radius, height * bloom[1] - radius, radius * 2, radius * 2);
+          });
+
+          context.globalAlpha = 1;
+        };
+
+        const resize = () => {
+          const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.15);
+          width = Math.max(1, Math.round(window.innerWidth * pixelRatio));
+          height = Math.max(1, Math.round(window.innerHeight * pixelRatio));
+          canvas.width = width;
+          canvas.height = height;
+          scale = Math.min(1.1, Math.max(.72, width / 1240));
+          if (tintPool.length) paint(lastProgress);
+        };
+
+        const onResize = () => resize();
+
+        const animate = (timestamp) => {
+          if (!startTime) startTime = timestamp;
+
+          const progress = Math.min(1, (timestamp - startTime) / 1700);
+          lastProgress = progress;
+
+          if (timestamp - lastPaint >= 50 || progress === 1) {
+            paint(progress);
+            lastPaint = timestamp;
+          }
+
+          if (progress >= .72) finishOpening();
+
+          if (progress < 1) {
+            window.requestAnimationFrame(animate);
+          } else {
+            window.removeEventListener("resize", onResize);
+          }
+        };
+
+        const initializeOpening = () => {
+          makeTints();
+          resize();
+          window.addEventListener("resize", onResize, { passive: true });
+          window.requestAnimationFrame(animate);
+        };
+
+        mask.addEventListener("load", initializeOpening, { once: true });
+        mask.addEventListener("error", () => finishOpening(), { once: true });
+        mask.src = maskSource;
+      }
+    }
+  }
+
   const revealItems = document.querySelectorAll("[data-reveal]");
 
   if (reduce || !("IntersectionObserver" in window)) {
