@@ -96,6 +96,20 @@
       "#779e57", "#3d8d68", "#1c8b82", "#1a6275", "#064562", "#3a2c52",
       "#803b57", "#ad4e43", "#c68238", "#d7cf62", "#91bda0", "#91c4d0"
     ];
+    const bloomLayouts = {
+      hero: [
+        [.05, .12], [.16, .53], [.28, .86], [.37, .24], [.48, .66], [.59, .08],
+        [.67, .45], [.78, .82], [.9, .23], [.97, .62], [.06, .88], [.25, .38],
+        [.42, .96], [.61, .29], [.82, .57], [.95, .94], [.12, .3], [.5, .4]
+      ],
+      archive: [
+        [.03, .07], [.14, .22], [.27, .09], [.4, .3], [.55, .08], [.68, .25],
+        [.82, .08], [.96, .35], [.06, .55], [.18, .72], [.32, .52], [.45, .83],
+        [.58, .59], [.71, .76], [.86, .53], [.98, .84], [.08, .94], [.24, .39],
+        [.37, .95], [.51, .43], [.64, .96], [.78, .36], [.91, .7], [.02, .82],
+        [.17, .06], [.34, .72], [.48, .17], [.61, .7], [.74, .05], [.9, .94]
+      ]
+    };
 
     const seeded = (value, salt) => {
       const result = Math.sin((value + 1) * 127.1 + salt * 311.7) * 43758.5453123;
@@ -134,25 +148,24 @@
           }
 
           const hero = canvas.dataset.bloomVariant === "hero";
-          const count = hero ? 6 : 10;
-          const xInset = hero ? .38 : .06;
-          const xRange = hero ? .54 : .88;
-          const blooms = Array.from({ length: count }, (_, index) => {
+          const layout = hero ? bloomLayouts.hero : bloomLayouts.archive;
+          const blooms = layout.map(([x, y], index) => {
             const seedIndex = index + canvasIndex * 17;
             return {
-              x: xInset + seeded(seedIndex, 1) * xRange,
-              y: .1 + seeded(seedIndex, 2) * .8,
-              size: (hero ? 230 : 150) + seeded(seedIndex, 3) * (hero ? 130 : 110),
+              x: Math.min(.98, Math.max(.02, x + (seeded(seedIndex, 1) - .5) * (hero ? .055 : .045))),
+              y: Math.min(.98, Math.max(.02, y + (seeded(seedIndex, 2) - .5) * (hero ? .055 : .045))),
+              size: (hero ? 300 : 220) + seeded(seedIndex, 3) * (hero ? 240 : 180),
               rotation: (seeded(seedIndex, 4) - .5) * Math.PI,
-              delay: seeded(seedIndex, 5) * .34,
-              colorIndex: (index * 5 + canvasIndex * 7) % tintPool.length,
-              opacity: (hero ? .15 : .11) + seeded(seedIndex, 6) * .09
+              delay: seeded(seedIndex, 5) * .28,
+              colorIndex: (index * 7 + canvasIndex * 5) % tintPool.length,
+              opacity: (hero ? .17 : .14) + seeded(seedIndex, 6) * (hero ? .11 : .09)
             };
           });
 
           let cssWidth = 1;
           let cssHeight = 1;
           let pixelRatio = 1;
+          let canvasScale = 1;
           let inView = false;
           let started = false;
           let progress = 0;
@@ -164,6 +177,7 @@
             cssWidth = Math.max(1, bounds.width);
             cssHeight = Math.max(1, bounds.height);
             pixelRatio = Math.min(window.devicePixelRatio || 1, 1.25);
+            canvasScale = Math.min(1.08, Math.max(.68, cssWidth / 1180));
             canvas.width = Math.round(cssWidth * pixelRatio);
             canvas.height = Math.round(cssHeight * pixelRatio);
             if (started) {
@@ -179,7 +193,7 @@
             }
 
             const spread = .14 + .86 * easeOut(local);
-            const diameter = bloom.size * spread;
+            const diameter = bloom.size * canvasScale * spread;
             const alpha = bloom.opacity * (.18 + .82 * easeOut(local));
             const tint = tintPool[bloom.colorIndex];
             const drawLayer = (scale, opacity, rotation) => {

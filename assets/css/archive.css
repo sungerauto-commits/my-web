@@ -2445,3 +2445,48 @@ body:not(.is-home) #content,
     display: none !important;
   }
 }
+
+/* Expanded watercolor spread and higher-contrast archive tools. */
+.paper-bloom-canvas--hero {
+  opacity: .94;
+}
+
+.paper-bloom-canvas--archive {
+  opacity: .72;
+}
+
+.record-tool {
+  top: 13px;
+  right: 13px;
+  width: 88px;
+  padding: 4px;
+  border: 2px solid rgb(248 244 225 / 92%);
+  background-color: rgb(243 241 221 / 86%);
+  background-origin: content-box;
+  background-clip: content-box;
+  mix-blend-mode: normal;
+  opacity: 1;
+  outline: 1px solid rgb(15 52 60 / 58%);
+  outline-offset: 3px;
+  box-shadow: 3px 4px 0 rgb(13 50 57 / 46%);
+  filter: saturate(1.16) contrast(1.12);
+}
+
+@media (max-width: 800px) {
+  .paper-bloom-canvas--hero {
+    opacity: .7;
+  }
+
+  .paper-bloom-canvas--archive {
+    opacity: .58;
+  }
+
+  .record-tool {
+    top: 12px;
+    right: 12px;
+    width: 72px;
+    padding: 3px;
+    outline-offset: 2px;
+    box-shadow: 2px 3px 0 rgb(13 50 57 / 46%);
+  }
+}

@@ -1,8 +1,5 @@
 {{ define "main" }}
 {{ $entries := (where site.RegularPages "Section" "in" (slice "posts" "photos" "videos")).ByDate.Reverse }}
-{{ $postEntries := where $entries "Section" "posts" }}
-{{ $photoEntries := where $entries "Section" "photos" }}
-{{ $videoEntries := where $entries "Section" "videos" }}
 {{ $homeVideo := site.Params.homeVideo | default dict }}
 {{ $videoSrc := "" }}
 {{ $poster := "" }}
@@ -38,31 +35,7 @@
     <p class="hero-summary">{{ site.Params.description | default "文字、照片和影像。" }}</p>
     <a class="hero-link" href="#archive">翻开档案</a>
   </div>
-  <div class="hero-subtitle-mask" aria-hidden="true">
-    <span>水色 · 墨痕 · 手稿</span>
-    <em>personal archive</em>
-  </div>
 </section>
-
-<nav class="content-index" aria-label="内容分类">
-  <div class="content-index-inner site-shell">
-    <a class="archive-channel archive-channel--posts" href="{{ "posts/" | relURL }}">
-      <span class="archive-channel-art" aria-hidden="true"></span>
-      <span class="archive-channel-copy"><strong>文章</strong><small>钢笔手记</small></span>
-      <b aria-label="{{ len $postEntries }} 篇文章">{{ len $postEntries }}</b>
-    </a>
-    <a class="archive-channel archive-channel--photos" href="{{ "photos/" | relURL }}">
-      <span class="archive-channel-art" aria-hidden="true"></span>
-      <span class="archive-channel-copy"><strong>照片</strong><small>镜头显影</small></span>
-      <b aria-label="{{ len $photoEntries }} 组照片">{{ len $photoEntries }}</b>
-    </a>
-    <a class="archive-channel archive-channel--videos" href="{{ "videos/" | relURL }}">
-      <span class="archive-channel-art" aria-hidden="true"></span>
-      <span class="archive-channel-copy"><strong>视频</strong><small>胶片放映</small></span>
-      <b aria-label="{{ len $videoEntries }} 段视频">{{ len $videoEntries }}</b>
-    </a>
-  </div>
-</nav>
 
 <section class="archive-stage" id="archive">
   <canvas
