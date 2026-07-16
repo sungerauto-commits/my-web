@@ -1,19 +1,23 @@
 {{ define "main" }}
 {{ $kind := index (dict "posts" "文章" "photos" "照片" "videos" "视频") .Section | default "记录" }}
-<article class="story story--posts site-shell">
-  <header class="story-header" data-reveal>
-    <p class="story-meta"><a href="{{ .Section | relURL }}">{{ $kind }}</a><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time></p>
-    <h1>{{ .Title }}</h1>
-    {{ with .Description }}<p class="story-description">{{ . }}</p>{{ end }}
+{{ $sectionURL := printf "%s/" .Section | relURL }}
+<article class="story story--{{ .Section }} site-shell">
+  <header class="story-header">
+    <span class="story-emblem story-emblem--{{ .Section }}" aria-hidden="true"></span>
+    <div class="story-heading">
+      <p class="story-meta"><a href="{{ $sectionURL }}">{{ $kind }}</a><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time></p>
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="story-description">{{ . }}</p>{{ end }}
+    </div>
   </header>
 
-  <div class="story-content" data-reveal>
+  <div class="story-content">
     {{ .Content }}
   </div>
 
   <nav class="story-navigation" aria-label="相邻内容">
-    {{ with .PrevInSection }}<a href="{{ .RelPermalink }}">上一篇<br><strong>{{ .Title }}</strong></a>{{ end }}
-    {{ with .NextInSection }}<a href="{{ .RelPermalink }}">下一篇<br><strong>{{ .Title }}</strong></a>{{ end }}
+    {{ with .PrevInSection }}<a href="{{ .RelPermalink }}"><span>上一篇</span><strong>{{ .Title }}</strong></a>{{ end }}
+    {{ with .NextInSection }}<a href="{{ .RelPermalink }}"><span>下一篇</span><strong>{{ .Title }}</strong></a>{{ end }}
   </nav>
 </article>
 {{ end }}

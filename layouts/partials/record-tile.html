@@ -1,31 +1,40 @@
 {{ $page := .page }}
 {{ $index := .index }}
+{{ $slot := mod $index 6 }}
 {{ $kind := index (dict "posts" "文章" "photos" "照片" "videos" "视频") $page.Section | default "记录" }}
 {{ $thumb := "" }}
-{{ with $page.Params.cover }}{{ with .image }}{{ $thumb = . }}{{ end }}{{ end }}
+{{ $alt := $page.Title }}
+{{ with $page.Params.cover }}{{ with .image }}{{ $thumb = . }}{{ end }}{{ with .alt }}{{ $alt = . }}{{ end }}{{ end }}
 {{ if not $thumb }}{{ with $page.Params.gallery }}{{ if gt (len .) 0 }}{{ $thumb = index . 0 }}{{ end }}{{ end }}{{ end }}
 {{ if not $thumb }}{{ with $page.Params.poster }}{{ $thumb = . }}{{ end }}{{ end }}
 {{ $excerpt := $page.Description | default $page.Params.caption | default ($page.Summary | plainify) }}
-<article class="record-tile record-tile--{{ $page.Section }} record-tile--{{ mod $index 5 }}" data-reveal>
-  <a class="record-link" href="{{ $page.RelPermalink }}">
-    <span class="record-tool" aria-hidden="true"></span>
+<article class="archive-piece archive-piece--{{ $page.Section }} archive-piece--slot-{{ $slot }}" data-archive-piece data-record-kind="{{ $page.Section }}">
+  <a class="piece-link" href="{{ $page.RelPermalink }}">
     {{ if $thumb }}
-      <div class="record-media">
-        <img src="{{ $thumb }}" alt="{{ $page.Title }}" loading="{{ cond (lt $index 2) "eager" "lazy" }}">
+      <div class="piece-visual piece-visual--{{ $page.Section }}"{{ if eq $page.Section "photos" }} data-photo-develop{{ end }}>
+        <img src="{{ $thumb }}" alt="{{ $alt | default $page.Title }}" loading="{{ cond (lt $index 2) "eager" "lazy" }}">
       </div>
     {{ else if $page.Params.video }}
-      <div class="record-media record-media--video">
-        <video muted playsinline preload="metadata" data-preview-video>
+      <div class="piece-visual piece-visual--videos">
+        <video muted playsinline preload="metadata" data-preview-video aria-label="{{ $page.Title }} 视频预览">
           <source src="{{ $page.Params.video }}">
         </video>
       </div>
     {{ else }}
-      <div class="record-essay" aria-hidden="true">{{ $kind }}</div>
+      <div class="piece-writing">
+        <span class="media-emblem media-emblem--posts" aria-hidden="true"></span>
+        {{ with $excerpt }}<p>{{ . | plainify | truncate 110 }}</p>{{ else }}<p>一页尚未写满的文字。</p>{{ end }}
+      </div>
     {{ end }}
-    <div class="record-details">
-      <p class="record-meta"><span>{{ $kind }}</span><time datetime="{{ $page.Date.Format "2006-01-02" }}">{{ $page.Date.Format "2006.01.02" }}</time></p>
+    <div class="piece-caption">
+      <p class="piece-meta">
+        <span class="media-emblem media-emblem--{{ $page.Section }}" aria-hidden="true"></span>
+        <span>{{ $kind }}</span>
+        <time datetime="{{ $page.Date.Format "2006-01-02" }}">{{ $page.Date.Format "2006.01.02" }}</time>
+      </p>
       <h3>{{ $page.Title }}</h3>
-      {{ with $excerpt }}<p class="record-excerpt">{{ . }}</p>{{ end }}
+      {{ if ne $page.Section "posts" }}{{ with $excerpt }}<p class="piece-excerpt">{{ . | plainify | truncate 90 }}</p>{{ end }}{{ end }}
+      <span class="piece-open" aria-hidden="true">↗</span>
     </div>
   </a>
 </article>

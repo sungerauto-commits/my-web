@@ -3,41 +3,51 @@
   const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
   const saveData = Boolean(connection && connection.saveData);
 
-  const toggle = document.querySelector("[data-nav-toggle]");
-  const navigation = document.querySelector(".site-navigation");
+  const navToggle = document.querySelector("[data-nav-toggle]");
+  const navigation = document.querySelector("[data-navigation]");
 
-  if (toggle && navigation) {
-    toggle.addEventListener("click", () => {
+  const closeNavigation = () => {
+    document.body.classList.remove("nav-open");
+    if (navToggle) {
+      navToggle.setAttribute("aria-expanded", "false");
+      navToggle.setAttribute("aria-label", "打开菜单");
+    }
+  };
+
+  if (navToggle && navigation) {
+    navToggle.addEventListener("click", () => {
       const open = document.body.classList.toggle("nav-open");
-      toggle.setAttribute("aria-expanded", String(open));
-      toggle.textContent = open ? "关闭" : "菜单";
+      navToggle.setAttribute("aria-expanded", String(open));
+      navToggle.setAttribute("aria-label", open ? "关闭菜单" : "打开菜单");
     });
 
     navigation.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        document.body.classList.remove("nav-open");
-        toggle.setAttribute("aria-expanded", "false");
-        toggle.textContent = "菜单";
-      });
+      link.addEventListener("click", closeNavigation);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && document.body.classList.contains("nav-open")) {
+        closeNavigation();
+        navToggle.focus();
+      }
     });
   }
 
   const heroVideo = document.querySelector("[data-hero-video]");
 
   if (heroVideo) {
-    if (reduce || saveData) {
-      heroVideo.pause();
-      heroVideo.querySelectorAll("source").forEach((source) => source.removeAttribute("src"));
-      heroVideo.load();
+    const showVideo = () => heroVideo.classList.add("is-ready");
+
+    if (heroVideo.readyState >= 2) {
+      showVideo();
     } else {
-      const showVideo = () => heroVideo.classList.add("is-ready");
+      heroVideo.addEventListener("loadeddata", showVideo, { once: true });
+    }
 
-      if (heroVideo.readyState >= 2) {
-        showVideo();
-      } else {
-        heroVideo.addEventListener("loadeddata", showVideo, { once: true });
-      }
-
+    if (reduce || saveData) {
+      heroVideo.autoplay = false;
+      heroVideo.pause();
+    } else {
       const playback = heroVideo.play();
       if (playback && typeof playback.catch === "function") {
         playback.catch(() => {});
@@ -45,379 +55,192 @@
     }
   }
 
-  const openingWash = document.querySelector("[data-opening-wash]");
+  const watercolorField = document.querySelector("[data-watercolor-field]");
 
-  if (openingWash) {
-    const finishOpening = (immediate = false) => {
-      if (openingWash.dataset.finished === "true") return;
+  if (watercolorField) {
+    const maskSource = watercolorField.dataset.maskSrc;
+    const context = watercolorField.getContext("2d", { alpha: true });
 
-      openingWash.dataset.finished = "true";
-      document.body.classList.remove("opening-pending");
+    if (maskSource && context) {
+      const mask = new Image();
+      mask.decoding = "async";
+      const palette = [
+        "#0f4e60", "#19788a", "#2aa0a0", "#3365ae", "#5f4d9d", "#975faa",
+        "#c15c92", "#d76278", "#e47650", "#ec9d3b", "#efc74c", "#afa746",
+        "#779e57", "#3d8d68", "#1c8b82", "#1a6275", "#064562", "#3a2c52",
+        "#803b57", "#ad4e43", "#c68238", "#d7cf62", "#91bda0", "#91c4d0"
+      ];
+      const layout = [
+        [.02, .12, 360, .00, -.18], [.10, .72, 430, .08, .22], [.18, .28, 330, .14, -.36],
+        [.27, .88, 390, .04, .30], [.35, .08, 350, .18, -.12], [.42, .56, 430, .10, .40],
+        [.50, .92, 380, .22, -.32], [.56, .20, 400, .06, .16], [.63, .67, 470, .16, -.22],
+        [.70, .04, 340, .12, .34], [.77, .42, 420, .02, -.28], [.84, .86, 380, .20, .12],
+        [.92, .18, 390, .09, -.38], [.98, .63, 440, .15, .26], [.05, .94, 320, .24, -.10],
+        [.15, .48, 360, .05, .38], [.25, .04, 300, .17, -.24], [.33, .70, 370, .11, .18],
+        [.46, .34, 390, .01, -.34], [.58, .82, 430, .19, .28], [.68, .28, 350, .07, -.14],
+        [.79, .66, 410, .13, .36], [.89, .98, 340, .23, -.30], [.96, .38, 370, .03, .20]
+      ];
+      const tints = [];
+      let cssWidth = 1;
+      let cssHeight = 1;
+      let pixelRatio = 1;
+      let currentProgress = 0;
+      let complete = false;
+      let lastPaint = 0;
+      let startTime = 0;
 
-      if (immediate) {
-        openingWash.hidden = true;
-        document.body.classList.add("opening-complete");
-        return;
-      }
+      const easeOut = (value) => 1 - Math.pow(1 - value, 3);
 
-      document.body.classList.add("opening-reveal");
-      openingWash.classList.add("is-revealing");
+      const makeTints = () => {
+        const size = 280;
+        palette.forEach((color) => {
+          const tint = document.createElement("canvas");
+          const tintContext = tint.getContext("2d", { alpha: true });
+          tint.width = size;
+          tint.height = size;
+          tintContext.drawImage(mask, 0, 0, size, size);
+          tintContext.globalCompositeOperation = "source-in";
+          tintContext.fillStyle = color;
+          tintContext.fillRect(0, 0, size, size);
+          tintContext.globalCompositeOperation = "source-over";
+          tints.push(tint);
+        });
+      };
 
-      window.setTimeout(() => {
-        openingWash.hidden = true;
-        document.body.classList.remove("opening-reveal");
-        document.body.classList.add("opening-complete");
-      }, 960);
-    };
+      const paint = (progress) => {
+        currentProgress = progress;
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        context.clearRect(0, 0, watercolorField.width, watercolorField.height);
+        context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
-    if (reduce || saveData) {
-      finishOpening(true);
-    } else {
-      const canvas = openingWash.querySelector("[data-opening-wash-canvas]");
-      const maskSource = openingWash.dataset.maskSrc;
+        layout.forEach((bloom, index) => {
+          const local = Math.max(0, Math.min(1, (progress - bloom[3]) / .62));
+          if (!local) return;
 
-      if (!canvas || !maskSource) {
-        finishOpening(true);
-      } else {
-        const mask = new Image();
-        const palette = [
-          "#123d48", "#1d6670", "#478d85", "#83b39b",
-          "#dce4ad", "#e4c666", "#ce8c35", "#a95435",
-          "#7d3030", "#873d63", "#645592", "#7eacd0",
-          "#e6a69a", "#d67186", "#afa0d2", "#d7e6d4"
-        ];
-        const openingLayout = [
-          [.04, .10, 470, 0, .02], [.16, .62, 520, 5, .10], [.29, .20, 430, 9, .18],
-          [.42, .78, 560, 12, .05], [.53, .10, 450, 3, .22], [.66, .50, 540, 7, .13],
-          [.79, .16, 470, 10, .27], [.93, .68, 510, 14, .07], [.10, .91, 440, 1, .25],
-          [.31, .47, 380, 6, .33], [.57, .87, 490, 11, .16], [.88, .40, 410, 4, .30]
-        ];
-        const tintPool = [];
-        let width = 0;
-        let height = 0;
-        let scale = 1;
-        let lastPaint = 0;
-        let startTime = 0;
-        let lastProgress = 0;
+          const eased = easeOut(local);
+          const diameter = bloom[2] * (.18 + .88 * eased) * Math.min(1.08, Math.max(.72, cssWidth / 1180));
+          const baseAlpha = (.055 + (index % 4) * .018) * (.22 + .78 * eased);
+          const tint = tints[index];
 
-        const easeOut = (value) => 1 - Math.pow(1 - value, 3);
+          const drawLayer = (scale, opacity, rotation) => {
+            const size = diameter * scale;
+            context.save();
+            context.globalAlpha = baseAlpha * opacity;
+            context.translate(bloom[0] * cssWidth, bloom[1] * cssHeight);
+            context.rotate(bloom[4] + rotation);
+            context.drawImage(tint, -size / 2, -size / 2, size, size);
+            context.restore();
+          };
 
-        const makeTints = () => {
-          const tintSize = 340;
-          palette.forEach((color) => {
-            const tint = document.createElement("canvas");
-            const tintContext = tint.getContext("2d");
-            tint.width = tintSize;
-            tint.height = tintSize;
-            tintContext.drawImage(mask, 0, 0, tintSize, tintSize);
-            tintContext.globalCompositeOperation = "source-in";
-            tintContext.fillStyle = color;
-            tintContext.fillRect(0, 0, tintSize, tintSize);
-            tintContext.globalCompositeOperation = "source-over";
-            tintPool.push(tint);
-          });
-        };
+          drawLayer(1.22, .28, -.16);
+          drawLayer(1, .92, 0);
+          drawLayer(.64, .32, .21);
+        });
 
-        const paint = (progress) => {
-          const context = canvas.getContext("2d");
-          context.clearRect(0, 0, width, height);
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        context.globalAlpha = 1;
+      };
 
-          openingLayout.forEach((bloom, index) => {
-            const local = Math.max(0, Math.min(1, (progress - bloom[4]) / .58));
-            if (local <= 0) return;
+      const resize = () => {
+        const bounds = watercolorField.getBoundingClientRect();
+        cssWidth = Math.max(1, bounds.width);
+        cssHeight = Math.max(1, bounds.height);
+        pixelRatio = Math.min(window.devicePixelRatio || 1, 1.15);
+        watercolorField.width = Math.round(cssWidth * pixelRatio);
+        watercolorField.height = Math.round(cssHeight * pixelRatio);
+        if (tints.length) paint(complete ? 1 : currentProgress);
+      };
 
-            const eased = easeOut(local);
-            const radius = bloom[2] * scale * (.20 + .84 * eased);
-            const alpha = (.16 + .08 * (bloom[3] % 3)) * (.18 + .82 * eased);
-            const tint = tintPool[index % tintPool.length];
+      const animate = (timestamp) => {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min(1, (timestamp - startTime) / 1500);
 
-            context.globalAlpha = alpha;
-            context.drawImage(tint, width * bloom[0] - radius, height * bloom[1] - radius, radius * 2, radius * 2);
-          });
+        if (timestamp - lastPaint >= 55 || progress === 1) {
+          paint(progress);
+          lastPaint = timestamp;
+        }
 
-          context.globalAlpha = 1;
-        };
-
-        const resize = () => {
-          const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.15);
-          width = Math.max(1, Math.round(window.innerWidth * pixelRatio));
-          height = Math.max(1, Math.round(window.innerHeight * pixelRatio));
-          canvas.width = width;
-          canvas.height = height;
-          scale = Math.min(1.1, Math.max(.72, width / 1240));
-          if (tintPool.length) paint(lastProgress);
-        };
-
-        const onResize = () => resize();
-
-        const animate = (timestamp) => {
-          if (!startTime) startTime = timestamp;
-
-          const progress = Math.min(1, (timestamp - startTime) / 1700);
-          lastProgress = progress;
-
-          if (timestamp - lastPaint >= 50 || progress === 1) {
-            paint(progress);
-            lastPaint = timestamp;
-          }
-
-          if (progress >= .72) finishOpening();
-
-          if (progress < 1) {
-            window.requestAnimationFrame(animate);
-          } else {
-            window.removeEventListener("resize", onResize);
-          }
-        };
-
-        const initializeOpening = () => {
-          makeTints();
-          resize();
-          window.addEventListener("resize", onResize, { passive: true });
+        if (progress < 1) {
           window.requestAnimationFrame(animate);
-        };
+        } else {
+          complete = true;
+        }
+      };
 
-        mask.addEventListener("load", initializeOpening, { once: true });
-        mask.addEventListener("error", () => finishOpening(), { once: true });
-        mask.src = maskSource;
-      }
+      const initialize = () => {
+        makeTints();
+        resize();
+        if (reduce || saveData) {
+          complete = true;
+          paint(1);
+        } else {
+          window.requestAnimationFrame(animate);
+        }
+        window.addEventListener("resize", resize, { passive: true });
+      };
+
+      mask.addEventListener("load", initialize, { once: true });
+      mask.src = maskSource;
     }
   }
 
-  const revealItems = document.querySelectorAll("[data-reveal]");
+  const filters = document.querySelector("[data-record-filters]");
+  const archiveGrid = document.querySelector("[data-archive-grid]");
+  const filterStatus = document.querySelector("[data-filter-status]");
 
-  if (reduce || !("IntersectionObserver" in window)) {
-    revealItems.forEach((item) => item.classList.add("is-visible"));
-  } else {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          revealObserver.unobserve(entry.target);
-        }
+  if (filters && archiveGrid) {
+    const buttons = Array.from(filters.querySelectorAll("[data-record-filter]"));
+    const records = Array.from(archiveGrid.querySelectorAll("[data-archive-piece]"));
+    const labels = { all: "全部", posts: "文章", photos: "照片", videos: "视频" };
+
+    const applyFilter = (filter) => {
+      let visible = 0;
+      buttons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.recordFilter === filter));
       });
-    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+      records.forEach((record) => {
+        const show = filter === "all" || record.dataset.recordKind === filter;
+        record.hidden = !show;
+        if (show) visible += 1;
+      });
+      archiveGrid.dataset.activeFilter = filter;
+      if (filterStatus) {
+        filterStatus.textContent = labels[filter] + "，显示 " + visible + " 条记录。";
+      }
+    };
 
-    revealItems.forEach((item) => revealObserver.observe(item));
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => applyFilter(button.dataset.recordFilter));
+    });
+
+    applyFilter("all");
   }
 
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   if (!reduce && finePointer) {
     document.querySelectorAll("[data-preview-video]").forEach((video) => {
-      const tile = video.closest(".record-link");
+      const link = video.closest(".piece-link");
+      if (!link) return;
 
-      if (!tile) {
-        return;
-      }
-
-      tile.addEventListener("pointerenter", () => {
+      const play = () => {
         const playback = video.play();
-        if (playback && typeof playback.catch === "function") {
-          playback.catch(() => {});
-        }
-      });
-
-      tile.addEventListener("pointerleave", () => {
+        if (playback && typeof playback.catch === "function") playback.catch(() => {});
+      };
+      const stop = () => {
         video.pause();
         video.currentTime = 0;
-      });
+      };
+
+      link.addEventListener("pointerenter", play);
+      link.addEventListener("pointerleave", stop);
+      link.addEventListener("focusin", play);
+      link.addEventListener("focusout", stop);
     });
   }
 
-
-  const bloomCanvases = document.querySelectorAll("[data-watercolor-bloom]");
-
-  if (!reduce && !saveData && bloomCanvases.length) {
-    const bloomPalette = [
-      "#0f4e60", "#19788a", "#2aa0a0", "#3365ae", "#5f4d9d", "#975faa",
-      "#c15c92", "#d76278", "#e47650", "#ec9d3b", "#efc74c", "#afa746",
-      "#779e57", "#3d8d68", "#1c8b82", "#1a6275", "#064562", "#3a2c52",
-      "#803b57", "#ad4e43", "#c68238", "#d7cf62", "#91bda0", "#91c4d0"
-    ];
-    const bloomLayouts = {
-      hero: [
-        [.05, .12], [.16, .53], [.28, .86], [.37, .24], [.48, .66], [.59, .08],
-        [.67, .45], [.78, .82], [.9, .23], [.97, .62], [.06, .88], [.25, .38],
-        [.42, .96], [.61, .29], [.82, .57], [.95, .94], [.12, .3], [.5, .4]
-      ],
-      archive: [
-        [.03, .07], [.14, .22], [.27, .09], [.4, .3], [.55, .08], [.68, .25],
-        [.82, .08], [.96, .35], [.06, .55], [.18, .72], [.32, .52], [.45, .83],
-        [.58, .59], [.71, .76], [.86, .53], [.98, .84], [.08, .94], [.24, .39],
-        [.37, .95], [.51, .43], [.64, .96], [.78, .36], [.91, .7], [.02, .82],
-        [.17, .06], [.34, .72], [.48, .17], [.61, .7], [.74, .05], [.9, .94]
-      ]
-    };
-
-    const seeded = (value, salt) => {
-      const result = Math.sin((value + 1) * 127.1 + salt * 311.7) * 43758.5453123;
-      return result - Math.floor(result);
-    };
-    const easeOut = (value) => 1 - Math.pow(1 - value, 3);
-    const maskSource = bloomCanvases[0].dataset.maskSrc;
-
-    if (maskSource) {
-      const mask = new Image();
-      mask.decoding = "async";
-
-      const createTint = (color) => {
-        const tint = document.createElement("canvas");
-        const tintContext = tint.getContext("2d", { alpha: true });
-        const size = 320;
-
-        tint.width = size;
-        tint.height = size;
-        tintContext.drawImage(mask, 0, 0, size, size);
-        tintContext.globalCompositeOperation = "source-in";
-        tintContext.fillStyle = color;
-        tintContext.fillRect(0, 0, size, size);
-        tintContext.globalCompositeOperation = "source-over";
-        return tint;
-      };
-
-      const initialize = () => {
-        const tintPool = bloomPalette.map(createTint);
-
-        bloomCanvases.forEach((canvas, canvasIndex) => {
-          const context = canvas.getContext("2d", { alpha: true });
-
-          if (!context) {
-            return;
-          }
-
-          const hero = canvas.dataset.bloomVariant === "hero";
-          const layout = hero ? bloomLayouts.hero : bloomLayouts.archive;
-          const blooms = layout.map(([x, y], index) => {
-            const seedIndex = index + canvasIndex * 17;
-            return {
-              x: Math.min(.98, Math.max(.02, x + (seeded(seedIndex, 1) - .5) * (hero ? .055 : .045))),
-              y: Math.min(.98, Math.max(.02, y + (seeded(seedIndex, 2) - .5) * (hero ? .055 : .045))),
-              size: (hero ? 300 : 220) + seeded(seedIndex, 3) * (hero ? 240 : 180),
-              rotation: (seeded(seedIndex, 4) - .5) * Math.PI,
-              delay: seeded(seedIndex, 5) * .28,
-              colorIndex: (index * 7 + canvasIndex * 5) % tintPool.length,
-              opacity: (hero ? .17 : .14) + seeded(seedIndex, 6) * (hero ? .11 : .09)
-            };
-          });
-
-          let cssWidth = 1;
-          let cssHeight = 1;
-          let pixelRatio = 1;
-          let canvasScale = 1;
-          let inView = false;
-          let started = false;
-          let progress = 0;
-          let startTime = 0;
-          let lastPaint = 0;
-
-          const resize = () => {
-            const bounds = canvas.getBoundingClientRect();
-            cssWidth = Math.max(1, bounds.width);
-            cssHeight = Math.max(1, bounds.height);
-            pixelRatio = Math.min(window.devicePixelRatio || 1, 1.25);
-            canvasScale = Math.min(1.08, Math.max(.68, cssWidth / 1180));
-            canvas.width = Math.round(cssWidth * pixelRatio);
-            canvas.height = Math.round(cssHeight * pixelRatio);
-            if (started) {
-              paint(progress);
-            }
-          };
-
-          const drawBloom = (bloom, value) => {
-            const local = Math.max(0, Math.min(1, (value - bloom.delay) / (1 - bloom.delay)));
-
-            if (!local) {
-              return;
-            }
-
-            const spread = .14 + .86 * easeOut(local);
-            const diameter = bloom.size * canvasScale * spread;
-            const alpha = bloom.opacity * (.18 + .82 * easeOut(local));
-            const tint = tintPool[bloom.colorIndex];
-            const drawLayer = (scale, opacity, rotation) => {
-              const size = diameter * scale;
-              context.save();
-              context.globalAlpha = alpha * opacity;
-              context.translate(bloom.x * cssWidth, bloom.y * cssHeight);
-              context.rotate(bloom.rotation + rotation);
-              context.drawImage(tint, -size / 2, -size / 2, size, size);
-              context.restore();
-            };
-
-            drawLayer(1.18, .26, -.24);
-            drawLayer(1, .92, 0);
-            drawLayer(.62, .34, .31);
-          };
-
-          const paint = (value) => {
-            context.setTransform(1, 0, 0, 1, 0, 0);
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-            blooms.forEach((bloom) => drawBloom(bloom, value));
-          };
-
-          const animate = (timestamp) => {
-            if (!startTime) {
-              startTime = timestamp;
-            }
-
-            const next = Math.min(1, (timestamp - startTime) / 1900);
-            if (timestamp - lastPaint >= 42 || next === 1) {
-              progress = next;
-              lastPaint = timestamp;
-              paint(progress);
-            }
-
-            if (next < 1) {
-              window.requestAnimationFrame(animate);
-            }
-          };
-
-          const start = () => {
-            if (started || !inView || document.hidden) {
-              return;
-            }
-
-            started = true;
-            window.requestAnimationFrame(animate);
-          };
-
-          resize();
-          window.addEventListener("resize", resize, { passive: true });
-          document.addEventListener("visibilitychange", start);
-
-          if ("IntersectionObserver" in window) {
-            const observer = new IntersectionObserver((entries) => {
-              inView = entries.some((entry) => entry.isIntersecting);
-              if (inView) {
-                start();
-                observer.disconnect();
-              }
-            }, { threshold: .12 });
-            observer.observe(canvas);
-          } else {
-            inView = true;
-            start();
-          }
-        });
-      };
-
-      if (mask.complete && mask.naturalWidth) {
-        initialize();
-      } else {
-        mask.addEventListener("load", initialize, { once: true });
-      }
-      mask.src = maskSource;
-    }
-  }
-
-
   const searchRoot = document.querySelector("[data-search]");
-
-  if (!searchRoot) {
-    return;
-  }
+  if (!searchRoot) return;
 
   const input = searchRoot.querySelector("[data-search-input]");
   const status = searchRoot.querySelector("[data-search-status]");
@@ -425,11 +248,9 @@
   const indexUrl = searchRoot.dataset.indexUrl;
   let archiveIndex = null;
 
-  const sectionLabels = {
-    posts: "文章",
-    photos: "照片",
-    videos: "视频"
-  };
+  if (!input || !status || !results || !indexUrl) return;
+
+  const sectionLabels = { posts: "文章", photos: "照片", videos: "视频" };
 
   const plainText = (value) => {
     const element = document.createElement("div");
@@ -449,14 +270,26 @@
     meta.textContent = sectionLabels[entry.section] || "记录";
     title.textContent = entry.title;
     excerpt.textContent = plainText(entry.summary || entry.content || "");
-
     link.append(meta, title, excerpt);
     return link;
   };
 
+  const loadIndex = async () => {
+    if (archiveIndex) return archiveIndex;
+
+    try {
+      const response = await fetch(indexUrl, { headers: { Accept: "application/json" } });
+      if (!response.ok) throw new Error("Unable to load index");
+      archiveIndex = await response.json();
+    } catch {
+      archiveIndex = [];
+      status.textContent = "搜索索引暂时无法加载。";
+    }
+    return archiveIndex;
+  };
+
   const renderResults = (query) => {
     results.replaceChildren();
-
     if (!query) {
       status.textContent = "输入关键词开始搜索。";
       return;
@@ -472,29 +305,8 @@
     matches.forEach((entry) => results.appendChild(makeResult(entry)));
   };
 
-  const loadIndex = async () => {
-    if (archiveIndex) {
-      return archiveIndex;
-    }
-
-    try {
-      const response = await fetch(indexUrl, { headers: { Accept: "application/json" } });
-      if (!response.ok) {
-        throw new Error("Unable to load index");
-      }
-
-      archiveIndex = await response.json();
-      return archiveIndex;
-    } catch {
-      status.textContent = "搜索索引暂时无法加载。";
-      archiveIndex = [];
-      return archiveIndex;
-    }
-  };
-
   input.addEventListener("input", async () => {
     const query = input.value.trim();
-
     if (!query) {
       results.replaceChildren();
       status.textContent = "输入关键词开始搜索。";

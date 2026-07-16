@@ -1,17 +1,21 @@
 {{ define "main" }}
-<section class="collection-intro site-shell" data-reveal>
-  <p class="page-kicker">{{ .Title }}</p>
-  <h1>{{ .Title }}</h1>
-  {{ with .Content }}<div class="collection-copy">{{ . }}</div>{{ end }}
-</section>
+<section class="collection-page collection-page--{{ .Section }}">
+  <div class="site-shell">
+    <header class="collection-page-header">
+      <span class="collection-emblem collection-emblem--{{ .Section }}" aria-hidden="true"></span>
+      <div>
+        <h1>{{ .Title }}</h1>
+        {{ with .Content }}<div class="collection-copy">{{ . }}</div>{{ end }}
+      </div>
+    </header>
 
-<section class="collection-records site-shell" aria-label="{{ .Title }}列表">
-  <div class="record-grid">
-    {{ range $index, $page := .RegularPages.ByDate.Reverse }}
-      {{ partial "record-tile.html" (dict "page" $page "index" $index) }}
-    {{ else }}
-      <p class="empty-copy">这里还没有公开内容。</p>
-    {{ end }}
+    <div class="archive-grid collection-grid" aria-label="{{ .Title }}列表">
+      {{ range $index, $page := .RegularPages.ByDate.Reverse }}
+        {{ partial "record-tile.html" (dict "page" $page "index" $index) }}
+      {{ else }}
+        <p class="empty-copy">这里还没有公开内容。</p>
+      {{ end }}
+    </div>
   </div>
 </section>
 {{ end }}

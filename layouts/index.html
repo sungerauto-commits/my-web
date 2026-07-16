@@ -1,5 +1,8 @@
 {{ define "main" }}
 {{ $entries := (where site.RegularPages "Section" "in" (slice "posts" "photos" "videos")).ByDate.Reverse }}
+{{ $posts := where $entries "Section" "posts" }}
+{{ $photos := where $entries "Section" "photos" }}
+{{ $videos := where $entries "Section" "videos" }}
 {{ $homeVideo := site.Params.homeVideo | default dict }}
 {{ $videoSrc := "" }}
 {{ $poster := "" }}
@@ -8,68 +11,59 @@
 {{ if $videoSrc }}{{ if not (or (hasPrefix $videoSrc "http://") (hasPrefix $videoSrc "https://")) }}{{ $videoSrc = $videoSrc | relURL }}{{ end }}{{ end }}
 {{ if $poster }}{{ if not (or (hasPrefix $poster "http://") (hasPrefix $poster "https://")) }}{{ $poster = $poster | relURL }}{{ end }}{{ end }}
 
-<div
-  class="opening-wash"
-  data-opening-wash
-  data-mask-src="{{ "images/art/watercolor-bloom-mask.png" | relURL }}"
-  aria-hidden="true"
->
-  <canvas class="opening-wash-canvas" data-opening-wash-canvas></canvas>
-</div>
-<noscript>
-  <style>
-    .opening-wash { display: none !important; }
-    body.is-home.opening-pending .hero-media,
-    body.is-home.opening-pending .hero-content,
-    body.is-home.opening-pending .hero-ink-mark,
-    body.is-home.opening-pending .hero-title span,
-    body.is-home.opening-pending .hero-summary,
-    body.is-home.opening-pending .hero-link { opacity: 1 !important; transform: none !important; }
-  </style>
-</noscript>
-<section class="home-hero" data-hero>
-  <div class="hero-media" aria-hidden="true">
-    {{ if $videoSrc }}
-      <video data-hero-video autoplay muted loop playsinline preload="metadata"{{ with $poster }} poster="{{ . }}"{{ end }}>
-        <source src="{{ $videoSrc }}" type="video/mp4">
-      </video>
-    {{ else if $poster }}
-      <img src="{{ $poster }}" alt="">
-    {{ end }}
-  </div>
+<section class="atelier-hero" data-watercolor-stage>
   <canvas
-    class="paper-bloom-canvas paper-bloom-canvas--hero"
-    data-watercolor-bloom
-    data-bloom-variant="hero"
+    class="hero-watercolor"
+    data-watercolor-field
     data-mask-src="{{ "images/art/watercolor-bloom-mask.png" | relURL }}"
     aria-hidden="true"
   ></canvas>
-  <aside class="hero-ink-mark" aria-hidden="true">
-    <span class="hero-ink-mark-initials">SC</span>
-    <span class="hero-ink-mark-copy">水色 · 墨痕</span>
-  </aside>
-  <div class="hero-content">
-    <p class="hero-label">个人档案 · 2026</p>
-    <h1 class="hero-title"><span>Sunger</span><span>Club</span></h1>
-    <p class="hero-summary">{{ site.Params.description | default "文字、照片和影像。" }}</p>
-    <a class="hero-link" href="#archive">翻开档案</a>
+  <div class="site-shell hero-layout">
+    <div class="hero-copy">
+      <p class="hero-kicker">个人收藏</p>
+      <h1 class="hero-title"><span>Sunger</span><span>Club</span></h1>
+      <p class="hero-deck">我写的东西、拍的照片、录的影像。</p>
+      <a class="primary-line-link" href="#archive">查看最近记录</a>
+    </div>
+    <figure class="hero-film" data-hero-frame aria-hidden="true">
+      <div class="hero-film-media">
+        {{ if $videoSrc }}
+          <video data-hero-video autoplay muted loop playsinline preload="metadata"{{ with $poster }} poster="{{ . }}"{{ end }} aria-hidden="true">
+            <source src="{{ $videoSrc }}" type="video/mp4">
+          </video>
+        {{ else if $poster }}
+          <img src="{{ $poster }}" alt="" aria-hidden="true">
+        {{ end }}
+      </div>
+    </figure>
   </div>
 </section>
 
-<section class="archive-stage" id="archive">
-  <canvas
-    class="paper-bloom-canvas paper-bloom-canvas--archive"
-    data-watercolor-bloom
-    data-bloom-variant="archive"
-    data-mask-src="{{ "images/art/watercolor-bloom-mask.png" | relURL }}"
-    aria-hidden="true"
-  ></canvas>
-  <div class="archive-latest site-shell">
-    <header class="section-heading" data-reveal>
-      <h2>近来入册</h2>
-      <p>最近留下的文字、照片和影像。</p>
+<section class="home-archive" id="archive">
+  <div class="site-shell">
+    <header class="archive-heading">
+      <h2>近来留下的</h2>
+      <p>按媒介筛选这本持续生长的个人档案。</p>
+      <a class="text-link" href="{{ "archives/" | relURL }}">查看全部归档</a>
     </header>
-    <div class="record-grid">
+
+    <div class="media-filter" data-record-filters role="group" aria-label="筛选最近记录">
+      <button type="button" data-record-filter="all" aria-pressed="true">
+        <span>全部</span><span class="filter-count">{{ len $entries }}</span>
+      </button>
+      <button type="button" data-record-filter="posts" aria-pressed="false">
+        <span class="filter-emblem filter-emblem--posts" aria-hidden="true"></span><span>文章</span><span class="filter-count">{{ len $posts }}</span>
+      </button>
+      <button type="button" data-record-filter="photos" aria-pressed="false">
+        <span class="filter-emblem filter-emblem--photos" aria-hidden="true"></span><span>照片</span><span class="filter-count">{{ len $photos }}</span>
+      </button>
+      <button type="button" data-record-filter="videos" aria-pressed="false">
+        <span class="filter-emblem filter-emblem--videos" aria-hidden="true"></span><span>视频</span><span class="filter-count">{{ len $videos }}</span>
+      </button>
+    </div>
+    <p class="sr-only" data-filter-status aria-live="polite"></p>
+
+    <div class="archive-grid" id="archive-grid" data-archive-grid>
       {{ range $index, $entry := first 9 $entries }}
         {{ partial "record-tile.html" (dict "page" $entry "index" $index) }}
       {{ else }}

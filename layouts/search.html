@@ -1,14 +1,16 @@
 {{ define "main" }}
-<section class="search-page site-shell" data-search data-index-url="{{ "index.json" | relURL }}">
-  <header class="collection-intro" data-reveal>
-    <p class="page-kicker">查找内容</p>
-    <h1>搜索</h1>
-  </header>
-  <form class="search-form" role="search" data-reveal>
-    <label for="archive-search">搜索标题和正文</label>
-    <input id="archive-search" type="search" autocomplete="off" placeholder="{{ .Params.placeholder | default "输入关键词" }}" data-search-input>
-  </form>
-  <p class="search-status" data-search-status>输入关键词开始搜索。</p>
-  <div class="search-results" data-search-results aria-live="polite"></div>
+<section class="utility-page search-page" data-search data-index-url="{{ "index.json" | relURL }}">
+  <div class="site-shell search-shell">
+    <header class="utility-header">
+      <h1>搜索</h1>
+      <p>查找标题、正文和说明文字。</p>
+    </header>
+    <form class="search-form" role="search">
+      <label for="archive-search">输入关键词</label>
+      <input id="archive-search" type="search" autocomplete="off" placeholder="{{ .Params.placeholder | default "例如：舞台、夜晚、随笔" }}" data-search-input>
+    </form>
+    <p class="search-status" data-search-status>输入关键词开始搜索。</p>
+    <div class="search-results" data-search-results aria-live="polite"></div>
+  </div>
 </section>
 {{ end }}

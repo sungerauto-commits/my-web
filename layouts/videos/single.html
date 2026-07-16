@@ -2,14 +2,18 @@
 {{ $videoURL := .Params.video | default "" }}
 {{ $posterURL := .Params.poster | default "" }}
 <article class="media-story media-story--videos site-shell">
-  <header class="story-header" data-reveal>
-    <p class="story-meta"><a href="{{ "videos/" | relURL }}">视频</a><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time></p>
-    <h1>{{ .Title }}</h1>
-    {{ with .Description }}<p class="story-description">{{ . }}</p>{{ end }}
+  <header class="story-header">
+    <span class="story-emblem story-emblem--videos" aria-hidden="true"></span>
+    <div class="story-heading">
+      <p class="story-meta"><a href="{{ "videos/" | relURL }}">视频</a><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time></p>
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="story-description">{{ . }}</p>{{ end }}
+    </div>
   </header>
 
   {{ with $videoURL }}
-    <div class="video-stage" data-reveal>
+    <div class="video-stage">
+      <span class="video-emblem" aria-hidden="true"></span>
       <video controls preload="metadata" playsinline{{ with $posterURL }} poster="{{ . }}"{{ end }}>
         <source src="{{ . }}">
         您的浏览器不支持视频播放。
@@ -17,6 +21,6 @@
     </div>
   {{ end }}
 
-  {{ with .Content }}<div class="story-content" data-reveal>{{ . }}</div>{{ end }}
+  {{ with .Content }}<div class="story-content media-story-copy">{{ . }}</div>{{ end }}
 </article>
 {{ end }}

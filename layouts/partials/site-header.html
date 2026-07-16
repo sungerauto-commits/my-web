@@ -1,9 +1,15 @@
 {{ $current := . }}
-<header class="site-header">
+<header class="site-header" data-site-header>
   <div class="site-shell site-header-inner">
-    <a class="site-wordmark" href="{{ "" | relURL }}" aria-label="返回 SungerClub 首页"><span class="wordmark-mark" aria-hidden="true">✶</span><span>SungerClub</span></a>
-    <button class="nav-toggle" type="button" data-nav-toggle aria-controls="site-navigation" aria-expanded="false">菜单</button>
-    <nav class="site-navigation" id="site-navigation" aria-label="主导航">
+    <a class="site-wordmark" href="{{ "" | relURL }}" aria-label="返回 SungerClub 首页">
+      <span class="wordmark-monogram" aria-hidden="true">SC</span>
+      <span class="wordmark-name">SungerClub</span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-controls="site-navigation" aria-expanded="false" aria-label="打开菜单">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+    <nav class="site-navigation" id="site-navigation" data-navigation aria-label="主导航">
       {{ range site.Menus.main }}
         <a href="{{ .URL | relURL }}"{{ if or ($current.IsMenuCurrent "main" .) ($current.HasMenuCurrent "main" .) }} aria-current="page"{{ end }}>{{ .Name }}</a>
       {{ end }}

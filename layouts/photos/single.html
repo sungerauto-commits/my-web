@@ -1,22 +1,25 @@
 {{ define "main" }}
 {{ $description := .Params.caption | default .Description }}
 <article class="media-story media-story--photos site-shell">
-  <header class="story-header" data-reveal>
-    <p class="story-meta"><a href="{{ "photos/" | relURL }}">照片</a><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time></p>
-    <h1>{{ .Title }}</h1>
-    {{ with $description }}<p class="story-description">{{ . }}</p>{{ end }}
+  <header class="story-header">
+    <span class="story-emblem story-emblem--photos" aria-hidden="true"></span>
+    <div class="story-heading">
+      <p class="story-meta"><a href="{{ "photos/" | relURL }}">照片</a><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time></p>
+      <h1>{{ .Title }}</h1>
+      {{ with $description }}<p class="story-description">{{ . }}</p>{{ end }}
+    </div>
   </header>
 
   {{ with .Params.gallery }}
     <div class="photo-gallery">
       {{ range $index, $image := . }}
-        <a class="gallery-image" href="{{ $image }}" target="_blank" rel="noopener" data-reveal aria-label="查看照片 {{ add $index 1 }}">
+        <a class="gallery-image gallery-image--{{ mod $index 5 }}" href="{{ $image }}" target="_blank" rel="noopener" data-photo-develop aria-label="查看照片 {{ add $index 1 }}">
           <img src="{{ $image }}" alt="{{ $.Title }}，照片 {{ add $index 1 }}" loading="{{ cond (eq $index 0) "eager" "lazy" }}">
         </a>
       {{ end }}
     </div>
   {{ end }}
 
-  {{ with .Content }}<div class="story-content" data-reveal>{{ . }}</div>{{ end }}
+  {{ with .Content }}<div class="story-content media-story-copy">{{ . }}</div>{{ end }}
 </article>
 {{ end }}

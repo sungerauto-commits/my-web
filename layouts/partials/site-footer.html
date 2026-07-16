@@ -1,7 +1,16 @@
 <footer class="site-footer">
   <div class="site-shell site-footer-inner">
-    <a href="{{ "" | relURL }}">SungerClub</a>
-    <p>文字、照片和影像。</p>
-    <p>&copy; {{ now.Year }}</p>
+    <div class="footer-identity">
+      <a class="footer-wordmark" href="{{ "" | relURL }}">SungerClub</a>
+      <p>{{ site.Params.description | default "我写的东西、拍的照片、录的影像。" }}</p>
+    </div>
+    <nav class="footer-navigation" aria-label="页脚导航">
+      {{ range site.Menus.main }}
+        {{ if in (slice "posts" "photos" "videos") .Identifier }}
+          <a href="{{ .URL | relURL }}">{{ .Name }}</a>
+        {{ end }}
+      {{ end }}
+    </nav>
+    <p class="footer-copyright">&copy; {{ now.Year }} SungerClub</p>
   </div>
 </footer>
