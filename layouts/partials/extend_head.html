@@ -1,9 +1,0 @@
-{{- /* Preload the local hero poster so the first viewport appears immediately. */ -}}
-{{- with site.Params.homeVideo.poster -}}
-  {{- $poster := . -}}
-  {{- if not (or (hasPrefix $poster "http://") (hasPrefix $poster "https://")) -}}
-    {{- $poster = $poster | relURL -}}
-  {{- end -}}
-<link rel="preload" as="image" href="{{ $poster }}" fetchpriority="high">
-{{- end }}
-<meta name="theme-color" content="#f3f7fa">

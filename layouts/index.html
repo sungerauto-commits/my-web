@@ -3,39 +3,31 @@
 {{ $posts := where $entries "Section" "posts" }}
 {{ $photos := where $entries "Section" "photos" }}
 {{ $videos := where $entries "Section" "videos" }}
-{{ $homeVideo := site.Params.homeVideo | default dict }}
-{{ $videoSrc := "" }}
-{{ $poster := "" }}
-{{ with $homeVideo.src }}{{ $videoSrc = . }}{{ end }}
-{{ with $homeVideo.poster }}{{ $poster = . }}{{ end }}
-{{ if $videoSrc }}{{ if not (or (hasPrefix $videoSrc "http://") (hasPrefix $videoSrc "https://")) }}{{ $videoSrc = $videoSrc | relURL }}{{ end }}{{ end }}
-{{ if $poster }}{{ if not (or (hasPrefix $poster "http://") (hasPrefix $poster "https://")) }}{{ $poster = $poster | relURL }}{{ end }}{{ end }}
-
 <section class="atelier-hero" data-watercolor-stage>
   <canvas
     class="hero-watercolor"
     data-watercolor-field
-    data-mask-src="{{ "images/art/watercolor-bloom-mask.png" | relURL }}"
+    data-mask-src="{{ "images/art/watercolor-bloom-mask.webp" | relURL }}"
     aria-hidden="true"
   ></canvas>
   <div class="site-shell hero-layout">
     <div class="hero-copy">
       <p class="hero-kicker">个人收藏</p>
-      <h1 class="hero-title"><span>Sunger</span><span>Club</span></h1>
+      <h1 class="hero-title" aria-label="SungerClub" data-handwritten-title>
+        <svg class="hero-signature" viewBox="0 0 980 340" preserveAspectRatio="xMinYMid meet" aria-hidden="true" focusable="false">
+          <g class="signature-word signature-word--first">
+            <text class="signature-guide" x="18" y="166">Sunger</text>
+            <text class="signature-ink" x="18" y="166">Sunger</text>
+          </g>
+          <g class="signature-word signature-word--second">
+            <text class="signature-guide" x="308" y="326">Club</text>
+            <text class="signature-ink" x="308" y="326">Club</text>
+          </g>
+        </svg>
+      </h1>
       <p class="hero-deck">我写的东西、拍的照片、录的影像。</p>
       <a class="primary-line-link" href="#archive">查看最近记录</a>
     </div>
-    <figure class="hero-film" data-hero-frame aria-hidden="true">
-      <div class="hero-film-media">
-        {{ if $videoSrc }}
-          <video data-hero-video autoplay muted loop playsinline preload="metadata"{{ with $poster }} poster="{{ . }}"{{ end }} aria-hidden="true">
-            <source src="{{ $videoSrc }}" type="video/mp4">
-          </video>
-        {{ else if $poster }}
-          <img src="{{ $poster }}" alt="" aria-hidden="true">
-        {{ end }}
-      </div>
-    </figure>
   </div>
 </section>
 

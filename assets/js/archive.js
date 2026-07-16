@@ -33,26 +33,66 @@
     });
   }
 
-  const heroVideo = document.querySelector("[data-hero-video]");
+  const backdropVideo = document.querySelector("[data-backdrop-video]");
+  const backdropToggle = document.querySelector("[data-backdrop-toggle]");
 
-  if (heroVideo) {
-    const showVideo = () => heroVideo.classList.add("is-ready");
+  if (backdropVideo) {
+    let userPaused = reduce || saveData;
+    let resumeAfterVisibility = false;
 
-    if (heroVideo.readyState >= 2) {
-      showVideo();
-    } else {
-      heroVideo.addEventListener("loadeddata", showVideo, { once: true });
-    }
-
-    if (reduce || saveData) {
-      heroVideo.autoplay = false;
-      heroVideo.pause();
-    } else {
-      const playback = heroVideo.play();
-      if (playback && typeof playback.catch === "function") {
-        playback.catch(() => {});
+    const updateBackdropState = () => {
+      backdropVideo.classList.toggle("is-ready", backdropVideo.readyState >= 2);
+      if (backdropToggle) {
+        backdropToggle.classList.toggle("is-paused", backdropVideo.paused);
+        backdropToggle.setAttribute("aria-label", backdropVideo.paused ? "播放背景视频" : "暂停背景视频");
       }
+    };
+
+    const playBackdrop = () => {
+      const playback = backdropVideo.play();
+      if (playback && typeof playback.catch === "function") {
+        playback.catch(updateBackdropState);
+      }
+    };
+
+    if (backdropVideo.readyState >= 2) {
+      updateBackdropState();
+    } else {
+      backdropVideo.addEventListener("loadeddata", updateBackdropState, { once: true });
     }
+
+    backdropVideo.addEventListener("play", updateBackdropState);
+    backdropVideo.addEventListener("pause", updateBackdropState);
+
+    if (userPaused) {
+      backdropVideo.autoplay = false;
+      backdropVideo.pause();
+      updateBackdropState();
+    } else {
+      playBackdrop();
+    }
+
+    if (backdropToggle) {
+      backdropToggle.addEventListener("click", () => {
+        if (backdropVideo.paused) {
+          userPaused = false;
+          playBackdrop();
+        } else {
+          userPaused = true;
+          backdropVideo.pause();
+        }
+      });
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        resumeAfterVisibility = !backdropVideo.paused;
+        backdropVideo.pause();
+      } else if (resumeAfterVisibility && !userPaused) {
+        resumeAfterVisibility = false;
+        playBackdrop();
+      }
+    });
   }
 
   const watercolorField = document.querySelector("[data-watercolor-field]");
@@ -118,8 +158,8 @@
           if (!local) return;
 
           const eased = easeOut(local);
-          const diameter = bloom[2] * (.18 + .88 * eased) * Math.min(1.08, Math.max(.72, cssWidth / 1180));
-          const baseAlpha = (.055 + (index % 4) * .018) * (.22 + .78 * eased);
+          const diameter = bloom[2] * (.2 + 1.02 * eased) * Math.min(1.18, Math.max(.78, cssWidth / 1180));
+          const baseAlpha = (.1 + (index % 4) * .023) * (.26 + .74 * eased);
           const tint = tints[index];
 
           const drawLayer = (scale, opacity, rotation) => {
@@ -132,9 +172,9 @@
             context.restore();
           };
 
-          drawLayer(1.22, .28, -.16);
-          drawLayer(1, .92, 0);
-          drawLayer(.64, .32, .21);
+          drawLayer(1.26, .36, -.16);
+          drawLayer(1, 1, 0);
+          drawLayer(.62, .48, .21);
         });
 
         context.setTransform(1, 0, 0, 1, 0, 0);
@@ -153,7 +193,7 @@
 
       const animate = (timestamp) => {
         if (!startTime) startTime = timestamp;
-        const progress = Math.min(1, (timestamp - startTime) / 1500);
+        const progress = Math.min(1, (timestamp - startTime) / 1750);
 
         if (timestamp - lastPaint >= 55 || progress === 1) {
           paint(progress);

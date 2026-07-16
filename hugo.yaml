@@ -33,7 +33,7 @@ params:
   TocOpen: false
   ShowWordCount: true
 
-  homeVideo:
+  videoBackdrop:
     src: "media/hero-2026-06-30.mp4"
     poster: "media/hero-2026-06-30.jpg"
 

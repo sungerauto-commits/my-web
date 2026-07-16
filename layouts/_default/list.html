@@ -1,21 +1,73 @@
 {{ define "main" }}
-<section class="collection-page collection-page--{{ .Section }}">
-  <div class="site-shell">
-    <header class="collection-page-header">
-      <span class="collection-emblem collection-emblem--{{ .Section }}" aria-hidden="true"></span>
-      <div>
-        <h1>{{ .Title }}</h1>
-        {{ with .Content }}<div class="collection-copy">{{ . }}</div>{{ end }}
-      </div>
-    </header>
+{{ $isVideos := eq .Section "videos" }}
+{{ if $isVideos }}
+  {{ $backdrop := site.Params.videoBackdrop | default dict }}
+  {{ $videoSrc := "" }}
+  {{ $poster := "" }}
+  {{ with $backdrop.src }}{{ $videoSrc = . }}{{ end }}
+  {{ with $backdrop.poster }}{{ $poster = . }}{{ end }}
+  {{ if $videoSrc }}{{ if not (or (hasPrefix $videoSrc "http://") (hasPrefix $videoSrc "https://")) }}{{ $videoSrc = $videoSrc | relURL }}{{ end }}{{ end }}
+  {{ if $poster }}{{ if not (or (hasPrefix $poster "http://") (hasPrefix $poster "https://")) }}{{ $poster = $poster | relURL }}{{ end }}{{ end }}
 
-    <div class="archive-grid collection-grid" aria-label="{{ .Title }}列表">
-      {{ range $index, $page := .RegularPages.ByDate.Reverse }}
-        {{ partial "record-tile.html" (dict "page" $page "index" $index) }}
-      {{ else }}
-        <p class="empty-copy">这里还没有公开内容。</p>
-      {{ end }}
+  <section class="video-index-hero" data-video-index-hero>
+    {{ if $videoSrc }}
+      <video class="video-index-backdrop" data-backdrop-video autoplay muted loop playsinline preload="metadata"{{ with $poster }} poster="{{ . }}"{{ end }} aria-hidden="true" tabindex="-1">
+        <source src="{{ $videoSrc }}" type="video/mp4">
+      </video>
+    {{ else if $poster }}
+      <img class="video-index-backdrop" src="{{ $poster }}" alt="" aria-hidden="true">
+    {{ end }}
+    <span class="video-index-watercolor" aria-hidden="true"></span>
+    <div class="site-shell video-index-hero-inner">
+      <div class="video-index-heading">
+        <span class="collection-emblem collection-emblem--videos" aria-hidden="true"></span>
+        <p class="video-index-kicker">Moving archive</p>
+        <h1>{{ .Title }}</h1>
+        {{ with .Content }}<div class="video-index-copy">{{ . }}</div>{{ end }}
+        <a class="video-index-link" href="#video-archive">浏览影像记录</a>
+      </div>
     </div>
-  </div>
-</section>
+    {{ if $videoSrc }}
+      <button class="video-backdrop-toggle" type="button" data-backdrop-toggle aria-label="暂停背景视频">
+        <span class="video-backdrop-toggle-icon" aria-hidden="true"></span>
+      </button>
+    {{ end }}
+  </section>
+
+  <section class="collection-page collection-page--videos video-index-archive" id="video-archive">
+    <div class="site-shell">
+      <header class="archive-heading video-archive-heading">
+        <p class="video-archive-kicker">Film notes / 影像手记</p>
+        <h2>镜头留下的</h2>
+      </header>
+      <div class="archive-grid collection-grid" aria-label="{{ .Title }}列表">
+        {{ range $index, $page := .RegularPages.ByDate.Reverse }}
+          {{ partial "record-tile.html" (dict "page" $page "index" $index) }}
+        {{ else }}
+          <p class="empty-copy">这里还没有公开内容。</p>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ else }}
+  <section class="collection-page collection-page--{{ .Section }}">
+    <div class="site-shell">
+      <header class="collection-page-header">
+        <span class="collection-emblem collection-emblem--{{ .Section }}" aria-hidden="true"></span>
+        <div>
+          <h1>{{ .Title }}</h1>
+          {{ with .Content }}<div class="collection-copy">{{ . }}</div>{{ end }}
+        </div>
+      </header>
+
+      <div class="archive-grid collection-grid" aria-label="{{ .Title }}列表">
+        {{ range $index, $page := .RegularPages.ByDate.Reverse }}
+          {{ partial "record-tile.html" (dict "page" $page "index" $index) }}
+        {{ else }}
+          <p class="empty-copy">这里还没有公开内容。</p>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
 {{ end }}
