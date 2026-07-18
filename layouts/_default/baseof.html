@@ -4,7 +4,9 @@
     {{ $pageTitle := site.Title }}
     {{ if not .IsHome }}{{ $pageTitle = printf "%s | %s" .Title site.Title }}{{ end }}
     {{ $description := .Description | default site.Params.description }}
-    {{ $style := resources.Get "css/archive.css" | minify | fingerprint }}
+    {{ $archiveStyle := resources.Get "css/archive.css" }}
+    {{ $videoStyle := resources.Get "css/video-archive.css" }}
+    {{ $style := slice $archiveStyle $videoStyle | resources.Concat "css/site.css" | minify | fingerprint }}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#f2f4ef">

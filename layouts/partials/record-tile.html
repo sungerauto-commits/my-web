@@ -12,10 +12,16 @@
   <a class="piece-link" href="{{ $page.RelPermalink }}">
     {{ if $thumb }}
       <div class="piece-visual piece-visual--{{ $page.Section }}"{{ if eq $page.Section "photos" }} data-photo-develop{{ end }}>
+        {{ if eq $page.Section "videos" }}
+          <span class="film-perforations film-perforations--top" aria-hidden="true">{{ range seq 14 }}<i></i>{{ end }}</span>
+          <span class="film-perforations film-perforations--bottom" aria-hidden="true">{{ range seq 14 }}<i></i>{{ end }}</span>
+        {{ end }}
         <img src="{{ $thumb }}" alt="{{ $alt | default $page.Title }}" loading="{{ cond (lt $index 2) "eager" "lazy" }}">
       </div>
     {{ else if $page.Params.video }}
       <div class="piece-visual piece-visual--videos">
+        <span class="film-perforations film-perforations--top" aria-hidden="true">{{ range seq 14 }}<i></i>{{ end }}</span>
+        <span class="film-perforations film-perforations--bottom" aria-hidden="true">{{ range seq 14 }}<i></i>{{ end }}</span>
         <video muted playsinline preload="metadata" data-preview-video aria-label="{{ $page.Title }} 视频预览">
           <source src="{{ $page.Params.video }}">
         </video>

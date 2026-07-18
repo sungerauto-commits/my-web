@@ -18,12 +18,22 @@
       <img class="video-index-backdrop" src="{{ $poster }}" alt="" aria-hidden="true">
     {{ end }}
     <span class="video-index-watercolor" aria-hidden="true"></span>
+    <span class="video-film-edge video-film-edge--top" aria-hidden="true">
+      {{ range seq 18 }}<i></i>{{ end }}
+    </span>
+    <span class="video-film-edge video-film-edge--lower" aria-hidden="true">
+      {{ range seq 18 }}<i></i>{{ end }}
+    </span>
     <div class="site-shell video-index-hero-inner">
       <div class="video-index-heading">
-        <span class="collection-emblem collection-emblem--videos" aria-hidden="true"></span>
-        <p class="video-index-kicker">Moving archive</p>
-        <h1>{{ .Title }}</h1>
-        {{ with .Content }}<div class="video-index-copy">{{ . }}</div>{{ end }}
+        <div class="video-index-mark">
+          <span class="collection-emblem collection-emblem--videos" aria-hidden="true"></span>
+          <p class="video-index-kicker">Moving archive <span>Cinéma personnel · I</span></p>
+        </div>
+        <div class="video-index-title">
+          <h1>{{ .Title }}</h1>
+          {{ with .Description }}<p class="video-index-copy">{{ . }}</p>{{ end }}
+        </div>
         <a class="video-index-link" href="#video-archive">浏览影像记录</a>
       </div>
     </div>
@@ -37,8 +47,11 @@
   <section class="collection-page collection-page--videos video-index-archive" id="video-archive">
     <div class="site-shell">
       <header class="archive-heading video-archive-heading">
-        <p class="video-archive-kicker">Film notes / 影像手记</p>
-        <h2>镜头留下的</h2>
+        <div>
+          <p class="video-archive-kicker">Film notes / 影像手记</p>
+          <h2>放映目录</h2>
+        </div>
+        <p class="video-archive-intro">把时间收进胶片，让每一段光影都有自己的编号。</p>
       </header>
       <div class="archive-grid collection-grid" aria-label="{{ .Title }}列表">
         {{ range $index, $page := .RegularPages.ByDate.Reverse }}
