@@ -130,6 +130,7 @@
       let startTime = 0;
 
       const easeOut = (value) => 1 - Math.pow(1 - value, 3);
+      const smoothstep = (value) => value * value * (3 - 2 * value);
 
       const makeTints = () => {
         const size = 280;
@@ -154,27 +155,36 @@
         context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
         layout.forEach((bloom, index) => {
-          const local = Math.max(0, Math.min(1, (progress - bloom[3]) / .62));
+          const local = Math.max(0, Math.min(1, (progress - bloom[3]) / .68));
           if (!local) return;
 
           const eased = easeOut(local);
-          const diameter = bloom[2] * (.2 + 1.02 * eased) * Math.min(1.18, Math.max(.78, cssWidth / 1180));
-          const baseAlpha = (.1 + (index % 4) * .023) * (.26 + .74 * eased);
+          const wetEdge = 1 - smoothstep(Math.min(1, local * 1.24));
+          const diameter = bloom[2] * (.045 + 1.12 * eased) * Math.min(1.18, Math.max(.78, cssWidth / 1180));
+          const baseAlpha = (.15 + (index % 4) * .024) * (.42 + .58 * eased);
           const tint = tints[index];
 
-          const drawLayer = (scale, opacity, rotation) => {
+          const drawLayer = (scale, opacity, rotation, driftX = 0, driftY = 0) => {
             const size = diameter * scale;
             context.save();
             context.globalAlpha = baseAlpha * opacity;
-            context.translate(bloom[0] * cssWidth, bloom[1] * cssHeight);
+            context.translate(bloom[0] * cssWidth + driftX, bloom[1] * cssHeight + driftY);
             context.rotate(bloom[4] + rotation);
             context.drawImage(tint, -size / 2, -size / 2, size, size);
             context.restore();
           };
 
-          drawLayer(1.26, .36, -.16);
-          drawLayer(1, 1, 0);
-          drawLayer(.62, .48, .21);
+          const tide = diameter * (.1 + eased * .11);
+          const angle = bloom[4] + index * 2.399;
+          const driftX = Math.cos(angle) * tide;
+          const driftY = Math.sin(angle) * tide;
+
+          context.globalCompositeOperation = "multiply";
+          drawLayer(1.48 + wetEdge * .26, .2 + wetEdge * .15, -.2, -driftX * .35, -driftY * .35);
+          drawLayer(1.08, .62, 0);
+          drawLayer(.76, .34, .16, driftX, driftY);
+          drawLayer(.48, .2, -.12, -driftY * .72, driftX * .72);
+          context.globalCompositeOperation = "source-over";
         });
 
         context.setTransform(1, 0, 0, 1, 0, 0);
@@ -193,9 +203,9 @@
 
       const animate = (timestamp) => {
         if (!startTime) startTime = timestamp;
-        const progress = Math.min(1, (timestamp - startTime) / 1750);
+        const progress = Math.min(1, (timestamp - startTime) / 3000);
 
-        if (timestamp - lastPaint >= 55 || progress === 1) {
+        if (timestamp - lastPaint >= 42 || progress === 1) {
           paint(progress);
           lastPaint = timestamp;
         }

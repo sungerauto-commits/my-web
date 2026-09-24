@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <filter id="fiber-grain" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".95" numOctaves="3" seed="23" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues=".62 1"/>
+      <feFuncG type="table" tableValues=".62 1"/>
+      <feFuncB type="table" tableValues=".62 1"/>
+      <feFuncA type="table" tableValues=".06 .32"/>
+    </feComponentTransfer>
+  </filter>
+  <rect width="256" height="256" fill="#fff" filter="url(#fiber-grain)"/>
+  <g stroke="#756d5f" stroke-linecap="round" opacity=".16">
+    <path d="M18 29h22M73 17h13M156 39h31M214 21h15M34 82h18M109 67h26M192 91h21M12 139h13M63 127h29M151 148h17M220 132h20M29 202h24M103 221h14M172 195h31M231 229h11" stroke-width=".55"/>
+    <path d="m52 48 7-2m77 24 10-3m56 38 9-2M83 173l8-2m68 55 6-2m-137-87 6-2m154 48 8-2" stroke-width=".4"/>
+  </g>
+  <g fill="#8f816b" opacity=".14">
+    <circle cx="47" cy="61" r=".7"/><circle cx="128" cy="34" r=".55"/><circle cx="205" cy="55" r=".65"/>
+    <circle cx="28" cy="111" r=".6"/><circle cx="96" cy="103" r=".7"/><circle cx="180" cy="119" r=".55"/>
+    <circle cx="54" cy="164" r=".6"/><circle cx="132" cy="184" r=".7"/><circle cx="222" cy="172" r=".55"/>
+    <circle cx="79" cy="239" r=".65"/><circle cx="194" cy="240" r=".6"/>
+  </g>
+</svg>

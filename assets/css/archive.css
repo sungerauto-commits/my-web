@@ -62,6 +62,18 @@ body::before {
   pointer-events: none;
 }
 
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-paper);
+  background: url("/my-web/images/art/cotton-paper.svg") repeat;
+  background-size: 256px 256px;
+  mix-blend-mode: multiply;
+  opacity: .56;
+  pointer-events: none;
+}
+
 body > * { position: relative; z-index: var(--z-content); }
 body.nav-open { overflow: hidden; }
 #content { min-height: 68vh; }
@@ -235,7 +247,7 @@ body.nav-open .nav-toggle span:last-child { top: 21px; transform: rotate(-45deg)
   background-position: center;
   background-size: cover;
   mix-blend-mode: multiply;
-  opacity: .06;
+  opacity: .1;
   pointer-events: none;
 }
 
