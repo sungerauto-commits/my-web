@@ -184,20 +184,20 @@
           if (!local) return;
 
           const spread = smoothstep(local);
-          const diameter = bloom[2] * 1.22 * Math.min(1.18, Math.max(.52, cssWidth / 1180));
+          const diameter = bloom[2] * 1.62 * Math.min(1.18, Math.max(.68, cssWidth / 1180));
           const radius = diameter * (.012 + .95 * spread);
           let centerX = bloom[0] * cssWidth;
           let centerY = bloom[1] * cssHeight;
           if (cssWidth < 700) {
             if (index < 12) {
               centerX = (-.08 + index * .105) * cssWidth;
-              centerY = (index % 3 === 0 ? .07 : -.02) * cssHeight;
+              centerY = (index % 3 === 0 ? .09 : -.01) * cssHeight;
             } else if (index < 18) {
-              centerX = cssWidth * 1.08;
-              centerY = (.22 + (index - 12) * .14) * cssHeight;
+              centerX = cssWidth * 1.04;
+              centerY = (.20 + (index - 12) * .15) * cssHeight;
             } else {
               centerX = (1.02 - (index - 18) * .2) * cssWidth;
-              centerY = (.94 + (index % 2) * .04) * cssHeight;
+              centerY = (.98 + (index % 2) * .04) * cssHeight;
             }
           }
           const tint = tints[index];
@@ -215,9 +215,9 @@
 
           context.globalCompositeOperation = "multiply";
           const strength = index >= 12 && index < 18 ? .8 : 1;
-          drawWash(1.1, .15 * strength, .5);
-          drawWash(.88, .24 * strength, 0);
-          drawWash(.64, .11 * strength, -.3);
+          drawWash(1.1, .16 * strength, .5);
+          drawWash(.88, .25 * strength, 0);
+          drawWash(.64, .12 * strength, -.3);
           context.globalCompositeOperation = "source-over";
         });
 
