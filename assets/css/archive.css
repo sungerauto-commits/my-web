@@ -66,11 +66,11 @@ body::after {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: var(--z-paper);
-  background: url("/my-web/images/art/cotton-paper.svg") repeat;
-  background-size: 256px 256px;
+  z-index: 20;
+  background: url("/my-web/images/art/cotton-rag-v2.webp") repeat;
+  background-size: 760px 760px;
   mix-blend-mode: multiply;
-  opacity: .56;
+  opacity: .3;
   pointer-events: none;
 }
 
@@ -132,7 +132,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   z-index: var(--z-header);
   height: var(--header-height);
   border-bottom: 1px solid rgb(19 43 45 / 24%);
-  background: rgb(242 244 239 / 96%);
+  background: rgb(242 244 239 / 96%) url("/my-web/images/art/cotton-rag-v2.webp") repeat;
+  background-size: 760px 760px;
 }
 
 .site-header-inner {
@@ -243,11 +244,11 @@ body.nav-open .nav-toggle span:last-child { top: 21px; transform: rotate(-45deg)
   position: absolute;
   inset: 0;
   z-index: 1;
-  background-image: url("/my-web/images/art/watercolor-ink-atlas.webp");
-  background-position: center;
-  background-size: cover;
+  background-image: url("/my-web/images/art/cotton-rag-v2.webp");
+  background-position: center top;
+  background-size: 760px 760px;
   mix-blend-mode: multiply;
-  opacity: .1;
+  opacity: .72;
   pointer-events: none;
 }
 
@@ -259,7 +260,7 @@ body.nav-open .nav-toggle span:last-child { top: 21px; transform: rotate(-45deg)
   height: 100%;
   mix-blend-mode: multiply;
   opacity: .98;
-  filter: saturate(1.22) contrast(1.05);
+  filter: saturate(1.16) contrast(1.02);
   pointer-events: none;
 }
 

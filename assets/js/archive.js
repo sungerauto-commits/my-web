@@ -129,7 +129,6 @@
       let lastPaint = 0;
       let startTime = 0;
 
-      const easeOut = (value) => 1 - Math.pow(1 - value, 3);
       const smoothstep = (value) => value * value * (3 - 2 * value);
 
       const makeTints = () => {
@@ -140,12 +139,38 @@
           tint.width = size;
           tint.height = size;
           tintContext.drawImage(mask, 0, 0, size, size);
-          tintContext.globalCompositeOperation = "source-in";
-          tintContext.fillStyle = color;
-          tintContext.fillRect(0, 0, size, size);
-          tintContext.globalCompositeOperation = "source-over";
+          const pixels = tintContext.getImageData(0, 0, size, size);
+          const red = parseInt(color.slice(1, 3), 16);
+          const green = parseInt(color.slice(3, 5), 16);
+          const blue = parseInt(color.slice(5, 7), 16);
+          for (let pixel = 0; pixel < pixels.data.length; pixel += 4) {
+            if (!pixels.data[pixel + 3]) continue;
+            const lightness = (pixels.data[pixel] + pixels.data[pixel + 1] + pixels.data[pixel + 2]) / 765;
+            pixels.data[pixel] = red;
+            pixels.data[pixel + 1] = green;
+            pixels.data[pixel + 2] = blue;
+            pixels.data[pixel + 3] *= .28 + .72 * (1 - lightness);
+          }
+          tintContext.putImageData(pixels, 0, 0);
           tints.push(tint);
         });
+      };
+
+      const traceWetEdge = (x, y, radius, index, phase) => {
+        context.beginPath();
+        for (let point = 0; point <= 96; point += 1) {
+          const angle = point * Math.PI / 48;
+          const grain = 1
+            + .095 * Math.sin(angle * 5 + index * 1.37 + phase)
+            + .052 * Math.sin(angle * 11 - index * .83 - phase * .6)
+            + .026 * Math.sin(angle * 23 + index * 2.11)
+            + .014 * Math.sin(angle * 47 - index * 1.73 + phase);
+          const px = x + Math.cos(angle) * radius * grain;
+          const py = y + Math.sin(angle) * radius * grain;
+          if (point === 0) context.moveTo(px, py);
+          else context.lineTo(px, py);
+        }
+        context.closePath();
       };
 
       const paint = (progress) => {
@@ -158,34 +183,43 @@
           const local = Math.max(0, Math.min(1, (progress - bloom[3]) / .68));
           if (!local) return;
 
-          const eased = easeOut(local);
-          const wetEdge = 1 - smoothstep(Math.min(1, local * 1.24));
-          const diameter = bloom[2] * (.045 + 1.12 * eased) * Math.min(1.18, Math.max(.78, cssWidth / 1180));
-          const baseAlpha = (.15 + (index % 4) * .024) * (.42 + .58 * eased);
+          const spread = smoothstep(local);
+          const diameter = bloom[2] * 1.22 * Math.min(1.18, Math.max(.52, cssWidth / 1180));
+          const radius = diameter * (.012 + .95 * spread);
+          const centerX = bloom[0] * cssWidth;
+          const centerY = bloom[1] * cssHeight;
           const tint = tints[index];
 
-          const drawLayer = (scale, opacity, rotation, driftX = 0, driftY = 0) => {
-            const size = diameter * scale;
+          const drawWash = (edgeScale, opacity, phase) => {
             context.save();
-            context.globalAlpha = baseAlpha * opacity;
-            context.translate(bloom[0] * cssWidth + driftX, bloom[1] * cssHeight + driftY);
-            context.rotate(bloom[4] + rotation);
-            context.drawImage(tint, -size / 2, -size / 2, size, size);
+            traceWetEdge(centerX, centerY, radius * edgeScale, index, phase);
+            context.clip();
+            context.globalAlpha = opacity;
+            context.translate(centerX, centerY);
+            context.rotate(bloom[4]);
+            context.drawImage(tint, -diameter / 2, -diameter / 2, diameter, diameter);
             context.restore();
           };
 
-          const tide = diameter * (.1 + eased * .11);
-          const angle = bloom[4] + index * 2.399;
-          const driftX = Math.cos(angle) * tide;
-          const driftY = Math.sin(angle) * tide;
-
           context.globalCompositeOperation = "multiply";
-          drawLayer(1.48 + wetEdge * .26, .2 + wetEdge * .15, -.2, -driftX * .35, -driftY * .35);
-          drawLayer(1.08, .62, 0);
-          drawLayer(.76, .34, .16, driftX, driftY);
-          drawLayer(.48, .2, -.12, -driftY * .72, driftX * .72);
+          drawWash(1.1, .13, .5);
+          drawWash(.98, .17, .2);
+          drawWash(.86, .23, 0);
+          drawWash(.72, .17, -.3);
           context.globalCompositeOperation = "source-over";
         });
+
+        context.save();
+        context.globalCompositeOperation = "destination-out";
+        context.translate(cssWidth < 700 ? cssWidth * .48 : cssWidth * .29, cssHeight * .48);
+        context.scale(cssWidth < 700 ? cssWidth * .88 : cssWidth * .53, cssHeight * (cssWidth < 700 ? .66 : .7));
+        const paperReserve = context.createRadialGradient(0, 0, 0, 0, 0, 1);
+        paperReserve.addColorStop(0, "rgba(0, 0, 0, .96)");
+        paperReserve.addColorStop(.54, "rgba(0, 0, 0, .88)");
+        paperReserve.addColorStop(1, "rgba(0, 0, 0, 0)");
+        context.fillStyle = paperReserve;
+        context.fillRect(-1, -1, 2, 2);
+        context.restore();
 
         context.setTransform(1, 0, 0, 1, 0, 0);
         context.globalAlpha = 1;
