@@ -13,14 +13,6 @@
     <meta name="color-scheme" content="light">
     <meta name="description" content="{{ $description }}">
     <title>{{ $pageTitle }}</title>
-    {{ if .IsHome }}
-      <script>
-        if (matchMedia("(prefers-reduced-motion: no-preference)").matches) {
-          document.documentElement.classList.add("watercolor-intro");
-          setTimeout(() => document.documentElement.classList.remove("watercolor-intro"), 8000);
-        }
-      </script>
-    {{ end }}
     <link rel="canonical" href="{{ .Permalink }}">
     <link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}">
     <link rel="preconnect" href="https://fontsapi.zeoseven.com" crossorigin>

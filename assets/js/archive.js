@@ -98,7 +98,6 @@
   const watercolorField = document.querySelector("[data-watercolor-field]");
 
   if (watercolorField) {
-    const watercolorStage = watercolorField.closest("[data-watercolor-stage]");
     const maskSource = watercolorField.dataset.maskSrc;
     const context = watercolorField.getContext("2d", { alpha: true });
 
@@ -112,14 +111,14 @@
         "#803b57", "#ad4e43", "#c68238", "#d7cf62", "#91bda0", "#91c4d0"
       ];
       const layout = [
-        [.02, .12, 360, .00, -.18], [.10, .72, 430, .08, .22], [.18, .28, 330, .14, -.36],
-        [.27, .88, 390, .04, .30], [.35, .08, 350, .18, -.12], [.42, .56, 430, .10, .40],
-        [.50, .92, 380, .22, -.32], [.56, .20, 400, .06, .16], [.63, .67, 470, .16, -.22],
-        [.70, .04, 340, .12, .34], [.77, .42, 420, .02, -.28], [.84, .86, 380, .20, .12],
-        [.92, .18, 390, .09, -.38], [.98, .63, 440, .15, .26], [.05, .94, 320, .24, -.10],
-        [.15, .48, 360, .05, .38], [.25, .04, 300, .17, -.24], [.33, .70, 370, .11, .18],
-        [.46, .34, 390, .01, -.34], [.58, .82, 430, .19, .28], [.68, .28, 350, .07, -.14],
-        [.79, .66, 410, .13, .36], [.89, .98, 340, .23, -.30], [.96, .38, 370, .03, .20]
+        [-.04, -.09, 250, .00, -.18], [.07, -.06, 235, .04, .22], [.18, -.11, 255, .07, -.36],
+        [.29, -.08, 230, .10, .30], [.40, -.12, 245, .13, -.12], [.51, -.09, 225, .16, .40],
+        [.60, -.10, 235, .12, -.32], [.70, -.05, 250, .15, .16], [.80, -.11, 225, .18, -.22],
+        [.90, -.06, 245, .21, .34], [1.00, -.12, 235, .24, -.28], [1.08, -.05, 240, .27, .12],
+        [1.08, .22, 270, .26, -.38], [1.10, .35, 260, .29, .26], [1.08, .48, 275, .32, -.10],
+        [1.12, .61, 255, .35, .38], [1.09, .74, 265, .38, -.24], [1.04, .87, 270, .41, .18],
+        [.96, 1.17, 235, .32, -.34], [.79, 1.17, 245, .35, .28], [.62, 1.20, 230, .38, -.14],
+        [.45, 1.18, 250, .41, .36], [.28, 1.20, 235, .44, -.30], [.11, 1.16, 245, .47, .20]
       ];
       const tints = [];
       let cssWidth = 1;
@@ -176,20 +175,31 @@
 
       const paint = (progress) => {
         currentProgress = progress;
-        const bloomProgress = Math.min(1, progress / .7);
         context.setTransform(1, 0, 0, 1, 0, 0);
         context.clearRect(0, 0, watercolorField.width, watercolorField.height);
         context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
         layout.forEach((bloom, index) => {
-          const local = Math.max(0, Math.min(1, (bloomProgress - bloom[3]) / .68));
+          const local = Math.max(0, Math.min(1, (progress - bloom[3]) / .5));
           if (!local) return;
 
           const spread = smoothstep(local);
           const diameter = bloom[2] * 1.22 * Math.min(1.18, Math.max(.52, cssWidth / 1180));
           const radius = diameter * (.012 + .95 * spread);
-          const centerX = bloom[0] * cssWidth;
-          const centerY = bloom[1] * cssHeight;
+          let centerX = bloom[0] * cssWidth;
+          let centerY = bloom[1] * cssHeight;
+          if (cssWidth < 700) {
+            if (index < 12) {
+              centerX = (-.08 + index * .105) * cssWidth;
+              centerY = (index % 3 === 0 ? .07 : -.02) * cssHeight;
+            } else if (index < 18) {
+              centerX = cssWidth * 1.16;
+              centerY = (.22 + (index - 12) * .14) * cssHeight;
+            } else {
+              centerX = (1.02 - (index - 18) * .2) * cssWidth;
+              centerY = (1.07 + (index % 2) * .04) * cssHeight;
+            }
+          }
           const tint = tints[index];
 
           const drawWash = (edgeScale, opacity, phase) => {
@@ -204,30 +214,11 @@
           };
 
           context.globalCompositeOperation = "multiply";
-          drawWash(1.1, .13, .5);
-          drawWash(.98, .17, .2);
-          drawWash(.86, .23, 0);
-          drawWash(.72, .17, -.3);
+          drawWash(1.1, .15, .5);
+          drawWash(.88, .24, 0);
+          drawWash(.64, .11, -.3);
           context.globalCompositeOperation = "source-over";
         });
-
-        const whitening = smoothstep(Math.max(0, Math.min(1, (progress - .7) / .2)));
-        if (whitening) {
-          context.save();
-          context.globalCompositeOperation = "destination-out";
-          context.globalAlpha = whitening * .27;
-          context.fillRect(0, 0, cssWidth, cssHeight);
-          context.globalAlpha = whitening;
-          context.translate(cssWidth < 700 ? cssWidth * .48 : cssWidth * .29, cssHeight * .48);
-          context.scale(cssWidth < 700 ? cssWidth * .88 : cssWidth * .53, cssHeight * (cssWidth < 700 ? .66 : .7));
-          const paperReserve = context.createRadialGradient(0, 0, 0, 0, 0, 1);
-          paperReserve.addColorStop(0, "rgba(0, 0, 0, .96)");
-          paperReserve.addColorStop(.54, "rgba(0, 0, 0, .88)");
-          paperReserve.addColorStop(1, "rgba(0, 0, 0, 0)");
-          context.fillStyle = paperReserve;
-          context.fillRect(-1, -1, 2, 2);
-          context.restore();
-        }
 
         context.setTransform(1, 0, 0, 1, 0, 0);
         context.globalAlpha = 1;
@@ -245,9 +236,7 @@
 
       const animate = (timestamp) => {
         if (!startTime) startTime = timestamp;
-        const progress = Math.min(1, (timestamp - startTime) / 4200);
-
-        if (progress >= .91) watercolorStage.classList.add("is-revealing");
+        const progress = Math.min(1, (timestamp - startTime) / 2800);
 
         if (timestamp - lastPaint >= 42 || progress === 1) {
           paint(progress);
@@ -267,7 +256,6 @@
         if (reduce || saveData) {
           complete = true;
           paint(1);
-          document.documentElement.classList.remove("watercolor-intro");
         } else {
           window.requestAnimationFrame(animate);
         }
@@ -275,10 +263,7 @@
       };
 
       mask.addEventListener("load", initialize, { once: true });
-      mask.addEventListener("error", () => document.documentElement.classList.remove("watercolor-intro"), { once: true });
       mask.src = maskSource;
-    } else {
-      document.documentElement.classList.remove("watercolor-intro");
     }
   }
 
