@@ -98,6 +98,7 @@
   const watercolorField = document.querySelector("[data-watercolor-field]");
 
   if (watercolorField) {
+    const watercolorStage = watercolorField.closest("[data-watercolor-stage]");
     const maskSource = watercolorField.dataset.maskSrc;
     const context = watercolorField.getContext("2d", { alpha: true });
 
@@ -175,12 +176,13 @@
 
       const paint = (progress) => {
         currentProgress = progress;
+        const bloomProgress = Math.min(1, progress / .7);
         context.setTransform(1, 0, 0, 1, 0, 0);
         context.clearRect(0, 0, watercolorField.width, watercolorField.height);
         context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
         layout.forEach((bloom, index) => {
-          const local = Math.max(0, Math.min(1, (progress - bloom[3]) / .68));
+          const local = Math.max(0, Math.min(1, (bloomProgress - bloom[3]) / .68));
           if (!local) return;
 
           const spread = smoothstep(local);
@@ -209,17 +211,23 @@
           context.globalCompositeOperation = "source-over";
         });
 
-        context.save();
-        context.globalCompositeOperation = "destination-out";
-        context.translate(cssWidth < 700 ? cssWidth * .48 : cssWidth * .29, cssHeight * .48);
-        context.scale(cssWidth < 700 ? cssWidth * .88 : cssWidth * .53, cssHeight * (cssWidth < 700 ? .66 : .7));
-        const paperReserve = context.createRadialGradient(0, 0, 0, 0, 0, 1);
-        paperReserve.addColorStop(0, "rgba(0, 0, 0, .96)");
-        paperReserve.addColorStop(.54, "rgba(0, 0, 0, .88)");
-        paperReserve.addColorStop(1, "rgba(0, 0, 0, 0)");
-        context.fillStyle = paperReserve;
-        context.fillRect(-1, -1, 2, 2);
-        context.restore();
+        const whitening = smoothstep(Math.max(0, Math.min(1, (progress - .7) / .2)));
+        if (whitening) {
+          context.save();
+          context.globalCompositeOperation = "destination-out";
+          context.globalAlpha = whitening * .27;
+          context.fillRect(0, 0, cssWidth, cssHeight);
+          context.globalAlpha = whitening;
+          context.translate(cssWidth < 700 ? cssWidth * .48 : cssWidth * .29, cssHeight * .48);
+          context.scale(cssWidth < 700 ? cssWidth * .88 : cssWidth * .53, cssHeight * (cssWidth < 700 ? .66 : .7));
+          const paperReserve = context.createRadialGradient(0, 0, 0, 0, 0, 1);
+          paperReserve.addColorStop(0, "rgba(0, 0, 0, .96)");
+          paperReserve.addColorStop(.54, "rgba(0, 0, 0, .88)");
+          paperReserve.addColorStop(1, "rgba(0, 0, 0, 0)");
+          context.fillStyle = paperReserve;
+          context.fillRect(-1, -1, 2, 2);
+          context.restore();
+        }
 
         context.setTransform(1, 0, 0, 1, 0, 0);
         context.globalAlpha = 1;
@@ -237,7 +245,9 @@
 
       const animate = (timestamp) => {
         if (!startTime) startTime = timestamp;
-        const progress = Math.min(1, (timestamp - startTime) / 3000);
+        const progress = Math.min(1, (timestamp - startTime) / 4200);
+
+        if (progress >= .91) watercolorStage.classList.add("is-revealing");
 
         if (timestamp - lastPaint >= 42 || progress === 1) {
           paint(progress);
@@ -257,6 +267,7 @@
         if (reduce || saveData) {
           complete = true;
           paint(1);
+          document.documentElement.classList.remove("watercolor-intro");
         } else {
           window.requestAnimationFrame(animate);
         }
@@ -264,7 +275,10 @@
       };
 
       mask.addEventListener("load", initialize, { once: true });
+      mask.addEventListener("error", () => document.documentElement.classList.remove("watercolor-intro"), { once: true });
       mask.src = maskSource;
+    } else {
+      document.documentElement.classList.remove("watercolor-intro");
     }
   }
 
