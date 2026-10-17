@@ -370,7 +370,10 @@ class Exporter:
         previous = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {"files": {}}
         old = previous["files"]
         expected = {path: blob_sha(data) for path, data in self.files.items()}
-        if manifest_path.exists() and old == expected and all((self.repository / p).is_file() for p in expected):
+        manifest_bytes = (json.dumps({"version": 1, "notes": len(self.notes), "files": expected},
+                                     ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+        if (manifest_path.exists() and old == expected and manifest_path.read_bytes() == manifest_bytes
+                and all((self.repository / p).is_file() for p in expected)):
             # Still check managed files for manual edits below.
             unchanged = True
         else:
@@ -395,8 +398,7 @@ class Exporter:
             if target.is_file():
                 target.unlink()
         manifest_path.parent.mkdir(parents=True, exist_ok=True)
-        manifest_path.write_text(json.dumps({"version": 1, "notes": len(self.notes), "files": expected},
-                                            ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        manifest_path.write_bytes(manifest_bytes)
         return True
 
 

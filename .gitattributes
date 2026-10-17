@@ -2,3 +2,4 @@
 content/notes/obsidian/** -text
 static/notes-media/** -text
 data/study-map.json -text
+data/obsidian-sync.json -text

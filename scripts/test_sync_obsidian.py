@@ -139,6 +139,16 @@ class ExportTests(unittest.TestCase):
     def test_empty_initial_sync_creates_manifest(self):
         self.assertTrue(self.export().apply())
         self.assertEqual(json.loads((self.repo / MANIFEST).read_text())["notes"], 0)
+        self.assertNotIn(b"\r\n", (self.repo / MANIFEST).read_bytes())
+
+    def test_manifest_newline_normalization_then_noop(self):
+        self.write("note.md", "Hello")
+        self.export().apply()
+        path = self.repo / MANIFEST
+        path.write_bytes(path.read_bytes().replace(b"\n", b"\r\n"))
+        self.assertTrue(self.export().apply())
+        self.assertNotIn(b"\r\n", path.read_bytes())
+        self.assertFalse(self.export().apply())
 
     def test_manifest_cannot_delete_outside_owned_folder(self):
         target = self.repo / "keep.txt"
