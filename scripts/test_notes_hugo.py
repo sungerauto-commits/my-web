@@ -76,6 +76,9 @@ class HugoNotesTests(unittest.TestCase):
             self.assertIn("data-note-graph", index)
             self.assertIn("data-study-map", index)
             self.assertIn("data-graph-canvas", index)
+            self.assertIn("data-graph-expand", index)
+            for icon in ["scan.svg", "minimize.svg", "maximize.svg"]:
+                self.assertTrue((output / "images/icons" / icon).is_file())
             self.assertNotIn("data-note-entry", index)
             self.assertNotIn("notes-directory", index)
             self.assertNotIn("collection-page-header", index)

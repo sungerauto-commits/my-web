@@ -167,7 +167,8 @@
       const bounds = canvas.parentElement.getBoundingClientRect();
       width = Math.max(1, bounds.width);
       height = Math.max(1, bounds.height);
-      ratio = Math.min(2, window.devicePixelRatio || 1);
+      // Bound backing pixels on large, high-density displays.
+      ratio = Math.min(2, window.devicePixelRatio || 1, Math.sqrt(8000000 / (width * height)));
       canvas.width = Math.round(width * ratio);
       canvas.height = Math.round(height * ratio);
       fit();

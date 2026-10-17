@@ -659,10 +659,10 @@ body.nav-open .nav-toggle span:last-child { top: 21px; transform: rotate(-45deg)
 .video-stage video { width: 100%; max-height: 76vh; background: #091516; }
 .media-story-copy { margin-top: 64px; }
 
-.collection-page.collection-page--notes { --notes-stage-height: clamp(640px, calc(100svh - 220px), 1120px); padding-block: 16px 40px; }
-.collection-page--notes > .site-shell { width: min(1800px, calc(100% - 32px)); }
+.collection-page.collection-page--notes { --notes-stage-height: max(960px, 100svh); padding: 0; }
+.collection-page--notes > .site-shell { width: 100%; }
 .notes-graph { margin-top: 0; border-bottom: 1px solid var(--line); }
-.notes-graph-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; padding-block: 18px; }
+.notes-graph-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; padding: 12px 16px; }
 .notes-graph-toolbar h1 { margin: 0; font-size: 1.45rem; }
 .notes-graph-toolbar p { margin: 2px 0 0; color: var(--ink-soft); font-size: .88rem; }
 .notes-graph-search { width: min(100%, 240px); margin-left: auto; }
@@ -905,8 +905,8 @@ body.nav-open .nav-toggle span:last-child { top: 21px; transform: rotate(-45deg)
 .story--notes .katex { font-size: 1.1em; }
 .story--notes .story-content { overflow-wrap: anywhere; }
 @media (max-width: 640px) {
-  .collection-page.collection-page--notes { --notes-stage-height: clamp(520px, calc(100svh - 260px), 900px); }
-  .collection-page--notes > .site-shell { width: calc(100% - 16px); }
+  .collection-page.collection-page--notes { --notes-stage-height: max(760px, 100svh); }
+  .notes-graph-toolbar { padding-inline: 8px; gap: 12px; }
   .notes-view-tabs { order: 1; flex: 1 1 160px; }
   .notes-graph-controls { order: 1; }
   .notes-map-options { padding: 10px; gap: 12px; font-size: 14px; }
@@ -914,3 +914,13 @@ body.nav-open .nav-toggle span:last-child { top: 21px; transform: rotate(-45deg)
   .notes-course { flex: 1 1 130px; min-width: 130px; }
   .notes-course select { width: 100%; }
 }
+
+body.notes-expanded { overflow: hidden; }
+body.notes-expanded #content { z-index: 100; }
+.notes-graph.is-expanded { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; width: 100%; height: 100vh; height: 100dvh; margin: 0; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); background: var(--paper); isolation: isolate; }
+.notes-graph.is-expanded::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: url("/my-web/images/art/cotton-rag-v2.webp") repeat; background-size: 760px 760px; opacity: .3; }
+.notes-graph.is-expanded > .notes-graph-toolbar { flex: none; }
+.notes-graph.is-expanded > [role="tabpanel"]:not([hidden]) { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.notes-graph.is-expanded .notes-map-options { flex: none; }
+.notes-graph.is-expanded .notes-map-stage, .notes-graph.is-expanded .notes-graph-stage { flex: 1; min-height: 0; height: auto; }
+.notes-graph.is-expanded .notes-map-detail { flex: none; max-height: 28svh; overflow: auto; }

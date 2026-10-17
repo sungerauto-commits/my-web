@@ -9,6 +9,45 @@
   const detail = root.querySelector('[data-map-detail]');
   const svgElement = root.querySelector('[data-study-map]');
   if (!svgElement || !course) return;
+  const expandButton = root.querySelector('[data-graph-expand]');
+  const expandIcon = expandButton.querySelector('img');
+  const normalIcon = expandIcon.getAttribute('src');
+  const background = [...document.querySelectorAll('.site-header, .site-footer, .skip-link')];
+  let backgroundState = [];
+  const expand = active => {
+    root.classList.toggle('is-expanded', active);
+    document.body.classList.toggle('notes-expanded', active);
+    expandButton.setAttribute('aria-pressed', String(active));
+    expandButton.setAttribute('aria-label', active ? '退出全屏图谱' : '全屏查看图谱');
+    expandButton.title = active ? '退出全屏图谱' : '全屏查看图谱';
+    expandIcon.src = active ? expandIcon.dataset.expandedSrc : normalIcon;
+    if (active) {
+      root.setAttribute('role', 'dialog');
+      root.setAttribute('aria-modal', 'true');
+      backgroundState = background.map(element => element.inert);
+      background.forEach(element => { element.inert = true; });
+    } else {
+      root.removeAttribute('role');
+      root.removeAttribute('aria-modal');
+      background.forEach((element, index) => { element.inert = backgroundState[index]; });
+    }
+    expandButton.focus({preventScroll: true});
+    root.dispatchEvent(new Event('notes:view'));
+  };
+  expandButton.addEventListener('click', () => expand(!root.classList.contains('is-expanded')));
+  root.addEventListener('keydown', event => {
+    if (!root.classList.contains('is-expanded')) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      expand(false);
+    } else if (event.key === 'Tab') {
+      const controls = [...root.querySelectorAll('button, input, select, a[href], [tabindex="0"]')]
+        .filter(element => !element.disabled && !element.closest('[hidden]') && element.getClientRects().length);
+      const first = controls[0], last = controls.at(-1);
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    }
+  });
   root.dataset.view = 'map';
   const setView = mode => {
     root.dataset.view = mode;
@@ -59,7 +98,7 @@
       const xs = [...positions.values()].map(p => p.x), ys = [...positions.values()].map(p => p.y);
       const x = Math.min(...xs), y = Math.min(...ys) - 28;
       const bw = Math.max(...xs) + W - x, bh = Math.max(...ys) + H - y;
-      const scale = Math.min(1.15, (width - 48) / bw, (height - 70) / bh);
+      const scale = Math.min(1.9, (width - 48) / bw, (height - 70) / bh);
       if (width < 600 && overview !== true) {
         const readable = Math.max(.85, scale);
         const focus = positions.get(focused);
