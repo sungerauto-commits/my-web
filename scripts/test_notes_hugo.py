@@ -3,12 +3,23 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from html.parser import HTMLParser
 from pathlib import Path
 
 from sync_obsidian import Exporter
 
 
 REPOSITORY = Path(__file__).resolve().parents[1]
+
+
+class Elements(HTMLParser):
+    def __init__(self, html):
+        super().__init__()
+        self.items = []
+        self.feed(html)
+
+    def handle_starttag(self, tag, attrs):
+        self.items.append((tag, dict(attrs)))
 
 
 def build_fixture(root):
@@ -64,6 +75,17 @@ class HugoNotesTests(unittest.TestCase):
             index = (output / "notes/index.html").read_text(encoding="utf-8")
             self.assertIn("data-note-graph", index)
             self.assertIn("电影与城市", index)
+            home = (output / "index.html").read_text(encoding="utf-8")
+            elements = Elements(home).items
+            kinds = [attrs.get("data-record-kind") for _, attrs in elements]
+            filters = [attrs.get("data-record-filter") for _, attrs in elements]
+            self.assertNotIn("notes", kinds)
+            self.assertNotIn("notes", filters)
+            self.assertIn("photos", kinds)
+            self.assertIn("videos", kinds)
+            self.assertIn('/my-web/notes/', home)
+            font = next(attrs for tag, attrs in elements if tag == "link" and "fontsapi.zeoseven.com/292" in attrs.get("href", ""))
+            self.assertEqual(font.get("media"), "print")
             search = (output / "index.json").read_text(encoding="utf-8")
             self.assertIn("电影与城市", search)
             self.assertNotIn("PRIVATE FIXTURE SECRET", search)

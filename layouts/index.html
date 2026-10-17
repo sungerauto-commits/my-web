@@ -1,10 +1,8 @@
 {{ define "main" }}
-{{ $entries := (where site.RegularPages "Section" "in" (slice "posts" "photos" "videos" "notes")).ByDate.Reverse }}
+{{ $entries := (where site.RegularPages "Section" "in" (slice "posts" "photos" "videos")).ByDate.Reverse }}
 {{ $posts := where $entries "Section" "posts" }}
 {{ $photos := where $entries "Section" "photos" }}
 {{ $videos := where $entries "Section" "videos" }}
-{{ $notes := where $entries "Section" "notes" }}
-{{ $featured := union (first 9 (where $entries "Section" "ne" "notes")) (first 3 $notes) }}
 <section class="atelier-hero" data-watercolor-stage>
   <canvas
     class="hero-watercolor"
@@ -54,14 +52,11 @@
       <button type="button" data-record-filter="videos" aria-pressed="false">
         <span class="filter-emblem filter-emblem--videos" aria-hidden="true"></span><span>视频</span><span class="filter-count">{{ len $videos }}</span>
       </button>
-      <button type="button" data-record-filter="notes" aria-pressed="false">
-        <span class="filter-emblem filter-emblem--notes" aria-hidden="true"></span><span>笔记</span><span class="filter-count">{{ len $notes }}</span>
-      </button>
     </div>
     <p class="sr-only" data-filter-status aria-live="polite"></p>
 
     <div class="archive-grid" id="archive-grid" data-archive-grid>
-      {{ range $index, $entry := sort $featured "Date" "desc" }}
+      {{ range $index, $entry := first 9 $entries }}
         {{ partial "record-tile.html" (dict "page" $entry "index" $index) }}
       {{ else }}
         <p class="empty-copy">这里还没有公开内容。</p>

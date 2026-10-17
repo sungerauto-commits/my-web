@@ -16,7 +16,7 @@
     <link rel="canonical" href="{{ .Permalink }}">
     <link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}">
     <link rel="preconnect" href="https://fontsapi.zeoseven.com" crossorigin>
-    <link href="https://fontsapi.zeoseven.com/292/main/result.css" rel="stylesheet">
+    <link href="https://fontsapi.zeoseven.com/292/main/result.css" rel="stylesheet" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
     {{ template "_internal/opengraph.html" . }}
     {{ template "_internal/twitter_cards.html" . }}
