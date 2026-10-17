@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 370" role="img" aria-labelledby="title desc">
+<title id="title">红灯等待时间分布函数</title><desc id="desc">x小于0时为0，在0处跳至0.2，再线性增加到30秒处的1，之后保持为1。</desc>
+<rect width="660" height="370" rx="12" fill="white"/>
+<g stroke="#ddd" stroke-dasharray="4 5"><path d="M150 252H510M150 60H510M510 60V300"/></g>
+<g stroke="#334155" stroke-width="1.5"><path d="M55 300H610M150 325V30"/><path d="M605 296l7 4-7 4M146 35l4-7 4 7"/></g>
+<g fill="none" stroke="#7c3aed" stroke-width="4"><path d="M65 300H150M150 252L510 60H600"/></g>
+<circle cx="150" cy="300" r="5" fill="white" stroke="#7c3aed" stroke-width="3"/>
+<g fill="#7c3aed"><circle cx="150" cy="252" r="5"/><circle cx="510" cy="60" r="5"/></g>
+<g fill="#1e293b" font-family="Arial,Microsoft YaHei,sans-serif" font-size="18">
+<text x="111" y="322">0</text><text x="105" y="258">0.2</text><text x="116" y="66">1</text><text x="500" y="327">30</text>
+<text x="110" y="25">F(x)</text><text x="555" y="350">x（秒）</text>
+<text x="270" y="177" fill="#7c3aed">F(x) = 0.2 + 0.8x/30</text></g></svg>

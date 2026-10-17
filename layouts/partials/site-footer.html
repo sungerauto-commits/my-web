@@ -6,7 +6,7 @@
     </div>
     <nav class="footer-navigation" aria-label="页脚导航">
       {{ range site.Menus.main }}
-        {{ if in (slice "posts" "photos" "videos") .Identifier }}
+        {{ if in (slice "posts" "photos" "videos" "notes") .Identifier }}
           <a href="{{ .URL | relURL }}">{{ .Name }}</a>
         {{ end }}
       {{ end }}

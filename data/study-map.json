@@ -1,0 +1,1776 @@
+{
+  "groups": {
+    "电路": [
+      [
+        "直流与基本定律",
+        [
+          "D01",
+          "D02",
+          "D03",
+          "D04",
+          "D05",
+          "D06",
+          "D07",
+          "D08",
+          "D09",
+          "D10",
+          "D11"
+        ]
+      ],
+      [
+        "电容电感与换路",
+        [
+          "D12",
+          "D13",
+          "D14",
+          "D15",
+          "D16",
+          "D17"
+        ]
+      ],
+      [
+        "正弦交流与功率",
+        [
+          "D18",
+          "D19",
+          "D20",
+          "D21",
+          "D22",
+          "D23",
+          "D24"
+        ]
+      ]
+    ],
+    "大学物理": [
+      [
+        "电场与高斯定理",
+        [
+          "P01",
+          "P02",
+          "P03",
+          "P04",
+          "P05",
+          "P06",
+          "P07",
+          "P08",
+          "P09",
+          "P10",
+          "P11",
+          "P12"
+        ]
+      ],
+      [
+        "电势与能量",
+        [
+          "P13",
+          "P14",
+          "P15",
+          "P16"
+        ]
+      ],
+      [
+        "导体与接地",
+        [
+          "P17",
+          "P18",
+          "P19"
+        ]
+      ],
+      [
+        "电介质",
+        [
+          "P20",
+          "P21"
+        ]
+      ],
+      [
+        "电容与静电能",
+        [
+          "P22",
+          "P23",
+          "P24",
+          "P25",
+          "P26",
+          "P27"
+        ]
+      ]
+    ],
+    "概率论": [
+      [
+        "事件与计数",
+        [
+          "R01",
+          "R02",
+          "R03",
+          "R04",
+          "R05",
+          "R06",
+          "R36"
+        ]
+      ],
+      [
+        "条件概率与独立",
+        [
+          "R07",
+          "R08",
+          "R09",
+          "R10",
+          "R11",
+          "R12",
+          "R13"
+        ]
+      ],
+      [
+        "离散模型",
+        [
+          "R14",
+          "R15",
+          "R16",
+          "R17",
+          "R18",
+          "R19",
+          "R20",
+          "R21",
+          "R22"
+        ]
+      ],
+      [
+        "连续模型",
+        [
+          "R23",
+          "R24",
+          "R25",
+          "R26",
+          "R27",
+          "R28",
+          "R29",
+          "R35"
+        ]
+      ],
+      [
+        "函数分布与近似",
+        [
+          "R30",
+          "R31",
+          "R32",
+          "R33",
+          "R34"
+        ]
+      ]
+    ]
+  },
+  "nodes": [
+    {
+      "id": "D01",
+      "title": "参考方向与关联参考方向",
+      "course": "电路",
+      "chapter": "直流与基本定律",
+      "type": "concept",
+      "cue": "算出负数，先解释方向，再判断是否做错。",
+      "prerequisites": [],
+      "note": "notes/obsidian/44b18b6111927f4a/index.md",
+      "url": "/my-web/notes/obsidian/44b18b6111927f4a/"
+    },
+    {
+      "id": "D02",
+      "title": "功率与功率平衡",
+      "course": "电路",
+      "chapter": "直流与基本定律",
+      "type": "concept",
+      "cue": "判断电源供电还是被充电，要看电流从哪端进入。",
+      "prerequisites": [
+        "D01"
+      ],
+      "note": "notes/obsidian/48f4acf6a44a144b/index.md",
+      "url": "/my-web/notes/obsidian/48f4acf6a44a144b/"
+    },
+    {
+      "id": "D03",
+      "title": "电阻串并联与分压分流",
+      "course": "电路",
+      "chapter": "直流与基本定律",
+      "type": "concept",
+      "cue": "先看节点连接，不能凭元件画得像不像串联。",
+      "prerequisites": [
+        "D01"
+      ],
+      "note": "notes/obsidian/f6180e1bff800236/index.md",
+      "url": "/my-web/notes/obsidian/f6180e1bff800236/"
+    },
+    {
+      "id": "D04",
+      "title": "独立源与受控源",
+      "course": "电路",
+      "chapter": "直流与基本定律",
+      "type": "concept",
+      "cue": "电压源定电压，电流源定电流；另一个量由外部电路决定。",
+      "prerequisites": [
+        "D01"
+      ],
+      "note": "notes/obsidian/e531b97aac547143/index.md",
+      "url": "/my-web/notes/obsidian/e531b97aac547143/"
+    },
+    {
+      "id": "D05",
+      "title": "基尔霍夫电流定律KCL",
+      "course": "电路",
+      "chapter": "直流与基本定律",
+      "type": "concept",
+      "cue": "看到节点和分支，先列流入等于流出。",
+      "prerequisites": [
+        "D01"
+      ],
+      "note": "notes/obsidian/87f1dce4c5d02a59/index.md",
+      "url": "/my-web/notes/obsidian/87f1dce4c5d02a59/"
+    },
+    {
+      "id": "D06",
+      "title": "基尔霍夫电压定律KVL",
+      "course": "电路",
+      "chapter": "直流与基本定律",
+      "type": "concept",
+      "cue": "绕回起点，电势升降的代数和为零。",
+      "prerequisites": [
+        "D01"
+      ],
+      "note": "notes/obsidian/e8ca477daa3b2118/index.md",
+      "url": "/my-web/notes/obsidian/e8ca477daa3b2118/"
+    },
+    {
+      "id": "D07",
+      "title": "支路电流法与节点电压法",
+      "course": "电路",
+      "chapter": "直流与基本定律",
+      "type": "concept",
+      "cue": "不能直接串并联时，用KCL和KVL组织未知量。",
+      "prerequisites": [
+        "D03",
+        "D05",
+        "D06"
+      ],
+      "note": "notes/obsidian/7de8d96e94f22918/index.md",
+      "url": "/my-web/notes/obsidian/7de8d96e94f22918/"
+    },
+    {
+      "id": "D08",
+      "title": "叠加定理",
+      "course": "电路",
+      "chapter": "直流与基本定律",
+      "type": "concept",
+      "cue": "多个独立源逐个作用，最后叠加电压或电流。",
+      "prerequisites": [
+        "D04",
+        "D07"
+      ],
+      "note": "notes/obsidian/98d7b871642b2259/index.md",
+      "url": "/my-web/notes/obsidian/98d7b871642b2259/"
+    },
+    {
+      "id": "D09",
+      "title": "戴维宁定理",
+      "course": "电路",
+      "chapter": "直流与基本定律",
+      "type": "concept",
+      "cue": "只求一条负载支路时，先把其余电路变成电压源串电阻。",
+      "prerequisites": [
+        "D04",
+        "D07"
+      ],
+      "note": "notes/obsidian/29d0477b8a7ab3b3/index.md",
+      "url": "/my-web/notes/obsidian/29d0477b8a7ab3b3/"
+    },
+    {
+      "id": "D10",
+      "title": "诺顿定理与电源等效变换",
+      "course": "电路",
+      "chapter": "直流与基本定律",
+      "type": "concept",
+      "cue": "同一个端口，也可写成电流源并电阻。",
+      "prerequisites": [
+        "D09"
+      ],
+      "note": "notes/obsidian/29f66ad91509ead0/index.md",
+      "url": "/my-web/notes/obsidian/29f66ad91509ead0/"
+    },
+    {
+      "id": "D11",
+      "title": "非线性电阻与负载线",
+      "course": "电路",
+      "chapter": "直流与基本定律",
+      "type": "concept",
+      "cue": "看到曲线伏安特性，找工作点，不要当成固定电阻。",
+      "prerequisites": [
+        "D07"
+      ],
+      "note": "notes/obsidian/f832fae005637b62/index.md",
+      "url": "/my-web/notes/obsidian/f832fae005637b62/"
+    },
+    {
+      "id": "D12",
+      "title": "电容的伏安关系与储能",
+      "course": "电路",
+      "chapter": "电容电感与换路",
+      "type": "concept",
+      "cue": "电容电流由电压变化率决定，直流稳态开路。",
+      "prerequisites": [
+        "D01",
+        "D02"
+      ],
+      "note": "notes/obsidian/4deccae1762f21a1/index.md",
+      "url": "/my-web/notes/obsidian/4deccae1762f21a1/"
+    },
+    {
+      "id": "D13",
+      "title": "电感的伏安关系与储能",
+      "course": "电路",
+      "chapter": "电容电感与换路",
+      "type": "concept",
+      "cue": "电感电压由电流变化率决定，直流稳态短路。",
+      "prerequisites": [
+        "D01",
+        "D02"
+      ],
+      "note": "notes/obsidian/19b122467f6cebf2/index.md",
+      "url": "/my-web/notes/obsidian/19b122467f6cebf2/"
+    },
+    {
+      "id": "D14",
+      "title": "换路定律与初始值",
+      "course": "电路",
+      "chapter": "电容电感与换路",
+      "type": "concept",
+      "cue": "连续的是电容电压和电感电流，其他量重新算。",
+      "prerequisites": [
+        "D12",
+        "D13"
+      ],
+      "note": "notes/obsidian/50aed8ea4d5c45b2/index.md",
+      "url": "/my-web/notes/obsidian/50aed8ea4d5c45b2/"
+    },
+    {
+      "id": "D15",
+      "title": "一阶电路三要素法",
+      "course": "电路",
+      "chapter": "电容电感与换路",
+      "type": "concept",
+      "cue": "先找初值、终值、时间常数，再写指数。",
+      "prerequisites": [
+        "D09",
+        "D14"
+      ],
+      "note": "notes/obsidian/90cba90d8e907b67/index.md",
+      "url": "/my-web/notes/obsidian/90cba90d8e907b67/"
+    },
+    {
+      "id": "D16",
+      "title": "RC充放电与全响应",
+      "course": "电路",
+      "chapter": "电容电感与换路",
+      "type": "concept",
+      "cue": "电容从初始电压向新终值靠近，方向由差值决定。",
+      "prerequisites": [
+        "D12",
+        "D15"
+      ],
+      "note": "notes/obsidian/e36be8778d58d649/index.md",
+      "url": "/my-web/notes/obsidian/e36be8778d58d649/"
+    },
+    {
+      "id": "D17",
+      "title": "RL一阶响应",
+      "course": "电路",
+      "chapter": "电容电感与换路",
+      "type": "concept",
+      "cue": "电感电流从原初值逐渐走向新的直流值。",
+      "prerequisites": [
+        "D13",
+        "D15"
+      ],
+      "note": "notes/obsidian/abd5e632e172ba01/index.md",
+      "url": "/my-web/notes/obsidian/abd5e632e172ba01/"
+    },
+    {
+      "id": "D18",
+      "title": "正弦量与有效值",
+      "course": "电路",
+      "chapter": "正弦交流与功率",
+      "type": "concept",
+      "cue": "幅值、有效值、频率和初相要分清。",
+      "prerequisites": [
+        "D01"
+      ],
+      "note": "notes/obsidian/53a8e7a42b0b67fa/index.md",
+      "url": "/my-web/notes/obsidian/53a8e7a42b0b67fa/"
+    },
+    {
+      "id": "D19",
+      "title": "相量与复数运算",
+      "course": "电路",
+      "chapter": "正弦交流与功率",
+      "type": "concept",
+      "cue": "同频正弦稳态，把微分方程转成复数代数。",
+      "prerequisites": [
+        "D18"
+      ],
+      "note": "notes/obsidian/1522323228def87d/index.md",
+      "url": "/my-web/notes/obsidian/1522323228def87d/"
+    },
+    {
+      "id": "D20",
+      "title": "RLC元件复阻抗",
+      "course": "电路",
+      "chapter": "正弦交流与功率",
+      "type": "concept",
+      "cue": "R同相，L电压超前电流90°，C电压滞后电流90°。",
+      "prerequisites": [
+        "D12",
+        "D13",
+        "D19"
+      ],
+      "note": "notes/obsidian/3ab140eab2134944/index.md",
+      "url": "/my-web/notes/obsidian/3ab140eab2134944/"
+    },
+    {
+      "id": "D21",
+      "title": "RLC串联与相量图",
+      "course": "电路",
+      "chapter": "正弦交流与功率",
+      "type": "concept",
+      "cue": "串联用同一电流，电压按相量相加。",
+      "prerequisites": [
+        "D06",
+        "D20"
+      ],
+      "note": "notes/obsidian/28e997c5a15ba291/index.md",
+      "url": "/my-web/notes/obsidian/28e997c5a15ba291/"
+    },
+    {
+      "id": "D22",
+      "title": "交流并联与导纳",
+      "course": "电路",
+      "chapter": "正弦交流与功率",
+      "type": "concept",
+      "cue": "并联同电压，支路电流相量相加。",
+      "prerequisites": [
+        "D05",
+        "D20"
+      ],
+      "note": "notes/obsidian/cfd166f4fe2772af/index.md",
+      "url": "/my-web/notes/obsidian/cfd166f4fe2772af/"
+    },
+    {
+      "id": "D23",
+      "title": "交流功率与功率因数",
+      "course": "电路",
+      "chapter": "正弦交流与功率",
+      "type": "concept",
+      "cue": "有效值相乘得到视在功率，有功还要乘相位差的余弦。",
+      "prerequisites": [
+        "D02",
+        "D19"
+      ],
+      "note": "notes/obsidian/f022f03e0999976d/index.md",
+      "url": "/my-web/notes/obsidian/f022f03e0999976d/"
+    },
+    {
+      "id": "D24",
+      "title": "串联谐振",
+      "course": "电路",
+      "chapter": "正弦交流与功率",
+      "type": "concept",
+      "cue": "感抗与容抗抵消时，总阻抗只剩电阻。",
+      "prerequisites": [
+        "D21",
+        "D23"
+      ],
+      "note": "notes/obsidian/5f47f9e9111db566/index.md",
+      "url": "/my-web/notes/obsidian/5f47f9e9111db566/"
+    },
+    {
+      "id": "P01",
+      "title": "库仑定律与电场强度",
+      "course": "大学物理",
+      "chapter": "电场与高斯定理",
+      "type": "concept",
+      "cue": "先分清场源电荷和检验电荷，再定矢量方向。",
+      "prerequisites": [],
+      "note": "notes/obsidian/5db3f92103115401/index.md",
+      "url": "/my-web/notes/obsidian/5db3f92103115401/"
+    },
+    {
+      "id": "P02",
+      "title": "电场叠加与连续电荷积分",
+      "course": "大学物理",
+      "chapter": "电场与高斯定理",
+      "type": "concept",
+      "cue": "几何不够对称时，把电荷切小、投影，再积分。",
+      "prerequisites": [
+        "P01"
+      ],
+      "note": "notes/obsidian/f8d9b9949f706896/index.md",
+      "url": "/my-web/notes/obsidian/f8d9b9949f706896/"
+    },
+    {
+      "id": "P03",
+      "title": "均匀带电圆环轴线场强",
+      "course": "大学物理",
+      "chapter": "电场与高斯定理",
+      "type": "concept",
+      "cue": "圆环各元距离相同，横向分量抵消，保留轴向。",
+      "prerequisites": [
+        "P02"
+      ],
+      "note": "notes/obsidian/581bfd027b33ab9b/index.md",
+      "url": "/my-web/notes/obsidian/581bfd027b33ab9b/"
+    },
+    {
+      "id": "P04",
+      "title": "半圆环的场强与电势",
+      "course": "大学物理",
+      "chapter": "电场与高斯定理",
+      "type": "concept",
+      "cue": "半圆环缺少另一半的抵消，圆心场强通常非零。",
+      "prerequisites": [
+        "P02",
+        "P13"
+      ],
+      "note": "notes/obsidian/cfa586bb35f32867/index.md",
+      "url": "/my-web/notes/obsidian/cfa586bb35f32867/"
+    },
+    {
+      "id": "P05",
+      "title": "有限带电直棒",
+      "course": "大学物理",
+      "chapter": "电场与高斯定理",
+      "type": "concept",
+      "cue": "有限直棒通常用积分；无限长才直接用柱对称结论。",
+      "prerequisites": [
+        "P02"
+      ],
+      "note": "notes/obsidian/02e13da3fb3fda17/index.md",
+      "url": "/my-web/notes/obsidian/02e13da3fb3fda17/"
+    },
+    {
+      "id": "P06",
+      "title": "带电圆盘与圆环分割",
+      "course": "大学物理",
+      "chapter": "电场与高斯定理",
+      "type": "concept",
+      "cue": "圆盘切成同心细圆环，复用圆环轴线公式。",
+      "prerequisites": [
+        "P03"
+      ],
+      "note": "notes/obsidian/148759da30c3ab16/index.md",
+      "url": "/my-web/notes/obsidian/148759da30c3ab16/"
+    },
+    {
+      "id": "P07",
+      "title": "电通量",
+      "course": "大学物理",
+      "chapter": "电场与高斯定理",
+      "type": "concept",
+      "cue": "通量数的是穿过曲面的有向场，不是曲面上的场强总量。",
+      "prerequisites": [
+        "P01"
+      ],
+      "note": "notes/obsidian/be46d9ab8747aa2d/index.md",
+      "url": "/my-web/notes/obsidian/be46d9ab8747aa2d/"
+    },
+    {
+      "id": "P08",
+      "title": "高斯定理与对称性判断",
+      "course": "大学物理",
+      "chapter": "电场与高斯定理",
+      "type": "concept",
+      "cue": "先证明能把E提出积分，再写ES。",
+      "prerequisites": [
+        "P07"
+      ],
+      "note": "notes/obsidian/a7515dd943226c39/index.md",
+      "url": "/my-web/notes/obsidian/a7515dd943226c39/"
+    },
+    {
+      "id": "P09",
+      "title": "球对称电荷的分区电场与电势",
+      "course": "大学物理",
+      "chapter": "电场与高斯定理",
+      "type": "concept",
+      "cue": "球壳和实心球的内部场不同，先求包围电荷。",
+      "prerequisites": [
+        "P08",
+        "P13"
+      ],
+      "note": "notes/obsidian/61c5fb0adfb7b15d/index.md",
+      "url": "/my-web/notes/obsidian/61c5fb0adfb7b15d/"
+    },
+    {
+      "id": "P10",
+      "title": "无限长线与圆柱对称场",
+      "course": "大学物理",
+      "chapter": "电场与高斯定理",
+      "type": "concept",
+      "cue": "同轴圆柱侧面有通量，两个端面的通量为零。",
+      "prerequisites": [
+        "P08"
+      ],
+      "note": "notes/obsidian/bf68bff3575ef0c4/index.md",
+      "url": "/my-web/notes/obsidian/bf68bff3575ef0c4/"
+    },
+    {
+      "id": "P11",
+      "title": "无限大平面与多平面叠加",
+      "course": "大学物理",
+      "chapter": "电场与高斯定理",
+      "type": "concept",
+      "cue": "先区分非导体薄电荷面和导体表面，避免差一个2。",
+      "prerequisites": [
+        "P08"
+      ],
+      "note": "notes/obsidian/e808e3a51757b08c/index.md",
+      "url": "/my-web/notes/obsidian/e808e3a51757b08c/"
+    },
+    {
+      "id": "P12",
+      "title": "补偿法与挖孔电荷分布",
+      "course": "大学物理",
+      "chapter": "电场与高斯定理",
+      "type": "concept",
+      "cue": "缺一块的均匀分布，写成完整分布加反号的一块。",
+      "prerequisites": [
+        "P02",
+        "P09"
+      ],
+      "note": "notes/obsidian/3264ea7c2054acbc/index.md",
+      "url": "/my-web/notes/obsidian/3264ea7c2054acbc/"
+    },
+    {
+      "id": "P13",
+      "title": "电势与电势叠加",
+      "course": "大学物理",
+      "chapter": "电势与能量",
+      "type": "concept",
+      "cue": "电势是标量；求场难但距离简单时，可先求电势。",
+      "prerequisites": [
+        "P01"
+      ],
+      "note": "notes/obsidian/09dc45185b27d0e3/index.md",
+      "url": "/my-web/notes/obsidian/09dc45185b27d0e3/"
+    },
+    {
+      "id": "P14",
+      "title": "电场与电势的梯度关系",
+      "course": "大学物理",
+      "chapter": "电势与能量",
+      "type": "concept",
+      "cue": "电势下降最快的方向就是电场方向。",
+      "prerequisites": [
+        "P13"
+      ],
+      "note": "notes/obsidian/8f9705eb2776bc64/index.md",
+      "url": "/my-web/notes/obsidian/8f9705eb2776bc64/"
+    },
+    {
+      "id": "P15",
+      "title": "静电力做功与电势能",
+      "course": "大学物理",
+      "chapter": "电势与能量",
+      "type": "concept",
+      "cue": "先看初末位置电势，路径再曲折也不影响静电功。",
+      "prerequisites": [
+        "P13"
+      ],
+      "note": "notes/obsidian/e069de2496b8452b/index.md",
+      "url": "/my-web/notes/obsidian/e069de2496b8452b/"
+    },
+    {
+      "id": "P16",
+      "title": "电偶极子与均匀场中的力矩",
+      "course": "大学物理",
+      "chapter": "电势与能量",
+      "type": "concept",
+      "cue": "两力合力为零，仍可能形成转矩。",
+      "prerequisites": [
+        "P01",
+        "P13"
+      ],
+      "note": "notes/obsidian/64eecd8aa05cc58a/index.md",
+      "url": "/my-web/notes/obsidian/64eecd8aa05cc58a/"
+    },
+    {
+      "id": "P17",
+      "title": "导体静电平衡",
+      "course": "大学物理",
+      "chapter": "导体与接地",
+      "type": "concept",
+      "cue": "导体材料内E为零，整个连通导体等势；电势未必为零。",
+      "prerequisites": [
+        "P08",
+        "P13"
+      ],
+      "note": "notes/obsidian/58d990316008085d/index.md",
+      "url": "/my-web/notes/obsidian/58d990316008085d/"
+    },
+    {
+      "id": "P18",
+      "title": "导体空腔与感应电荷",
+      "course": "大学物理",
+      "chapter": "导体与接地",
+      "type": "concept",
+      "cue": "先用材料内高斯面定内表面总电荷，再用守恒定外表面。",
+      "prerequisites": [
+        "P17"
+      ],
+      "note": "notes/obsidian/7ef2a5f9ba7e6f23/index.md",
+      "url": "/my-web/notes/obsidian/7ef2a5f9ba7e6f23/"
+    },
+    {
+      "id": "P19",
+      "title": "接地条件与导体电势",
+      "course": "大学物理",
+      "chapter": "导体与接地",
+      "type": "concept",
+      "cue": "接地固定V，不固定导体电荷量。",
+      "prerequisites": [
+        "P18"
+      ],
+      "note": "notes/obsidian/10da961e673c07ae/index.md",
+      "url": "/my-web/notes/obsidian/10da961e673c07ae/"
+    },
+    {
+      "id": "P20",
+      "title": "电介质极化与极化强度",
+      "course": "大学物理",
+      "chapter": "电介质",
+      "type": "concept",
+      "cue": "介质内部束缚电荷微小位移，形成极化。",
+      "prerequisites": [
+        "P16"
+      ],
+      "note": "notes/obsidian/9038a67e0032fe4c/index.md",
+      "url": "/my-web/notes/obsidian/9038a67e0032fe4c/"
+    },
+    {
+      "id": "P21",
+      "title": "电位移D与介质高斯定理",
+      "course": "大学物理",
+      "chapter": "电介质",
+      "type": "concept",
+      "cue": "D的闭面通量只数自由电荷，E仍由全部电荷决定。",
+      "prerequisites": [
+        "P08",
+        "P20"
+      ],
+      "note": "notes/obsidian/a7b196bda29841f1/index.md",
+      "url": "/my-web/notes/obsidian/a7b196bda29841f1/"
+    },
+    {
+      "id": "P22",
+      "title": "电容定义与平行板电容",
+      "course": "大学物理",
+      "chapter": "电容与静电能",
+      "type": "concept",
+      "cue": "电容由几何和介质决定，Q与U是同一状态的对应量。",
+      "prerequisites": [
+        "P13",
+        "P17"
+      ],
+      "note": "notes/obsidian/fb9f374dfa570d82/index.md",
+      "url": "/my-web/notes/obsidian/fb9f374dfa570d82/"
+    },
+    {
+      "id": "P23",
+      "title": "球形电容器与孤立导体球电容",
+      "course": "大学物理",
+      "chapter": "电容与静电能",
+      "type": "concept",
+      "cue": "先求两球间场和电势差，再消去假设电荷。",
+      "prerequisites": [
+        "P09",
+        "P22"
+      ],
+      "note": "notes/obsidian/af37467a4edc5504/index.md",
+      "url": "/my-web/notes/obsidian/af37467a4edc5504/"
+    },
+    {
+      "id": "P24",
+      "title": "同轴圆柱电容器",
+      "course": "大学物理",
+      "chapter": "电容与静电能",
+      "type": "concept",
+      "cue": "长圆柱忽略端部，用柱对称场积分得到对数。",
+      "prerequisites": [
+        "P10",
+        "P22"
+      ],
+      "note": "notes/obsidian/5bd546b0c5a7dedc/index.md",
+      "url": "/my-web/notes/obsidian/5bd546b0c5a7dedc/"
+    },
+    {
+      "id": "P25",
+      "title": "电容串并联与混合介质",
+      "course": "大学物理",
+      "chapter": "电容与静电能",
+      "type": "concept",
+      "cue": "沿电场分层看串联，分面积并排看并联。",
+      "prerequisites": [
+        "P21",
+        "P22"
+      ],
+      "note": "notes/obsidian/ea2bc1f82c5e399a/index.md",
+      "url": "/my-web/notes/obsidian/ea2bc1f82c5e399a/"
+    },
+    {
+      "id": "P26",
+      "title": "静电能量与能量密度",
+      "course": "大学物理",
+      "chapter": "电容与静电能",
+      "type": "concept",
+      "cue": "集中电容用能量公式，空间分布用场能积分。",
+      "prerequisites": [
+        "P15",
+        "P22"
+      ],
+      "note": "notes/obsidian/7ae1f1f4ff41bd7b/index.md",
+      "url": "/my-web/notes/obsidian/7ae1f1f4ff41bd7b/"
+    },
+    {
+      "id": "P27",
+      "title": "插入介质时固定Q还是固定U",
+      "course": "大学物理",
+      "chapter": "电容与静电能",
+      "type": "concept",
+      "cue": "第一步先看电源是否仍接着，再判断场、电荷和能量变化。",
+      "prerequisites": [
+        "P25",
+        "P26"
+      ],
+      "note": "notes/obsidian/24e59c001e2459b3/index.md",
+      "url": "/my-web/notes/obsidian/24e59c001e2459b3/"
+    },
+    {
+      "id": "R01",
+      "title": "样本空间与事件",
+      "course": "概率论",
+      "chapter": "事件与计数",
+      "type": "concept",
+      "cue": "先说清一次试验记录什么，再谈概率。",
+      "prerequisites": [],
+      "note": "notes/obsidian/52522b56538c6fc4/index.md",
+      "url": "/my-web/notes/obsidian/52522b56538c6fc4/"
+    },
+    {
+      "id": "R02",
+      "title": "事件运算与德摩根律",
+      "course": "概率论",
+      "chapter": "事件与计数",
+      "type": "concept",
+      "cue": "把“至少、都、仅有、不是全部”准确翻译成集合。",
+      "prerequisites": [
+        "R01"
+      ],
+      "note": "notes/obsidian/f3732cf365957480/index.md",
+      "url": "/my-web/notes/obsidian/f3732cf365957480/"
+    },
+    {
+      "id": "R03",
+      "title": "概率公理与基本性质",
+      "course": "概率论",
+      "chapter": "事件与计数",
+      "type": "concept",
+      "cue": "后面的公式都应回到非负、归一、可列可加三条。",
+      "prerequisites": [
+        "R01"
+      ],
+      "note": "notes/obsidian/b7c7668670cc1cc4/index.md",
+      "url": "/my-web/notes/obsidian/b7c7668670cc1cc4/"
+    },
+    {
+      "id": "R04",
+      "title": "加法公式与容斥",
+      "course": "概率论",
+      "chapter": "事件与计数",
+      "type": "concept",
+      "cue": "重叠部分多算一次，就减一次；三集合要再补回来。",
+      "prerequisites": [
+        "R02",
+        "R03"
+      ],
+      "note": "notes/obsidian/a621a6267a419841/index.md",
+      "url": "/my-web/notes/obsidian/a621a6267a419841/"
+    },
+    {
+      "id": "R05",
+      "title": "古典概型与组合计数",
+      "course": "概率论",
+      "chapter": "事件与计数",
+      "type": "concept",
+      "cue": "有限等可能才是“有利结果数除以总数”。",
+      "prerequisites": [
+        "R01",
+        "R03"
+      ],
+      "note": "notes/obsidian/cf5d3585e7466d15/index.md",
+      "url": "/my-web/notes/obsidian/cf5d3585e7466d15/"
+    },
+    {
+      "id": "R06",
+      "title": "几何概型",
+      "course": "概率论",
+      "chapter": "事件与计数",
+      "type": "concept",
+      "cue": "等可能指相同几何量，不是坐标数字看起来平均。",
+      "prerequisites": [
+        "R03"
+      ],
+      "note": "notes/obsidian/a4baa267f6b84d83/index.md",
+      "url": "/my-web/notes/obsidian/a4baa267f6b84d83/"
+    },
+    {
+      "id": "R07",
+      "title": "条件概率",
+      "course": "概率论",
+      "chapter": "条件概率与独立",
+      "type": "concept",
+      "cue": "已知B发生，就在B内部重新归一化。",
+      "prerequisites": [
+        "R03"
+      ],
+      "note": "notes/obsidian/a5655733731507cc/index.md",
+      "url": "/my-web/notes/obsidian/a5655733731507cc/"
+    },
+    {
+      "id": "R08",
+      "title": "乘法公式与概率树",
+      "course": "概率论",
+      "chapter": "条件概率与独立",
+      "type": "concept",
+      "cue": "多步骤同时成功，把每一步在此前历史下的概率相乘。",
+      "prerequisites": [
+        "R07"
+      ],
+      "note": "notes/obsidian/e753433a0de5fba5/index.md",
+      "url": "/my-web/notes/obsidian/e753433a0de5fba5/"
+    },
+    {
+      "id": "R09",
+      "title": "全概率公式",
+      "course": "概率论",
+      "chapter": "条件概率与独立",
+      "type": "concept",
+      "cue": "按互斥且穷尽的原因分类，先条件计算再加权。",
+      "prerequisites": [
+        "R02",
+        "R08"
+      ],
+      "note": "notes/obsidian/2587cd6473932f70/index.md",
+      "url": "/my-web/notes/obsidian/2587cd6473932f70/"
+    },
+    {
+      "id": "R10",
+      "title": "贝叶斯公式与先验更新",
+      "course": "概率论",
+      "chapter": "条件概率与独立",
+      "type": "concept",
+      "cue": "结果已经发生，比较各原因对这个结果的贡献。",
+      "prerequisites": [
+        "R07",
+        "R09"
+      ],
+      "note": "notes/obsidian/7f9d2b002c3455e4/index.md",
+      "url": "/my-web/notes/obsidian/7f9d2b002c3455e4/"
+    },
+    {
+      "id": "R11",
+      "title": "事件独立与互斥的区别",
+      "course": "概率论",
+      "chapter": "条件概率与独立",
+      "type": "concept",
+      "cue": "互斥说不能同时发生，独立说知道一个不改变另一个概率。",
+      "prerequisites": [
+        "R07",
+        "R08"
+      ],
+      "note": "notes/obsidian/0f5dc8ebf244204a/index.md",
+      "url": "/my-web/notes/obsidian/0f5dc8ebf244204a/"
+    },
+    {
+      "id": "R12",
+      "title": "两两独立与相互独立",
+      "course": "概率论",
+      "chapter": "条件概率与独立",
+      "type": "concept",
+      "cue": "三事件要检查三对和三者交集，不能只查两两。",
+      "prerequisites": [
+        "R11"
+      ],
+      "note": "notes/obsidian/feed334eee9899c6/index.md",
+      "url": "/my-web/notes/obsidian/feed334eee9899c6/"
+    },
+    {
+      "id": "R13",
+      "title": "独立重复试验与至少一次",
+      "course": "概率论",
+      "chapter": "条件概率与独立",
+      "type": "concept",
+      "cue": "先检查独立、同概率，再把“至少一次”转成补事件。",
+      "prerequisites": [
+        "R11"
+      ],
+      "note": "notes/obsidian/6f86eb85a87811f3/index.md",
+      "url": "/my-web/notes/obsidian/6f86eb85a87811f3/"
+    },
+    {
+      "id": "R14",
+      "title": "随机变量是样本空间上的函数",
+      "course": "概率论",
+      "chapter": "离散模型",
+      "type": "concept",
+      "cue": "X不是某个未知常数，而是给每个试验结果赋数值的规则。",
+      "prerequisites": [
+        "R01"
+      ],
+      "note": "notes/obsidian/749b0e191a8c3ec0/index.md",
+      "url": "/my-web/notes/obsidian/749b0e191a8c3ec0/"
+    },
+    {
+      "id": "R15",
+      "title": "离散分布律与归一化",
+      "course": "概率论",
+      "chapter": "离散模型",
+      "type": "concept",
+      "cue": "先列所有可能值，再确保概率非负且总和为1。",
+      "prerequisites": [
+        "R14"
+      ],
+      "note": "notes/obsidian/f90f2e4ddd7a9d01/index.md",
+      "url": "/my-web/notes/obsidian/f90f2e4ddd7a9d01/"
+    },
+    {
+      "id": "R16",
+      "title": "0—1分布与指示变量",
+      "course": "概率论",
+      "chapter": "离散模型",
+      "type": "concept",
+      "cue": "把某事件是否发生编码成0或1。",
+      "prerequisites": [
+        "R15"
+      ],
+      "note": "notes/obsidian/31e82cf4de0ca98b/index.md",
+      "url": "/my-web/notes/obsidian/31e82cf4de0ca98b/"
+    },
+    {
+      "id": "R17",
+      "title": "二项分布的组合推导",
+      "course": "概率论",
+      "chapter": "离散模型",
+      "type": "concept",
+      "cue": "固定n次独立同概率试验，统计成功次数。",
+      "prerequisites": [
+        "R05",
+        "R13",
+        "R16"
+      ],
+      "note": "notes/obsidian/1908780ea766a34a/index.md",
+      "url": "/my-web/notes/obsidian/1908780ea766a34a/"
+    },
+    {
+      "id": "R18",
+      "title": "超几何分布与不放回抽样",
+      "course": "概率论",
+      "chapter": "离散模型",
+      "type": "concept",
+      "cue": "总体有限且不放回，成功率随抽取历史改变。",
+      "prerequisites": [
+        "R05",
+        "R15"
+      ],
+      "note": "notes/obsidian/c166658f0594b5a0/index.md",
+      "url": "/my-web/notes/obsidian/c166658f0594b5a0/"
+    },
+    {
+      "id": "R19",
+      "title": "几何分布与首次成功",
+      "course": "概率论",
+      "chapter": "离散模型",
+      "type": "concept",
+      "cue": "固定的是停止规则，试验次数本身是随机的。",
+      "prerequisites": [
+        "R13",
+        "R15"
+      ],
+      "note": "notes/obsidian/b6cadfdd889e25b0/index.md",
+      "url": "/my-web/notes/obsidian/b6cadfdd889e25b0/"
+    },
+    {
+      "id": "R20",
+      "title": "泊松分布与计数参数",
+      "course": "概率论",
+      "chapter": "离散模型",
+      "type": "concept",
+      "cue": "λ表示该观察范围的平均计数尺度，先匹配时间或空间长度。",
+      "prerequisites": [
+        "R15"
+      ],
+      "note": "notes/obsidian/9fa6b6113ecaf1aa/index.md",
+      "url": "/my-web/notes/obsidian/9fa6b6113ecaf1aa/"
+    },
+    {
+      "id": "R21",
+      "title": "二项到泊松的极限推导",
+      "course": "概率论",
+      "chapter": "离散模型",
+      "type": "concept",
+      "cue": "n增大、p缩小而np保留为λ，固定k逐项取极限。",
+      "prerequisites": [
+        "R17",
+        "R20"
+      ],
+      "note": "notes/obsidian/c45a43c99adf4894/index.md",
+      "url": "/my-web/notes/obsidian/c45a43c99adf4894/"
+    },
+    {
+      "id": "R22",
+      "title": "泊松计数的独立筛选",
+      "course": "概率论",
+      "chapter": "离散模型",
+      "type": "concept",
+      "cue": "总数泊松，每个独立保留概率p，保留数仍是泊松。",
+      "prerequisites": [
+        "R17",
+        "R20"
+      ],
+      "note": "notes/obsidian/53b46e5bee6faeba/index.md",
+      "url": "/my-web/notes/obsidian/53b46e5bee6faeba/"
+    },
+    {
+      "id": "R23",
+      "title": "分布函数及右连续性",
+      "course": "概率论",
+      "chapter": "连续模型",
+      "type": "concept",
+      "cue": "F(x)累积的是X≤x，跳跃高度就是该点概率。",
+      "prerequisites": [
+        "R14"
+      ],
+      "note": "notes/obsidian/89bcb92b5fa2ff2b/index.md",
+      "url": "/my-web/notes/obsidian/89bcb92b5fa2ff2b/"
+    },
+    {
+      "id": "R24",
+      "title": "概率密度与分布函数的关系",
+      "course": "概率论",
+      "chapter": "连续模型",
+      "type": "concept",
+      "cue": "概率是面积，密度是每单位长度的概率浓度。",
+      "prerequisites": [
+        "R23"
+      ],
+      "note": "notes/obsidian/35c0448e7aeb3994/index.md",
+      "url": "/my-web/notes/obsidian/35c0448e7aeb3994/"
+    },
+    {
+      "id": "R25",
+      "title": "连续均匀分布",
+      "course": "概率论",
+      "chapter": "连续模型",
+      "type": "concept",
+      "cue": "等长子区间概率相同，密度必须是常数。",
+      "prerequisites": [
+        "R24"
+      ],
+      "note": "notes/obsidian/d547d77dd097f5bb/index.md",
+      "url": "/my-web/notes/obsidian/d547d77dd097f5bb/"
+    },
+    {
+      "id": "R26",
+      "title": "指数分布与等待时间",
+      "course": "概率论",
+      "chapter": "连续模型",
+      "type": "concept",
+      "cue": "指数参数先定为速率λ，避免与均值参数混用。",
+      "prerequisites": [
+        "R24"
+      ],
+      "note": "notes/obsidian/c2b3c878d1831b06/index.md",
+      "url": "/my-web/notes/obsidian/c2b3c878d1831b06/"
+    },
+    {
+      "id": "R27",
+      "title": "指数无记忆性的推导",
+      "course": "概率论",
+      "chapter": "连续模型",
+      "type": "concept",
+      "cue": "已等s以后，剩余等待的条件分布与初始相同。",
+      "prerequisites": [
+        "R07",
+        "R26"
+      ],
+      "note": "notes/obsidian/a45bf361a307c0fc/index.md",
+      "url": "/my-web/notes/obsidian/a45bf361a307c0fc/"
+    },
+    {
+      "id": "R28",
+      "title": "正态分布的参数与形状",
+      "course": "概率论",
+      "chapter": "连续模型",
+      "type": "concept",
+      "cue": "μ决定中心，σ决定尺度；N(μ,σ²)第二参数是方差。",
+      "prerequisites": [
+        "R24"
+      ],
+      "note": "notes/obsidian/bea362af3f9ef604/index.md",
+      "url": "/my-web/notes/obsidian/bea362af3f9ef604/"
+    },
+    {
+      "id": "R29",
+      "title": "正态标准化与分位数",
+      "course": "概率论",
+      "chapter": "连续模型",
+      "type": "concept",
+      "cue": "先把区间变成标准差单位，再查同一张Φ表。",
+      "prerequisites": [
+        "R28"
+      ],
+      "note": "notes/obsidian/51e9e4eba3515a19/index.md",
+      "url": "/my-web/notes/obsidian/51e9e4eba3515a19/"
+    },
+    {
+      "id": "R30",
+      "title": "离散随机变量函数的分布",
+      "course": "概率论",
+      "chapter": "函数分布与近似",
+      "type": "concept",
+      "cue": "先映射取值，再把相同结果的概率合并。",
+      "prerequisites": [
+        "R15"
+      ],
+      "note": "notes/obsidian/aecbddcbdc38f474/index.md",
+      "url": "/my-web/notes/obsidian/aecbddcbdc38f474/"
+    },
+    {
+      "id": "R31",
+      "title": "函数分布的分布函数法",
+      "course": "概率论",
+      "chapter": "函数分布与近似",
+      "type": "concept",
+      "cue": "把g(X)≤y准确解回X的范围，是所有变换公式的起点。",
+      "prerequisites": [
+        "R23"
+      ],
+      "note": "notes/obsidian/1a2adbe54fd640b8/index.md",
+      "url": "/my-web/notes/obsidian/1a2adbe54fd640b8/"
+    },
+    {
+      "id": "R32",
+      "title": "单调变换密度与绝对值因子",
+      "course": "概率论",
+      "chapter": "函数分布与近似",
+      "type": "concept",
+      "cue": "反函数导数负责长度缩放，绝对值保证概率非负。",
+      "prerequisites": [
+        "R24",
+        "R31"
+      ],
+      "note": "notes/obsidian/8bf43a3c44d5d61d/index.md",
+      "url": "/my-web/notes/obsidian/8bf43a3c44d5d61d/"
+    },
+    {
+      "id": "R33",
+      "title": "非单调变换与多分支求和",
+      "course": "概率论",
+      "chapter": "函数分布与近似",
+      "type": "concept",
+      "cue": "一个y可能来自多个x，每条有效原像分支都要算。",
+      "prerequisites": [
+        "R31",
+        "R32"
+      ],
+      "note": "notes/obsidian/29f9bf39693ad5be/index.md",
+      "url": "/my-web/notes/obsidian/29f9bf39693ad5be/"
+    },
+    {
+      "id": "R34",
+      "title": "二项分布的正态近似与连续性修正",
+      "course": "概率论",
+      "chapter": "函数分布与近似",
+      "type": "concept",
+      "cue": "先区分稀有事件泊松近似与中部计数的正态近似。",
+      "prerequisites": [
+        "R17",
+        "R29"
+      ],
+      "note": "notes/obsidian/16327b65ee8a93ba/index.md",
+      "url": "/my-web/notes/obsidian/16327b65ee8a93ba/"
+    },
+    {
+      "id": "R35",
+      "title": "正态密度归一化常数的推导",
+      "course": "概率论",
+      "chapter": "连续模型",
+      "type": "concept",
+      "cue": "√(2π)来自高斯积分，不是随意选的系数。",
+      "prerequisites": [
+        "R28"
+      ],
+      "note": "notes/obsidian/57bef1228797c3a5/index.md",
+      "url": "/my-web/notes/obsidian/57bef1228797c3a5/"
+    },
+    {
+      "id": "R36",
+      "title": "频率与概率的区别",
+      "course": "概率论",
+      "chapter": "事件与计数",
+      "type": "concept",
+      "cue": "频率来自已做的有限试验，概率属于选定的随机模型。",
+      "prerequisites": [
+        "R03",
+        "R13"
+      ],
+      "note": "notes/obsidian/6aadc038130fe19b/index.md",
+      "url": "/my-web/notes/obsidian/6aadc038130fe19b/"
+    },
+    {
+      "id": "ER01",
+      "title": "选箱后不放回抽取：贝叶斯更新",
+      "course": "概率论",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "进阶 · PPT 1-6 第28页，第三题（10分）",
+      "prerequisites": [
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R18"
+      ],
+      "note": "notes/obsidian/b2eae495d224c2fb/index.md",
+      "url": "/my-web/notes/obsidian/b2eae495d224c2fb/"
+    },
+    {
+      "id": "ER02",
+      "title": "维修人员分组与合用：二项模型比较",
+      "course": "概率论",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · PPT 2-2 第33页，例4",
+      "prerequisites": [
+        "R11",
+        "R13",
+        "R17",
+        "R20",
+        "R21"
+      ],
+      "note": "notes/obsidian/e1c777437b6403c4/index.md",
+      "url": "/my-web/notes/obsidian/e1c777437b6403c4/"
+    },
+    {
+      "id": "ER03",
+      "title": "桥式系统可靠性：对桥臂分情况",
+      "course": "概率论",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · 教材第一章习题34，印刷第28页",
+      "prerequisites": [
+        "R04",
+        "R08",
+        "R09",
+        "R11",
+        "R12"
+      ],
+      "note": "notes/obsidian/72752b2f2f01ad82/index.md",
+      "url": "/my-web/notes/obsidian/72752b2f2f01ad82/"
+    },
+    {
+      "id": "ER04",
+      "title": "指数等待转为二项离开次数",
+      "course": "概率论",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "进阶 · 教材第二章习题24，印刷第59页",
+      "prerequisites": [
+        "R13",
+        "R16",
+        "R17",
+        "R26"
+      ],
+      "note": "notes/obsidian/568d3edc42a57ff7/index.md",
+      "url": "/my-web/notes/obsidian/568d3edc42a57ff7/"
+    },
+    {
+      "id": "ER05",
+      "title": "红灯等待：有跳跃的混合分布",
+      "course": "概率论",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · 教材第二章习题31，印刷第59页",
+      "prerequisites": [
+        "R09",
+        "R14",
+        "R23",
+        "R24",
+        "R25"
+      ],
+      "note": "notes/obsidian/937033040958dfa7/index.md",
+      "url": "/my-web/notes/obsidian/937033040958dfa7/"
+    },
+    {
+      "id": "ER06",
+      "title": "两阶段抽检：条件概率与联合概率",
+      "course": "概率论",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · 教材第二章习题9，印刷第56—57页",
+      "prerequisites": [
+        "R02",
+        "R04",
+        "R07",
+        "R08",
+        "R09",
+        "R17",
+        "R18"
+      ],
+      "note": "notes/obsidian/de722626a523925c/index.md",
+      "url": "/my-web/notes/obsidian/de722626a523925c/"
+    },
+    {
+      "id": "ER07",
+      "title": "零一排列无相邻：等可能与插空法",
+      "course": "概率论",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "进阶 · 习题解答 §1.2 第17题，印刷第14页",
+      "prerequisites": [
+        "R01",
+        "R05"
+      ],
+      "note": "notes/obsidian/4ce10c1d3948db07/index.md",
+      "url": "/my-web/notes/obsidian/4ce10c1d3948db07/"
+    },
+    {
+      "id": "ER08",
+      "title": "黑球返还再添球：停止时间不是几何分布",
+      "course": "概率论",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · 习题解答 §1.4 第11题，印刷第34页",
+      "prerequisites": [
+        "R07",
+        "R08",
+        "R15",
+        "R19"
+      ],
+      "note": "notes/obsidian/911d7fab9131419c/index.md",
+      "url": "/my-web/notes/obsidian/911d7fab9131419c/"
+    },
+    {
+      "id": "ER09",
+      "title": "余弦变换：两个反函数分支都要计入",
+      "course": "概率论",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · 习题解答 §2.6 第5题，印刷第101页（附原书图2.18）",
+      "prerequisites": [
+        "R23",
+        "R24",
+        "R25",
+        "R31",
+        "R32",
+        "R33"
+      ],
+      "note": "notes/obsidian/4ca1b2d1cb4584b3/index.md",
+      "url": "/my-web/notes/obsidian/4ca1b2d1cb4584b3/"
+    },
+    {
+      "id": "ER10",
+      "title": "连续尺寸映射为离散利润",
+      "course": "概率论",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "进阶 · PPT 2-5 第32—33页，思考题后的利润例题",
+      "prerequisites": [
+        "R14",
+        "R15",
+        "R28",
+        "R29",
+        "R30",
+        "R31"
+      ],
+      "note": "notes/obsidian/d3cc4d4401e98773/index.md",
+      "url": "/my-web/notes/obsidian/d3cc4d4401e98773/"
+    },
+    {
+      "id": "ED01",
+      "title": "双电源供电：支路电流与电源吸收功率",
+      "course": "电路",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · 教材练习1.6.6（兼练习1.8.1），印刷第29—30页",
+      "prerequisites": [
+        "D01",
+        "D02",
+        "D05",
+        "D06",
+        "D07",
+        "D09"
+      ],
+      "note": "notes/obsidian/d3f7e725d6b14baa/index.md",
+      "url": "/my-web/notes/obsidian/d3f7e725d6b14baa/"
+    },
+    {
+      "id": "ED02",
+      "title": "开关闭合后节点变负：跨接电容的全响应",
+      "course": "电路",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · 教材练习2.6.3，印刷第50页，图2.10",
+      "prerequisites": [
+        "D12",
+        "D14",
+        "D15",
+        "D16"
+      ],
+      "note": "notes/obsidian/15aec57c6df1f613/index.md",
+      "url": "/my-web/notes/obsidian/15aec57c6df1f613/"
+    },
+    {
+      "id": "ED03",
+      "title": "日光灯镇流器反求与功率因数补偿",
+      "course": "电路",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · 教材练习3.7.2，印刷第89页，图3.09",
+      "prerequisites": [
+        "D18",
+        "D19",
+        "D20",
+        "D21",
+        "D22",
+        "D23"
+      ],
+      "note": "notes/obsidian/4e19b59e90ddbc69/index.md",
+      "url": "/my-web/notes/obsidian/4e19b59e90ddbc69/"
+    },
+    {
+      "id": "ED04",
+      "title": "从功率变化反求并联阻抗",
+      "course": "电路",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · 教材练习3.7.3，印刷第89页，图3.10",
+      "prerequisites": [
+        "D19",
+        "D20",
+        "D22",
+        "D23"
+      ],
+      "note": "notes/obsidian/1b7851796d5b3152/index.md",
+      "url": "/my-web/notes/obsidian/1b7851796d5b3152/"
+    },
+    {
+      "id": "ED05",
+      "title": "已知两支路电流反求电桥参数",
+      "course": "电路",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "进阶 · 习题解答1-8，印刷第17—18页，图1-33",
+      "prerequisites": [
+        "D01",
+        "D02",
+        "D05",
+        "D06",
+        "D07"
+      ],
+      "note": "notes/obsidian/b1996e24533bb9ee/index.md",
+      "url": "/my-web/notes/obsidian/b1996e24533bb9ee/"
+    },
+    {
+      "id": "ED06",
+      "title": "RL断电续流：电感电压为何变负",
+      "course": "电路",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "进阶 · 习题解答2-6，印刷第43页，图2-24",
+      "prerequisites": [
+        "D13",
+        "D14",
+        "D15",
+        "D17"
+      ],
+      "note": "notes/obsidian/74b4cec86c01df5d/index.md",
+      "url": "/my-web/notes/obsidian/74b4cec86c01df5d/"
+    },
+    {
+      "id": "ED07",
+      "title": "从复电压反求两个串联元件",
+      "course": "电路",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "进阶 · 习题解答3-10，印刷第63—64页，图3-25",
+      "prerequisites": [
+        "D18",
+        "D19",
+        "D20",
+        "D21"
+      ],
+      "note": "notes/obsidian/2ddfbd4ee7f83581/index.md",
+      "url": "/my-web/notes/obsidian/2ddfbd4ee7f83581/"
+    },
+    {
+      "id": "ED08",
+      "title": "恒流源RC换路：负电容电流的含义",
+      "course": "电路",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "进阶 · 电路瞬态分析 PPT 第68页，应用举例练习1",
+      "prerequisites": [
+        "D05",
+        "D12",
+        "D14",
+        "D15",
+        "D16"
+      ],
+      "note": "notes/obsidian/3502c3003a7fe1bb/index.md",
+      "url": "/my-web/notes/obsidian/3502c3003a7fe1bb/"
+    },
+    {
+      "id": "EP01",
+      "title": "非均匀带电球：高斯法与球壳叠加",
+      "course": "大学物理",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · 教材习题5-18，印刷第205页",
+      "prerequisites": [
+        "P02",
+        "P08",
+        "P09"
+      ],
+      "note": "notes/obsidian/683030f693ffcfdc/index.md",
+      "url": "/my-web/notes/obsidian/683030f693ffcfdc/"
+    },
+    {
+      "id": "EP02",
+      "title": "无限带电平面挖圆孔：补偿法与轴线积分",
+      "course": "大学物理",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · 教材习题5-19，印刷第205页，附原图",
+      "prerequisites": [
+        "P02",
+        "P03",
+        "P06",
+        "P08",
+        "P11",
+        "P12"
+      ],
+      "note": "notes/obsidian/d189b87b4f0e48eb/index.md",
+      "url": "/my-web/notes/obsidian/d189b87b4f0e48eb/"
+    },
+    {
+      "id": "EP03",
+      "title": "异号双圆环：精确电势到远场偶极近似",
+      "course": "大学物理",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · 教材习题5-38，印刷第208页，附原图",
+      "prerequisites": [
+        "P03",
+        "P13",
+        "P14",
+        "P16"
+      ],
+      "note": "notes/obsidian/6ae09d06bbb8fc9a/index.md",
+      "url": "/my-web/notes/obsidian/6ae09d06bbb8fc9a/"
+    },
+    {
+      "id": "EP04",
+      "title": "半球面电势差：镜像补成完整球壳",
+      "course": "大学物理",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · 教材习题5-39，印刷第208页，附原图",
+      "prerequisites": [
+        "P02",
+        "P08",
+        "P09",
+        "P13",
+        "P15"
+      ],
+      "note": "notes/obsidian/57de3eff4a09bd6f/index.md",
+      "url": "/my-web/notes/obsidian/57de3eff4a09bd6f/"
+    },
+    {
+      "id": "EP05",
+      "title": "先接地外壳再接地内球：逐阶段守恒",
+      "course": "大学物理",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "挑战 · 教材习题6-10，印刷第246页，附原图",
+      "prerequisites": [
+        "P08",
+        "P09",
+        "P13",
+        "P17",
+        "P18",
+        "P19",
+        "P23"
+      ],
+      "note": "notes/obsidian/63721ac0914763f7/index.md",
+      "url": "/my-web/notes/obsidian/63721ac0914763f7/"
+    },
+    {
+      "id": "EP06",
+      "title": "固定电压插入介质板与导体板",
+      "course": "大学物理",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "综合 · 教材习题6-29，印刷第249页，附原图",
+      "prerequisites": [
+        "P17",
+        "P20",
+        "P21",
+        "P22",
+        "P25",
+        "P27"
+      ],
+      "note": "notes/obsidian/7dd1c65aed21f95d/index.md",
+      "url": "/my-web/notes/obsidian/7dd1c65aed21f95d/"
+    },
+    {
+      "id": "EP07",
+      "title": "偏心球形空腔：分区对称与系统能量",
+      "course": "大学物理",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "挑战 · 大物习题课 PPT 第51页，第2题",
+      "prerequisites": [
+        "P08",
+        "P13",
+        "P17",
+        "P18",
+        "P19",
+        "P23",
+        "P26"
+      ],
+      "note": "notes/obsidian/d683ec540ee491cb/index.md",
+      "url": "/my-web/notes/obsidian/d683ec540ee491cb/"
+    },
+    {
+      "id": "EP08",
+      "title": "带介质球壳：位移场、电势与束缚电荷",
+      "course": "大学物理",
+      "chapter": "原题",
+      "type": "problem",
+      "cue": "挑战 · 教材习题6-25，印刷第248页，附原图",
+      "prerequisites": [
+        "P08",
+        "P09",
+        "P13",
+        "P17",
+        "P20",
+        "P21"
+      ],
+      "note": "notes/obsidian/dc29171c37873863/index.md",
+      "url": "/my-web/notes/obsidian/dc29171c37873863/"
+    }
+  ]
+}

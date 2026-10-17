@@ -1,0 +1,4 @@
+# Export manifests refer to exact bytes, including for Markdown attachments.
+content/notes/obsidian/** -text
+static/notes-media/** -text
+data/study-map.json -text

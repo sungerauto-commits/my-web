@@ -1,0 +1,21 @@
+{{- $nodes := slice -}}
+{{- $links := slice -}}
+{{- $ids := dict -}}
+{{- $seen := dict -}}
+{{- $notes := .RegularPagesRecursive -}}
+{{- range $notes -}}
+  {{- $id := replace .File.Path "\\" "/" -}}
+  {{- $ids = merge $ids (dict $id true) -}}
+  {{- $nodes = $nodes | append (dict "id" $id "title" .Title "url" .RelPermalink "course" (.Params.note_course | default "综合") "tags" (.Params.tags | default slice)) -}}
+{{- end -}}
+{{- range $notes -}}
+  {{- $source := replace .File.Path "\\" "/" -}}
+  {{- range .Params.note_links -}}
+    {{- $key := delimit (sort (slice $source .)) "|" -}}
+    {{- if and (isset $ids .) (ne $source .) (not (isset $seen $key)) -}}
+      {{- $links = $links | append (dict "source" $source "target" .) -}}
+      {{- $seen = merge $seen (dict $key true) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- dict "nodes" $nodes "links" $links "study" (index site.Data "study-map" | default (dict "groups" dict "nodes" slice)) | jsonify -}}

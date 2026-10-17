@@ -9,3 +9,8 @@ Thumbs.db
 
 # local dev helpers
 .claude/
+
+# Local Obsidian connection and tooling
+.obsidian-sync.local.json
+.venv-obsidian/
+__pycache__/

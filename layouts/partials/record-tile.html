@@ -1,7 +1,7 @@
 {{ $page := .page }}
 {{ $index := .index }}
 {{ $slot := mod $index 6 }}
-{{ $kind := index (dict "posts" "文章" "photos" "照片" "videos" "视频") $page.Section | default "记录" }}
+{{ $kind := index (dict "posts" "文章" "photos" "照片" "videos" "视频" "notes" "笔记") $page.Section | default "记录" }}
 {{ $thumb := "" }}
 {{ $alt := $page.Title }}
 {{ with $page.Params.cover }}{{ with .image }}{{ $thumb = . }}{{ end }}{{ with .alt }}{{ $alt = . }}{{ end }}{{ end }}
@@ -39,7 +39,7 @@
         <time datetime="{{ $page.Date.Format "2006-01-02" }}">{{ $page.Date.Format "2006.01.02" }}</time>
       </p>
       <h3>{{ $page.Title }}</h3>
-      {{ if ne $page.Section "posts" }}{{ with $excerpt }}<p class="piece-excerpt">{{ . | plainify | truncate 90 }}</p>{{ end }}{{ end }}
+      {{ if not (in (slice "posts" "notes") $page.Section) }}{{ with $excerpt }}<p class="piece-excerpt">{{ . | plainify | truncate 90 }}</p>{{ end }}{{ end }}
       <span class="piece-open" aria-hidden="true">↗</span>
     </div>
   </a>

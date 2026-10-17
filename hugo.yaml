@@ -63,6 +63,10 @@ menu:
       name: 视频
       url: /videos/
       weight: 30
+    - identifier: notes
+      name: 笔记
+      url: /notes/
+      weight: 35
     - identifier: search
       name: 搜索
       url: /search/
@@ -79,6 +83,12 @@ markup:
     codeFences: true
     guessSyntax: true
   goldmark:
+    extensions:
+      passthrough:
+        enable: true
+        delimiters:
+          block: [['\[', '\]'], ['$$', '$$']]
+          inline: [['\(', '\)'], ['$', '$']]
     renderer:
       unsafe: true   # 允许内容里的原始 HTML（嵌入视频/iframe 需要）
 

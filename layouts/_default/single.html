@@ -1,5 +1,5 @@
 {{ define "main" }}
-{{ $kind := index (dict "posts" "文章" "photos" "照片" "videos" "视频") .Section | default "记录" }}
+{{ $kind := index (dict "posts" "文章" "photos" "照片" "videos" "视频" "notes" "笔记") .Section | default "记录" }}
 {{ $sectionURL := printf "%s/" .Section | relURL }}
 <article class="story story--{{ .Section }} site-shell">
   <header class="story-header">
@@ -8,11 +8,21 @@
       <p class="story-meta"><a href="{{ $sectionURL }}">{{ $kind }}</a><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time></p>
       <h1>{{ .Title }}</h1>
       {{ with .Description }}<p class="story-description">{{ . }}</p>{{ end }}
+      {{ if eq .Section "notes" }}
+        {{ with .GetTerms "tags" }}<p class="note-tags">{{ range . }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}</p>{{ end }}
+      {{ end }}
     </div>
   </header>
 
   <div class="story-content">
+    {{ if and (eq .Section "notes") (gt (len .Fragments.Headings) 0) }}
+      <details class="note-toc" open><summary>目次</summary>{{ .TableOfContents }}</details>
+    {{ end }}
     {{ .Content }}
+    {{ if eq .Section "notes" }}
+      {{ $backlinks := where (where site.RegularPages "Section" "notes") "Params.note_links" "intersect" (slice (replace .File.Path "\\" "/")) }}
+      {{ with $backlinks }}<aside class="note-backlinks"><h2>提到这页的笔记</h2><ul>{{ range . }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}</ul></aside>{{ end }}
+    {{ end }}
   </div>
 
   <nav class="story-navigation" aria-label="相邻内容">
@@ -20,4 +30,11 @@
     {{ with .NextInSection }}<a href="{{ .RelPermalink }}"><span>下一篇</span><strong>{{ .Title }}</strong></a>{{ end }}
   </nav>
 </article>
+{{ if eq .Section "notes" }}
+  <link rel="stylesheet" href="{{ "vendor/katex/katex.min.css" | relURL }}">
+  <script defer src="{{ "vendor/katex/katex.min.js" | relURL }}"></script>
+  <script defer src="{{ "vendor/katex/auto-render.min.js" | relURL }}"></script>
+  {{ $mathScript := resources.Get "js/notes-math.js" | minify | fingerprint }}
+  <script defer src="{{ $mathScript.RelPermalink }}" integrity="{{ $mathScript.Data.Integrity }}"></script>
+{{ end }}
 {{ end }}

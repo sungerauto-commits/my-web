@@ -275,7 +275,7 @@
   if (filters && archiveGrid) {
     const buttons = Array.from(filters.querySelectorAll("[data-record-filter]"));
     const records = Array.from(archiveGrid.querySelectorAll("[data-archive-piece]"));
-    const labels = { all: "全部", posts: "文章", photos: "照片", videos: "视频" };
+    const labels = { all: "全部", posts: "文章", photos: "照片", videos: "视频", notes: "笔记" };
 
     const applyFilter = (filter) => {
       let visible = 0;
@@ -334,7 +334,7 @@
 
   if (!input || !status || !results || !indexUrl) return;
 
-  const sectionLabels = { posts: "文章", photos: "照片", videos: "视频" };
+  const sectionLabels = { posts: "文章", photos: "照片", videos: "视频", notes: "笔记" };
 
   const plainText = (value) => {
     const element = document.createElement("div");

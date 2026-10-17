@@ -1,14 +1,14 @@
 {{ define "main" }}
-{{ $entries := (where site.RegularPages "Section" "in" (slice "posts" "photos" "videos")).ByDate.Reverse }}
+{{ $entries := (where site.RegularPages "Section" "in" (slice "posts" "photos" "videos" "notes")).ByDate.Reverse }}
 <section class="utility-page archive-page">
   <div class="site-shell">
     <header class="utility-header">
       <h1>归档</h1>
-      <p>按时间收拢所有文章、照片和视频。</p>
+      <p>按时间收拢所有文章、照片、视频和笔记。</p>
     </header>
     <div class="archive-list">
       {{ range $entry := $entries }}
-        {{ $kind := index (dict "posts" "文章" "photos" "照片" "videos" "视频") $entry.Section | default "记录" }}
+        {{ $kind := index (dict "posts" "文章" "photos" "照片" "videos" "视频" "notes" "笔记") $entry.Section | default "记录" }}
         <a class="archive-row" href="{{ $entry.RelPermalink }}">
           <span class="media-emblem media-emblem--{{ $entry.Section }}" aria-hidden="true"></span>
           <time datetime="{{ $entry.Date.Format "2006-01-02" }}">{{ $entry.Date.Format "2006.01.02" }}</time>
