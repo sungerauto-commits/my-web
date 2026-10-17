@@ -8,19 +8,10 @@
   const tooltip = root.querySelector("[data-graph-tooltip]");
   const input = root.querySelector("[data-note-query]");
   const course = root.querySelector('[data-note-course]');
-  const entries = Array.from(document.querySelectorAll("[data-note-entry]"));
-  const noResults = document.querySelector("[data-note-no-results]");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const matches = (value, query) => value.normalize("NFKC").toLocaleLowerCase().includes(query);
 
-  const filterDirectory = () => {
-    const query = input.value.trim().normalize("NFKC").toLocaleLowerCase();
-    entries.forEach(entry => { entry.hidden = !matches(entry.dataset.noteSearch, query) || Boolean(course.value && entry.dataset.noteCourse !== course.value); });
-    noResults.hidden = entries.some(entry => !entry.hidden);
-    return query;
-  };
-  input.addEventListener("input", filterDirectory);
-  course.addEventListener('change', filterDirectory);
+  const queryText = () => input.value.trim().normalize("NFKC").toLocaleLowerCase();
 
   const initialize = ({ nodes, links }) => {
     const d3 = window.d3;
@@ -194,26 +185,45 @@
       render();
     });
     canvas.addEventListener("pointerleave", () => { hovered = null; tooltip.hidden = true; render(); });
+    const openNote = node => {
+      if (!node) return;
+      const url = new URL(node.url, window.location.href);
+      if (url.origin === window.location.origin) window.location.assign(url.href);
+    };
     canvas.addEventListener("click", event => {
       if (event.defaultPrevented) return;
-      const node = findAt(event);
-      if (node) {
-        const url = new URL(node.url, window.location.href);
-        if (url.origin === window.location.origin) window.location.assign(url.href);
-      }
+      openNote(findAt(event));
     });
     canvas.addEventListener("keydown", event => {
       if (["+", "=", "-", "0"].includes(event.key)) {
         event.preventDefault();
         if (event.key === "0") fit();
         else selected.call(zoom.scaleBy, event.key === "-" ? .8 : 1.25);
+      } else if (event.key === 'Enter') {
+        event.preventDefault();
+        openNote(hovered);
+      } else if (['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+        event.preventDefault();
+        const choices = nodes.filter(node => inCourse(node) && (!query || matches(node.title + ' ' + node.tags.join(' '), query)));
+        if (!choices.length) return;
+        const previous = choices.indexOf(hovered);
+        const forward = event.key === 'ArrowRight' || event.key === 'ArrowDown';
+        const index = event.key === 'Home' ? 0 : event.key === 'End' ? choices.length - 1
+          : previous < 0 ? (forward ? 0 : choices.length - 1) : (previous + (forward ? 1 : -1) + choices.length) % choices.length;
+        hovered = choices[index];
+        tooltip.hidden = false;
+        tooltip.textContent = `${hovered.course} · ${hovered.title}`;
+        tooltip.style.left = Math.max(8, Math.min(width / 2 + 12, width - 220)) + 'px';
+        tooltip.style.top = Math.min(height / 2 + 16, height - 56) + 'px';
+        selected.call(zoom.transform, d3.zoomIdentity.translate(width / 2, height / 2)
+          .scale(Math.max(view.k, .8)).translate(-hovered.x, -hovered.y));
       }
     });
     root.querySelectorAll("[data-graph-zoom]").forEach(button => {
       button.addEventListener("click", () => { if (root.dataset.view === 'graph') selected.call(zoom.scaleBy, button.dataset.graphZoom === "in" ? 1.25 : .8); });
     });
     root.querySelector("[data-graph-fit]").addEventListener("click", fit);
-    input.addEventListener("input", () => { query = filterDirectory(); render(); });
+    input.addEventListener("input", () => { query = queryText(); hovered = null; tooltip.hidden = true; render(); });
     const updateStatus = () => {
       if (root.dataset.view === 'graph') status.textContent = `${nodes.filter(inCourse).length} 篇笔记 · ${links.filter(link => inCourse(link.source) && inCourse(link.target)).length} 条双链关联`;
     };
@@ -241,7 +251,7 @@
   }).catch(() => {
     canvas.hidden = true;
     message.hidden = false;
-    message.textContent = "图谱暂时无法加载，笔记目录仍可浏览。";
+    message.textContent = "图谱暂时无法加载，请刷新页面后重试。";
     const error = root.querySelector('[data-map-error]');
     error.hidden = false;
     error.textContent = message.textContent;

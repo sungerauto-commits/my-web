@@ -23,8 +23,11 @@ Templates and Obsidian-only UI instructions are excluded by local settings.
   deduplicated, resized to at most 2000 pixels, and converted to WebP when
   smaller. Original files remain untouched.
 
-The notes section includes a graph of the public note links and a searchable
-directory. Graph data is derived at build time from published pages; private or
+The notes landing page contains only the knowledge map and relationship graph,
+with course selection and graph search. Full notes open from graph nodes;
+there is no separate note directory on this page. The relationship canvas also
+supports keyboard node selection and opening. Graph data is derived at build
+time from published pages; private or
 excluded notes never appear as nodes. A two-way link is drawn as one connection.
 
 The separate knowledge map preserves the existing Obsidian study-map catalog:

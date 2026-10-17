@@ -74,7 +74,14 @@ class HugoNotesTests(unittest.TestCase):
             self.assertEqual(len(pairs), len(graph["links"]))
             index = (output / "notes/index.html").read_text(encoding="utf-8")
             self.assertIn("data-note-graph", index)
-            self.assertIn("电影与城市", index)
+            self.assertIn("data-study-map", index)
+            self.assertIn("data-graph-canvas", index)
+            self.assertNotIn("data-note-entry", index)
+            self.assertNotIn("notes-directory", index)
+            self.assertNotIn("collection-page-header", index)
+            self.assertTrue(any(node["title"] == "电影与城市" for node in graph["nodes"]))
+            self.assertIn("知识地图", index)
+            self.assertIn("关系图谱", index)
             home = (output / "index.html").read_text(encoding="utf-8")
             elements = Elements(home).items
             kinds = [attrs.get("data-record-kind") for _, attrs in elements]

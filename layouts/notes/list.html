@@ -2,17 +2,9 @@
 {{ $notes := .RegularPagesRecursive.ByLastmod.Reverse }}
 <section class="collection-page collection-page--notes">
   <div class="site-shell">
-    <header class="collection-page-header">
-      <span class="collection-emblem collection-emblem--notes" aria-hidden="true"></span>
-      <div>
-        <p class="notes-heading-en" lang="en">Study notebook</p>
-        <h1>{{ .Title }}</h1>
-        {{ with .Content }}<div class="collection-copy">{{ . }}</div>{{ end }}
-      </div>
-    </header>
     <section class="notes-graph" aria-labelledby="notes-graph-heading"{{ with .OutputFormats.Get "json" }} data-note-graph data-graph-src="{{ .RelPermalink }}"{{ end }}>
       <div class="notes-graph-toolbar">
-        <div><h2 id="notes-graph-heading">知识图谱</h2><p data-graph-status>{{ len $notes }} 篇笔记</p></div>
+        <div><h1 id="notes-graph-heading">知识图谱</h1><p data-graph-status>{{ len $notes }} 篇笔记</p></div>
         {{ if $notes }}
           <div class="notes-view-tabs" role="tablist" aria-label="知识视图">
             <button id="map-tab" type="button" role="tab" aria-selected="true" aria-controls="study-panel" data-notes-view="map">知识地图</button>
@@ -37,7 +29,7 @@
         <div class="notes-graph-stage">
           <canvas data-graph-canvas tabindex="0" aria-label="知识笔记之间的双链关系" hidden></canvas>
           <p class="notes-graph-message" data-graph-message role="status">图谱载入中...</p>
-          <span class="notes-graph-tooltip" data-graph-tooltip hidden></span>
+          <span class="notes-graph-tooltip" data-graph-tooltip role="status" aria-live="polite" hidden></span>
         </div>
         </div>
         <p class="notes-map-error" data-map-error role="status" hidden></p>
@@ -45,18 +37,6 @@
         <p class="notes-empty">还没有公开的笔记。</p>
       {{ end }}
     </section>
-    {{ if $notes }}
-    <div class="notes-directory" aria-label="笔记目录">
-      {{ range $notes }}
-        <a class="note-entry" href="{{ .RelPermalink }}" data-note-entry data-note-course="{{ .Params.note_course | default "综合" }}" data-note-search="{{ printf "%s %s" .Title (delimit (.Params.tags | default slice) " ") }}">
-          <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006.01.02" }}</time>
-          <div class="note-entry-copy"><h2>{{ .Title }}</h2>{{ with .Description }}<p>{{ . }}</p>{{ end }}{{ with .Params.tags }}<span class="note-entry-tags">{{ delimit . " / " }}</span>{{ end }}</div>
-          <span class="note-entry-arrow" aria-hidden="true">↗</span>
-        </a>
-      {{ end }}
-      <p class="notes-empty" data-note-no-results hidden>没有找到相符的笔记。</p>
-    </div>
-    {{ end }}
   </div>
 </section>
 {{ if $notes }}
