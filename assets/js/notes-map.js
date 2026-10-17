@@ -42,7 +42,7 @@
       expand(false);
     } else if (event.key === 'Tab') {
       const controls = [...root.querySelectorAll('button, input, select, a[href], [tabindex="0"]')]
-        .filter(element => !element.disabled && !element.closest('[hidden]') && element.getClientRects().length);
+        .filter(element => element.tabIndex !== -1 && !element.disabled && !element.closest('[hidden]') && element.getClientRects().length);
       const first = controls[0], last = controls.at(-1);
       if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
       else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
